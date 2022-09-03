@@ -23,9 +23,7 @@
 	else
 	{
 		//determine which piece of data that we are using to determine which contact to update
-		$stmt = $conn->prepare("UPDATE FROM ContactList SET firstName=firstName, lastName=lastName, email=email, phone=phone, userID=userID WHERE ID=ID");
-		$stmt->bind_param("issi", $ID, $firstName, $lastName, $userID);
-		$stmt->execute();
+		$stmt = $conn->query("UPDATE FROM Contacts SET firstName='$firstName', lastName='$lastName', email='$email', phone='$phone', userID='$userID' WHERE ID='$ID'");
 		$stmt->close();
 		$conn->close();
 		returnWithError("");
