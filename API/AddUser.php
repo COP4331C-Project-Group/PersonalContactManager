@@ -15,22 +15,39 @@
 	}
 	else
 	{
-		$stmt = $conn->prepare("SELECT userID, firstName, lastName FROM Users WHERE userName=? AND password=?");
-		$stmt->bind_param("ss", $inData["userName"], $inData["password"]);
-		$stmt->execute();
-		$result = $stmt->get_result();
-
-		if( $row = $result->fetch_assoc()  )
+		if userExists($conn, $inData['userName'])
 		{
-			returnWithInfo( $row['firstName'], $row['lastName'], $row['userID'] );
+			returnWithError("Username Already Taken")
 		}
 		else
 		{
-			returnWithError("No Records Found");
+			$hashed_password = password_hash($inData["password"], PASSWORD_DEFAULT);
+			
+			$stmt = $conn->prepare("INSERT INTO Users (ID, firstName, lastName, userName, password, dateCreated) VALUES (NULL, ?, ?, ?, ?, NULL)");
+			$stmt->bind_param("ssss", $inData["firstName"], $inData["lastName"], $inData["userName"], $inData["password"]);
+			$stmt->execute();
+			$result = $stmt->get_result();
 		}
 
 		$stmt->close();
 		$conn->close();
+	}
+
+	function userExists($conn, $username) {
+		$stmt = $conn->prepare("SELECT * FROM Users WHERE userName = ?;");
+		$stmt->bind_param("s", $inData['userName']);
+		$stmt->execute();
+		$result = get_result($stmt);
+
+		if ($row = $result->fetch_assoc()) {
+			return $row;
+		}
+		else {
+			$result = false;
+			return $result;
+		}
+
+		$stmt->close();
 	}
 	
 	function getRequestInfo()
