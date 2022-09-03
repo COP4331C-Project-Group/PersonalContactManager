@@ -15,22 +15,37 @@
 	}
 	else
 	{
-		$stmt = $conn->prepare("SELECT userID, firstName, lastName FROM Users WHERE userName=? AND password=?");
-		$stmt->bind_param("ss", $inData["userName"], $inData["password"]);
-		$stmt->execute();
-		$result = $stmt->get_result();
+		$userExists = userExists($conn, $inData['userName']);
 
-		if( $row = $result->fetch_assoc()  )
-		{
-			returnWithInfo( $row['firstName'], $row['lastName'], $row['userID'] );
-		}
-		else
-		{
-			returnWithError("No Records Found");
-		}
+		if ($userExists === false)
+			returnWithError("User doesn't exist.")
+
+		$checkPass = password_verify($inData['password'], $userExists['password']);
+
+		if ($checkPass === false)
+			returnWithError("Incorrect password.");
+
+		returnWithInfo( $userExists['firstName'], $userExists['lastName'], $userExists['userID'] );
 
 		$stmt->close();
 		$conn->close();
+	}
+
+	function userExists($conn, $username) {
+		$stmt = $conn->prepare("SELECT * FROM Users WHERE userName = ?;");
+		$stmt->bind_param("s", $inData['userName']);
+		$stmt->execute();
+		$result = get_result($stmt);
+
+		if ($row = $result->fetch_assoc()) {
+			return $row;
+		}
+		else {
+			$result = false;
+			return $result;
+		}
+
+		$stmt->close();
 	}
 	
 	function getRequestInfo()
