@@ -1,12 +1,10 @@
 <?php
 	$inData = getRequestInfo();
 	
-	$ID = $inData["ID"];
     $firstName = $inData["firstName"];
     $lastName = $inData["lastName"];
     $email = $inData["email"];
     $phone = $inData["phone"];
-    $userID = $inData["userID"];
 
     //connection to database
 	$servername = "localhost";
@@ -22,8 +20,8 @@
 	} 
 	else
 	{
-		$stmt = $conn->prepare("INSERT into Contacts (ID, firstName, lastName, email, phone, userID) VALUES(?, ?, ?, ?, ?, ?)");
-		$stmt->bind_param("issssi", $ID, $firstName, $lastName, $email, $phone, $userID);
+		$stmt = $conn->prepare("INSERT into Contacts (ID, firstName, lastName, email, phone, userID) VALUES(NULL, ?, ?, ?, ?, NULL)");
+		$stmt->bind_param("ssss", $firstName, $lastName, $email, $phone);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();

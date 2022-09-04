@@ -19,9 +19,8 @@
 	} 
 	else
 	{
-		$stmt = $conn->prepare("select * from Contacts where userName like ?");
 		$contactName = "%" . $inData["search"] . "%";
-		$stmt->bind_param("s", $contactName);
+		$stmt = $conn->query("SELECT * FROM Contacts WHERE userName like '$contactName'");
 		$stmt->execute();
 		
 		$result = $stmt->get_result();

@@ -23,9 +23,7 @@
 	else
 	{
 		//determine which piece of data that we are using to determine which contact to delete
-		$stmt = $conn->prepare("DELETE FROM Contacts (ID, firstName, lastName, userID) VALUES(?, ?, ?, ?)");
-		$stmt->bind_param("issi", $ID, $firstName, $lastName, $userID);
-		$stmt->execute();
+		$stmt = $conn->query("DELETE FROM Contacts WHERE ID='$ID', firstName='$firstName', lastName='$lastName', userID='$userID'");
 		$stmt->close();
 		$conn->close();
 		returnWithError("");
