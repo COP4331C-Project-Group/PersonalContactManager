@@ -1,29 +1,54 @@
-CREATE DATABASE COP4331;
+CREATE DATABASE IF NOT EXISTS COP4331;
+
 USE COP4331;
-CREATE TABLE User (
-ID int NOT NULL AUTO_INCREMENT,
-firstName VARCHAR(50) NOT NULL DEFAULT '',
-lastName VARCHAR(50) NOT NULL DEFAULT '',
-username VARCHAR(50) NOT NULL DEFAULT '',
-password VARCHAR(50) NOT NULL DEFAULT '',
-dateCreated DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-PRIMARY KEY (ID),
+
+/* Creates the table of Users
+Users have a:
+	ID that does not need to be specified, as it is default and auto-increments
+	firstname that is limited to 50 characters
+	lastname that is limited to 50 characters
+	username that is limited to 50 characters
+	password  that is limited to 50 characters
+	and a date that the account was created, which is defaulted to the time of creation
+*/
+	
+CREATE TABLE IF NOT EXISTS User (
+	ID int NOT NULL AUTO_INCREMENT,
+	firstName VARCHAR(50) NOT NULL DEFAULT '',
+	lastName VARCHAR(50) NOT NULL DEFAULT '',
+	username VARCHAR(50) NOT NULL DEFAULT '',
+	password VARCHAR(50) NOT NULL DEFAULT '',
+	dateCreated DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (ID),
 ) ENGINE = InnoDB;
-CREATE TABLE Contacts (
-ID int NOT NULL AUTO_INCREMENT,
-firstName VARCHAR(50) NOT NULL DEFAULT '',
-lastName VARCHAR(50) NOT NULL DEFAULT '',
-email VARCHAR(100) NOT NULL DEFAULT '',
-phone VARCHAR(50) NOT NULL DEFAULT '',
-userID INT,
-PRIMARY KEY (ID),
-FOREIGN KEY (UserID) REFERENCES Users(ID)
+
+/* Creates the table of Contacts
+Contacts have a:
+	ID that does not need to be specified, as it is default and auto-increments
+	firstname that is limited to 50 characters
+	lastname that is limited to 50 characters
+	email that is limited to 100 characters (mostly because of the way I formatted the test data
+	phone  that is limited to 20 characters
+	and the user ID of who it was created by
+*/
+CREATE TABLE IF NOT EXISTS Contacts (
+	ID int NOT NULL AUTO_INCREMENT,
+	firstName VARCHAR(50) NOT NULL DEFAULT '',
+	lastName VARCHAR(50) NOT NULL DEFAULT '',
+	email VARCHAR(100) NOT NULL DEFAULT '',
+	phone VARCHAR(20) NOT NULL DEFAULT '',
+	userID INT,
+	PRIMARY KEY (ID),
+	FOREIGN KEY (UserID) REFERENCES Users(ID)
 ) ENGINE = InnoDB;
+
+--START OF TEST DATA INSERTION
 INSERT INTO Users (FirstName, LastName, Username, Password) VALUES ('John', 'Smith', 'Jsmith', 'TheGoat123');
 INSERT INTO Users (FirstName, LastName, Username, Password) VALUES ('Audrey', 'Bernstein', 'Abern', 'LeonardBernsteinWho?');
 INSERT INTO Users (FirstName, LastName, Username, Password) VALUES ('John', 'Doe', 'Jdoe', 'NoRecord1994');
 INSERT INTO Users (FirstName, LastName, Username, Password) VALUES ('Jane', 'Doe', 'Jdoe2', 'DiaryOfJane2016');
 INSERT INTO Users (FirstName, LastName, Username, Password) VALUES ('Max', 'Farmer', 'Mfarmer', 'HonestWork2015');
+
 INSERT INTO Contacts (FirstName, LastName, Email, Phone, UserID) VALUES ('feikhen', 'bokhi', 'feikhen.bokhi@coldmail.com', '4094882455', '3');
 INSERT INTO Contacts (FirstName, LastName, Email, Phone, UserID) VALUES ('zaram', 'radar', 'zaram.radar@coldmail.com', '1152761423', '3');
 INSERT INTO Contacts (FirstName, LastName, Email, Phone, UserID) VALUES ('eu', 'Forestweaver', 'eu.Forestweaver@hmail.com', '1685761892', '3');
