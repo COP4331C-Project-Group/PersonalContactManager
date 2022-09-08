@@ -55,7 +55,7 @@
 
 	function sendResultInfoAsJson( $obj )
 	{
-		header('Content-type: application/json');
+		header('Content-type:application/json');
 		echo $obj;
 	}
 	

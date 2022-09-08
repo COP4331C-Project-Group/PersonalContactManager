@@ -20,7 +20,7 @@
 	else
 	{
 		$contactName = "%" . $inData["search"] . "%";
-		$stmt = $conn->query("SELECT * FROM Contacts WHERE userName like '$contactName'");
+		$stmt = $conn->query("SELECT * FROM Contacts WHERE username like '$contactName'");
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
