@@ -12,13 +12,13 @@ Users have a:
 	and a date that the account was created, which is defaulted to the time of creation
 */
 	
-CREATE TABLE IF NOT EXISTS User (
+CREATE TABLE IF NOT EXISTS Users (
 	ID int NOT NULL AUTO_INCREMENT,
 	firstName VARCHAR(50) NOT NULL DEFAULT '',
 	lastName VARCHAR(50) NOT NULL DEFAULT '',
 	username VARCHAR(50) NOT NULL DEFAULT '',
 	password VARCHAR(50) NOT NULL DEFAULT '',
-	dateCreated DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	dateCreated DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (ID)
 ) ENGINE = InnoDB;
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS Contacts (
 	FOREIGN KEY (userID) REFERENCES Users(ID)
 ) ENGINE = InnoDB;
 
---START OF TEST DATA INSERTION
+/*START OF TEST DATA INSERTION*/
 INSERT INTO Users (firstName, lastName, username, password) VALUES ('John', 'Smith', 'Jsmith', 'TheGoat123');
 INSERT INTO Users (firstName, lastName, username, password) VALUES ('Audrey', 'Bernstein', 'Abern', 'LeonardBernsteinWho?');
 INSERT INTO Users (firstName, lastName, username, password) VALUES ('John', 'Doe', 'Jdoe', 'NoRecord1994');
