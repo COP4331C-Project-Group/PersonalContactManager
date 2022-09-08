@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS User (
 	username VARCHAR(50) NOT NULL DEFAULT '',
 	password VARCHAR(50) NOT NULL DEFAULT '',
 	dateCreated DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (ID),
+	PRIMARY KEY (ID)
 ) ENGINE = InnoDB;
 
 /* Creates the table of Contacts
