@@ -1,8 +1,10 @@
+<!-- Login/register page; default page if not logged in -->
 <html>
 
 <head>
+  <script type="text/javascript" src="js/auth.js" defer></script>
   <link rel="stylesheet" href="css/auth.css">
-  <title>Personal Contact Manager</title>
+  <title>PCM - Login</title>
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 </head>
 <body>
@@ -31,13 +33,5 @@
       <button type="button" id="loginButton" class="buttons" onclick="doRegister();"> Register </button>
       <span id="loginResult"></span>
     </div>
-
-<!--     <form action="/AddUser.php" onsubmit="return validateForm()" method="post">
-      <br><br>
-      <input type="submit" value="Register">
-    </form>
-    <form action="#">
-      <input type="submit" value="Log In" />
-    </form> -->
 </body>
 </html>
