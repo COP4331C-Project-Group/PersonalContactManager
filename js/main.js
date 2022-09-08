@@ -1,12 +1,12 @@
-var isOpen = false;
+var isSidebarOpen = false;
 
 function toggleNav() {
-  if (isOpen) {
+  if (isSidebarOpen) {
     closeNav();
   } else {
     openNav();
   }
-  isOpen = !isOpen;
+  isSidebarOpen = !isSidebarOpen;
 }
 
 function openNav() {
@@ -92,4 +92,3 @@ createBtn.onclick = function() {
 function openCreateContactModal() {
   createContactModal.style.display = "block";
 }
-
