@@ -14,24 +14,25 @@
   </center>
     <div id="loginDiv">
       <span id="inner-title">PLEASE LOG IN</span>
-      <input type="text" id="loginName" placeholder="Username" /><br />
+      <input type="text" id="loginUsername" placeholder="Username" /><br />
       <input type="password" id="loginPassword" placeholder="Password"/><br />
       <button type="button" id="loginButton" class="buttons" onclick="doLogin();"> Log In </button>
-      <span id="loginResult"></span>
     </div>
 
     <center>
       <h2> Register </h2>
     </center>
-    <div id="loginDiv">
+    <div id="registerDiv">
       <span id="inner-title">PLEASE REGISTER</span>
-      <input type="text" id="loginName" placeholder="First name" name="fname"><br />
-      <input type="text" id="loginName" placeholder="Last name" name="lname"><br />
-      <input type="text" id="loginName" placeholder="Username" /><br />
-      <input type="password" id="loginPassword" placeholder="Password"/><br />
-      <input type="password" id="loginPassword" placeholder="Password"/><br />
-      <button type="button" id="loginButton" class="buttons" onclick="doRegister();"> Register </button>
-      <span id="loginResult"></span>
+      <input type="text" id="registerFirstName" placeholder="First name" name="fname"><br />
+      <input type="text" id="registerlastName" placeholder="Last name" name="lname"><br />
+      <input type="text" id="registerUsername" placeholder="Username" /><br />
+      <input type="password" id="registerPassword" placeholder="Password"/><br />
+      <input type="password" id="registerConfirmPassword" placeholder="Confirm password"/><br />
+      <button type="button" id="registerButton" class="buttons" onclick="doRegister();"> Register </button>
     </div>
+
+    <span id="authResult"></span>
+
 </body>
 </html>
