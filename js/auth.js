@@ -144,3 +144,12 @@ function doRegister() {
     document.getElementById("authResult").innerHTML = err.message;
   }
 }
+
+function doLogout()
+{
+  window.userId = 0;
+  window.firstName = "";
+  window.lastName = "";
+  document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+  window.location.href = "auth.html";
+}
