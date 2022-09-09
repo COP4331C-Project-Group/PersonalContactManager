@@ -1,0 +1,40 @@
+<!--
+  Contact page, shows details for an individual contact
+  If edit button clicked, pops up a modal that allows editing contact details
+  If delete button clicked, pop up a confirmation dialog
+-->
+<html>
+
+  <head>
+    <script type="text/javascript" src="js/contact.js" defer></script>
+    <link rel="stylesheet" href="css/contact.css">
+    <title>PCM - *insert contact name here*</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  </head>
+  <body>
+    <center>
+      <h1> *insert contact name here* </h1>
+      <img src="images/default-profile-pic.jpg" alt="Default">
+      <br>
+
+      <!-- Trigger/Open The Edit Contact Modal -->
+      <button id="openEditContactBtn">Edit Contact</button>
+
+      <!-- Edit Contact Modal -->
+      <div id="editContactModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>This window shows all the options for editing the contact.</p><br>
+          <p>Try to share code between here and the create contact modal (in index.html).</p>
+          <button id="confirmBtn">Confirm update</button>
+        </div>
+      </div>
+
+      <!-- Delete Contact button -->
+      <button onclick="confirmDeleteContact()">Delete</button>
+
+    </center>
+  </body>
+</html>

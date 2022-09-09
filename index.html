@@ -1,10 +1,54 @@
+<!--
+  Main page, shows contacts; default page if logged in already
+  If enter clicked in search bar, or button click, searches for contacts matching input string and displays them
+  If settings button clicked, shows a sidebar (same page, uses JS)
+    If logout button clicked, logs user out and sends to auth screen
+    If update profile clicked, shows a modal dialog (same page, uses JS)
+  If new contact button clicked, shows a modal dialog (same page, uses JS)
+-->
 <html>
-
   <head>
-    <title>Personal Contact Manager</title>
+    <script type="text/javascript" src="js/main.js" defer></script>
+    <link rel="stylesheet" href="css/main.css">
+    <title>PCM - My Contacts</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   </head>
   <body>
-    <h1> My Website </h1>
+
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" onclick="openUpdateProfileModal()" id="myBtn">Update profile</a>
+      <a href="javascript:void(0)" onclick="doLogout()" id="myBtn2">Log out</a>
+    </div>
+
+    <div id="main">
+      <span style="font-size:50px;cursor:pointer" onclick="toggleNav()">&#9881;</span>
+      <span style="font-size:50px;cursor:pointer" onclick="openCreateContactModal()">&plus;</span>
+      <h1> My contacts (put this on first line between settings and new contact) </h1>
+      <input type="text" id="contactString" placeholder="Search contacts...">
+      <button id="searchContactsBtn">Submit</button>
+
+      <p>List of all contacts goes here.</p>
+    </div>
+
+    <!-- Update profile Modal -->
+    <div id="createContactModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="closeCreateContact">&times;</span>
+        <p>This window shows all the options for creating a contact.</p><br>
+        <p>Try to share code between here and the edit contact modal (in contact.html).</p>
+        <button id="createBtn">Create contact</button>
+      </div>
+    </div>
+
+    <!-- Update profile Modal -->
+    <div id="updateProfileModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="closeUpdateProfile">&times;</span>
+        <p>This window shows all the options for editing the profile.</p>
+        <button id="confirmBtn">Confirm update</button>
+      </div>
+    </div>
   </body>
 </html>
