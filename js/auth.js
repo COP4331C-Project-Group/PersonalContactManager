@@ -1,5 +1,19 @@
 // TODO: abstract shared code (e.g. request sending); can pass a lambda
 
+var confirmPasswordString = document.getElementById("registerConfirmPassword");
+confirmPasswordString.addEventListener("keydown", function (e) {
+  if (e.code === "Enter") {
+    doRegister();
+  }
+});
+
+var loginPasswordString = document.getElementById("loginPassword");
+loginPasswordString.addEventListener("keydown", function (e) {
+  if (e.code === "Enter") {
+    doLogin();
+  }
+});
+
 function doLogin() {
   // TODO: remove this once API login is finished
   alert("Login is not implemented yet...");
