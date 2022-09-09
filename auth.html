@@ -2,10 +2,20 @@
 <html>
 
 <head>
+  <script type="text/javascript" src="js/globals.js" defer></script>
+  <script type="text/javascript" src="js/common.js" defer></script>
   <script type="text/javascript" src="js/auth.js" defer></script>
   <link rel="stylesheet" href="css/auth.css">
   <title>PCM - Login</title>
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
+  <script type="text/javascript">
+    console.log("Checking cookie");
+    document.addEventListener('DOMContentLoaded', function() 
+    {
+      readCookie();
+    }, false);
+  </script>
 </head>
 <body>
   <center>

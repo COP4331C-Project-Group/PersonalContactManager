@@ -8,10 +8,21 @@
 -->
 <html>
   <head>
+    <script type="text/javascript" src="js/globals.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/auth.js"></script>
     <script type="text/javascript" src="js/main.js" defer></script>
     <link rel="stylesheet" href="css/main.css">
     <title>PCM - My Contacts</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
+    <script type="text/javascript">
+      console.log("Checking cookie");
+      document.addEventListener('DOMContentLoaded', function() 
+      {
+        readCookie();
+      }, false);
+    </script>
   </head>
   <body>
 
