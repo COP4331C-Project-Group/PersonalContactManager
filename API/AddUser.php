@@ -20,6 +20,7 @@
 	{
 		if (userExists($conn, $inData['username']) != false)
 		{
+			flush();
 			returnWithError("Username Already Taken");
 		}
 		else
@@ -30,19 +31,20 @@
 			$stmt->bind_param("ssss", $inData["firstName"], $inData["lastName"], $inData["username"], $hashed_password);
 			$stmt->execute();
 			$result = $stmt->get_result();
-			$row = $result->fetch_assoc();
-			returnWithInfo($row['firstName'], $row['lastName'], $row['ID']);
+			returnWithError("");
+			// $row = $result->fetch_assoc();
+			// returnWithInfo($row['firstName'], $row['lastName'], $row['ID']);
+			$stmt->close();
 		}
 
-		$stmt->close();
 		$conn->close();
 	}
 
 	function userExists($conn, $username) {
 		$stmt = $conn->prepare("SELECT * FROM Users WHERE username = ?;");
-		$stmt->bind_param("s", $inData['username']);
+		$stmt->bind_param("s", $username);
 		$stmt->execute();
-		$result = get_result($stmt);
+		$result = $stmt->get_result();
 
 		if ($row = $result->fetch_assoc()) {
 			return $row;
@@ -62,7 +64,7 @@
 
 	function sendResultInfoAsJson( $obj )
 	{
-		header('Content-type: application/json');
+		// header('Content-type: application/json');
 		echo $obj;
 	}
 	
@@ -74,7 +76,7 @@
 	
 	function returnWithInfo( $firstName, $lastName, $id )
 	{
-		$retValue = '{"userID":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
+		$retValue = '{"userID":"' . $id . '","firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
 	

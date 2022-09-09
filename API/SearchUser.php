@@ -1,5 +1,8 @@
 <?php
 
+	ini_set('display_errors', 1);
+    ini_set('error_reporting', E_ALL);
+
 	$inData = getRequestInfo();
 	
 	$searchResults = "";
@@ -7,8 +10,8 @@
 
 	//connection to database
 	$servername = "localhost";
-    $username = "username";
-    $password = "password";
+    $username = "root";
+    $password = "";
     $dbname = "myDB";
 
     // Create connection
@@ -19,8 +22,10 @@
 	} 
 	else
 	{
-		$contactName = "%" . $inData["search"] . "%";
-		$stmt = $conn->query("SELECT * FROM Contacts WHERE username like '$contactName'");
+
+		$stmt = $conn->prepare("SELECT * FROM users WHERE username like ?");
+		$searchUser = "%" . $inData["username"] . "%";
+		$stmt->bind_param("s", $searchUser);
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
@@ -32,7 +37,7 @@
 				$searchResults .= ",";
 			}
 			$searchCount++;
-			$searchResults .= '"' . $row["ID"] . '"' . $row["firstName"] . '"' . '"' . $row["lastName"] . '"' . $row["username"] . '"' . $row["password"] . '"' . $row["dateCreated"];
+			$searchResults .= '"' . $row["ID"] . '", "' . $row["firstName"] . '", "' . $row["lastName"] . '", "' . $row["username"] . '"';
 		}
 		
 		if( $searchCount == 0 )
