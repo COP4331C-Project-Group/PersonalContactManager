@@ -15,10 +15,6 @@ loginPasswordString.addEventListener("keydown", function (e) {
 });
 
 function doLogin() {
-  // TODO: remove this once API login is finished
-  alert("Login is not implemented yet...");
-  return;
-
   window.userId = 0;
   window.firstName = "";
   window.lastName = "";
@@ -71,10 +67,6 @@ function doLogin() {
 }
 
 function doRegister() {
-  // TODO: remove this once API register is finished
-  alert("Registering is not implemented yet...");
-  return;
-
   window.userId = 0;
   window.firstName = "";
   window.lastName = "";
