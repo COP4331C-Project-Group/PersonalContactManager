@@ -49,11 +49,6 @@ function openUpdateProfileModal() {
   updateProfileModal.style.display = "block";
 }
 
-function doLogout() {
-  // TODO: actually implement logging out here
-  document.location.href = "auth.html";
-}
-
 var searchContactsBtn = document.getElementById("searchContactsBtn");
 searchContactsBtn.addEventListener("click", searchContacts);
 
