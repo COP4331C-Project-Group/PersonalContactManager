@@ -18,19 +18,18 @@
 
     if ($payload == null)
         returnWithError("Payload is empty");
-    else if ($mysql == false) 
+    
+    if ($mysql == false) 
         returnWithError("Database connection error");
-    else 
-    {
-        $contact = Contact::Deserialize($payload);
+    
+    $contact = Contact::Deserialize($payload);
 
-        $contactAPI = new ContactAPI($mysql);
+    $contactAPI = new ContactAPI($mysql);
 
-        $result = $contactAPI->CreateContact($contact);
+    $result = $contactAPI->CreateContact($contact);
 
-        if ($result == false)
-            returnWithError("Couldn't create contact");
-        else
-            sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
-    }
+    if ($result == false)
+        returnWithError("Couldn't create contact");
+    else
+        sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
 ?>

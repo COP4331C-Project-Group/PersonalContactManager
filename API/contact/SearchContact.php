@@ -18,19 +18,18 @@
 
     if ($payload == null)
         returnWithError("Payload is empty");
-    else if ($mysql == false)
+    
+    if ($mysql == false)
         returnWithError("Database Connection error");
+
+    $query = $payload['query'];
+
+    $contactAPI = new ContactAPI($mysql);
+
+    $result = $contactAPI->GetContact($query, 10);
+
+    if ($result == false)
+        returnWithError("Couldn't find contact");
     else
-    {
-        $query = $payload['query'];
-
-        $contactAPI = new ContactAPI($mysql);
-
-        $result = $contactAPI->GetContact($query, 10);
-
-        if ($result == false)
-            returnWithError("Couldn't find contact");
-        else
-            sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
-    }
+        sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
 ?>

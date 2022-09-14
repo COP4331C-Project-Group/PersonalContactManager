@@ -18,19 +18,18 @@
 
     if ($payload == null)
         returnWithError("Payload is empty");
-    else if ($mysql == false) 
+    
+    if ($mysql == false) 
         returnWithError("Database connection error");
-    else 
-    {
-        $contact = Contact::Deserialize($payload);
 
-        $contactAPI = new ContactAPI($mysql);
+    $contact = Contact::Deserialize($payload);
 
-        $result = $contactAPI->DeleteContact($contact);
+    $contactAPI = new ContactAPI($mysql);
 
-        if ($result == false)
-            returnWithError("Couldn't delete contact");
-        else
-            sendResultInfoAsJson("Success");
-    }
+    $result = $contactAPI->DeleteContact($contact);
+
+    if ($result == false)
+        returnWithError("Couldn't delete contact");
+    else
+        sendResultInfoAsJson("Success");
 ?>

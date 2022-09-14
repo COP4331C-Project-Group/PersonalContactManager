@@ -16,24 +16,21 @@
 
     if ($payload == null)
         returnWithError("Payload is empty");
-    else if ($mysql == false)
+    
+    if ($mysql == false)
         returnWithError("Database Connection error");
+
+    $user = User::Deserialize($payload);
+
+    $userAPI = new UserAPI($mysql);
+
+    $result = $userAPI->GetUserByUsername($user->username);
+
+    if ($result == false)
+        returnWithError("User doesn't exist.");
+
+    if (strcmp($result->password, $user->password) != 0)
+        returnWithError("Incorrect password.");
     else
-    {
-        $user = User::Deserialize($payload);
-
-        $userAPI = new UserAPI($mysql);
-
-        $result = $userAPI->GetUserByUsername($user->username);
-
-        if ($result == false)
-            returnWithError("User doesn't exist.");
-        else
-        {
-            if (strcmp($result->password, $user->password) != 0)
-                returnWithError("Incorrect password.");
-            else
-                sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
-        }
-    }
+        sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
 ?>
