@@ -51,67 +51,100 @@
             return Contact::Deserialize($result->fetch_object());
         }
 
-        public function GetContact(object $contact, ContactSearch $searchOption, int $numOfResults) : object|false
+        public function GetContact(string $query, int $numOfResults) : array|false
         {
             if ($this->mysql->connect_error != null)
+                return false;
+
+            $queryArray = explode(" ", $query);
+
+            $searchQuery = "";
+
+            foreach ($queryArray as $word) {
+                $searchQuery = $searchQuery . 
+                "firstName LIKE '%$word%' OR 
+                lastName LIKE '%$word%' OR
+                phone LIKE '%$word%' OR
+                email LIKE '%$word%'" . " OR ";
+            }
+
+            $searchQuery = substr($searchQuery, 0, strlen($searchQuery) - 4);
+        
+            $result = $this->mysql->query("SELECT * FROM Contacts WHERE $searchQuery LIMIT $numOfResults");
+        
+            if ($result == false)
                 return false;
         
-            switch($searchOption) 
-            {
-                case ContactSearch::BY_FIRST_NAME:
-                    return $this->GetContactByFirstName($contact, $numOfResults);
-                case ContactSearch::BY_LAST_NAME:
-                    return $this->GetContactByLastName($contact, $numOfResults);
-                case ContactSearch::BY_FIRST_NAME_AND_LAST_NAME:
-                    return $this->GetContactByFirstNameAndLastName($contact, $numOfResults);
-                default:
-                    return false;
-            }
+            $resultArray = [];
+
+            while($record = $result->fetch_object())
+                $resultArray[] = Contact::Deserialize($record);
+                
+
+            return $resultArray;
         }
 
-        private function GetContactByFirstName(object $contact, int $numOfResults) : object|false
-        {
-            if ($this->mysql->connect_error != null)
-                return false;
+        // public function GetContact(object $contact, ContactSearch $searchOption, int $numOfResults) : object|false
+        // {
+        //     if ($this->mysql->connect_error != null)
+        //         return false;
+        
+        //     switch($searchOption) 
+        //     {
+        //         case ContactSearch::BY_FIRST_NAME:
+        //             return $this->GetContactByFirstName($contact, $numOfResults);
+        //         case ContactSearch::BY_LAST_NAME:
+        //             return $this->GetContactByLastName($contact, $numOfResults);
+        //         case ContactSearch::BY_FIRST_NAME_AND_LAST_NAME:
+        //             return $this->GetContactByFirstNameAndLastName($contact, $numOfResults);
+        //         default:
+        //             return false;
+        //     }
+        // }
 
-            $searchQuery = $contact->firstName . "%";
-            $result = $this->mysql->query("SELECT * FROM Contacts WHERE firstName like '$searchQuery' LIMIT=$numOfResults");
+        // private function GetContactByFirstName(object $contact, int $numOfResults) : object|false
+        // {
+        //     if ($this->mysql->connect_error != null)
+        //         return false;
 
-            if ($result == false)
-                return false;
+        //     $searchQuery = $contact->firstName . "%";
+        //     $result = $this->mysql->query("SELECT * FROM Contacts WHERE firstName like '$searchQuery' LIMIT=$numOfResults");
 
-            return Contact::DeserializeArray($result);
-        }
+        //     if ($result == false)
+        //         return false;
+
+        //     return Contact::DeserializeArray($result);
+        // }
 
 
-        private function GetContactByLastName(object $contact, int $numOfResults) : object|false
-        {
-            if ($this->mysql->connect_error != null)
-                return false;
+        // private function GetContactByLastName(object $contact, int $numOfResults) : object|false
+        // {
+        //     if ($this->mysql->connect_error != null)
+        //         return false;
 
-            $searchQuery = $contact->lastName . "%";
-            $result = $this->mysql->query("SELECT * FROM Contacts WHERE lastName like '$searchQuery' LIMIT=$numOfResults");
+        //     $searchQuery = $contact->lastName . "%";
+        //     $result = $this->mysql->query("SELECT * FROM Contacts WHERE lastName like '$searchQuery' LIMIT=$numOfResults");
 
-            if ($result == false)
-                return false;
+        //     if ($result == false)
+        //         return false;
 
-            return Contact::DeserializeArray($result);
-        }
+        //     return Contact::DeserializeArray($result);
+        // }
 
-        private function GetContactByFirstNameAndLastName(object $contact, int $numOfResults) : object|false
-        {
-            if ($this->mysql->connect_error != null)
-                return false;
+        // private function GetContactByFirstNameAndLastName(object $contact, int $numOfResults) : object|false
+        // {
+        //     if ($this->mysql->connect_error != null)
+        //         return false;
 
-            $searchQueryFirstName = $contact->firstName . "%";
-            $searchQueryLastName = $contact->lastName . "%";
-            $result = $this->mysql->query("SELECT * FROM Contacts WHERE firstName like '$searchQueryFirstName' AND lastName like '$searchQueryLastName' LIMIT=$numOfResults");
+        //     $searchQueryFirstName = $contact->firstName . "%";
+        //     $searchQueryLastName = $contact->lastName . "%";
+        //     $result = $this->mysql->query("SELECT * FROM Contacts WHERE firstName like '$searchQueryFirstName' AND lastName like '$searchQueryLastName' LIMIT=$numOfResults");
 
-            if ($result == false)
-                return false;
+        //     if ($result == false)
+        //         return false;
 
-            return Contact::DeserializeArray($result);
-        }
+        //     return Contact::DeserializeArray($result);
+        // }
 
         public function UpdateContact(object $contact) : object|false
         {

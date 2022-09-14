@@ -1,51 +1,51 @@
 <?php
+    ini_set('display_errors', 1);
+    ini_set('error_reporting', E_ALL);
 
-	$inData = getRequestInfo();
+	require_once __DIR__ . '/contact/Contact.php';
+	require_once __DIR__ . '/contact/ContactAPI.php';
+
+	$payload = getRequestInfo();
 	
-	$searchResults = "";
-	$searchCount = 0;
 
 	//connection to database
-	$servername = "localhost";
-    $username = "username";
-    $password = "password";
-    $dbname = "myDB";
+	$servername = "127.0.0.1";
+    $username = "root";
+    $password = "MyPassword";
+    $dbname = "COP4331";
 
     // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-	if ($conn->connect_error) 
-	{
-		returnWithError( $conn->connect_error );
-	} 
+    $mysql = new mysqli($servername, $username, $password, $dbname);
+
+	if ($payload == null)
+		returnWithInfo("Payload is empty");
 	else
 	{
-		$contactName = "%" . $inData["search"] . "%";
-		$stmt = $conn->query("SELECT * FROM Contacts WHERE firstName like '$contactName'");
-		$stmt->execute();
-		
-		$result = $stmt->get_result();
-		
-		while($row = $result->fetch_assoc())
-		{
-			if( $searchCount > 0 )
-			{
-				$searchResults .= ",";
-			}
-			$searchCount++;
-			$searchResults .= '"' . $row["ID"] . '"' . $row["firstName"] . '"' . '"' . $row["lastName"] . '"' . $row["username"] . '"' . $row["password"] . '"' . $row["dateCreated"];
-		}
-		
-		if( $searchCount == 0 )
-		{
-			returnWithError( "No Records Found" );
-		}
+		$query = $payload['query'];
+
+		if ($mysql->connect_error != null)
+			returnWithError($mysql->connect_error);
 		else
 		{
-			returnWithInfo( $searchResults );
+			$contactAPI = new ContactAPI($mysql);
+
+			$result = $contactAPI->GetContact($query, 10);
+
+			if ($result == false)
+				returnWithError("Couldn't find contact");
+			else
+			{
+				$resultSerialized = "[";
+
+				foreach ($result as $contact)
+					$resultSerialized = $resultSerialized . $contact->getJSON() . ",";
+
+				$resultSerialized = substr($resultSerialized, 0, strlen($resultSerialized) - 1);
+				$resultSerialized = $resultSerialized . "]";
+				
+				sendResultInfoAsJson($resultSerialized);
+			}
 		}
-		
-		$stmt->close();
-		$conn->close();
 	}
 
 	function getRequestInfo()
@@ -64,11 +64,4 @@
 		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
-	
-	function returnWithInfo( $searchResults )
-	{
-		$retValue = '{"results":[' . $searchResults . '],"error":""}';
-		sendResultInfoAsJson( $retValue );
-	}
-	
 ?>
