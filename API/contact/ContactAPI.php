@@ -28,7 +28,7 @@
 
             $stmt = $this->mysql->prepare("INSERT INTO Contacts (ID, firstName, lastName, email, phone, userID) VALUES(DEFAULT, ?, ?, ?, ?, ?)");
             $stmt->bind_param(
-                "sssss", 
+                "ssssi", 
                 $contact->firstName, 
                 $contact->lastName, 
                 $contact->email, 
