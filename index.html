@@ -23,7 +23,7 @@
       }, false);
     </script>
   </head>
-  <body>
+  <body id="newBody">
 
     <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" onclick="openUpdateProfileModal()" id="myBtn">Update profile</a>
@@ -31,14 +31,17 @@
     </div>
 
     <div id="main">
-      <span style="font-size:50px;cursor:pointer" onclick="toggleNav()">&#9881;</span>
-      <span style="font-size:50px;cursor:pointer" onclick="openCreateContactModal()">&plus;</span>
-      <h1> My contacts (put this on first line between settings and new contact) </h1>
-      <span id="userName"></span><br/>
-      <input type="text" id="contactString" placeholder="Search contacts...">
-      <button id="searchContactsBtn">Submit</button>
-
-      <p>List of all contacts goes here.</p>
+      <span style="font-size:100px;cursor:pointer" onclick="toggleNav()">&#9881;</span>
+      <span style="font-size:100px;cursor:pointer" onclick="openCreateContactModal()">&plus;</span>
+      
+      <span id="title">My Contacts</span>
+      <div id="contactDiv">
+        <input type="text" class="searchInput" placeholder="Search Contacts..." /><br />
+  
+        <button type="button" id="registerButton" class="searchButton" onclick="doLogin();">Search</button>
+        
+        <span id="loginResult"></span>
+      </div>
     </div>
 
     <!-- Update profile Modal -->

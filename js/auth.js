@@ -14,6 +14,13 @@ loginPasswordString.addEventListener("keydown", function (e) {
   }
 });
 
+function changeLogintoRegister() {
+  document.title = "PCM - Register";
+  document.getElementById("registerDiv").style.zIndex = "1";
+  document.getElementById("loginDiv").style.zIndex = "-1";
+  document.getElementById("title").innerHTML = "Register";
+}
+
 function doLogin() {
   window.userID = 0;
   window.firstName = "";
