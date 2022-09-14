@@ -4,6 +4,7 @@
 
     require_once __DIR__ . '/../utils/JsonUtils.php';
     require_once __DIR__ . '/../utils/ResponseSender.php';
+    require_once __DIR__ . '/../utils/RequestReciever.php';
 
     require_once __DIR__ . '/Contact.php';
     require_once __DIR__ . '/ContactAPI.php';
@@ -34,10 +35,5 @@
             else
                 sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
         }
-    }
-
-    function getRequestInfo()
-    {
-        return json_decode(file_get_contents('php://input'), true);
     }
 ?>
