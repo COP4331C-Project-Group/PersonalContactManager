@@ -53,7 +53,7 @@
 
         public function GetContact(object $contact, ContactSearch $searchOption, int $numOfResults) : object|false
         {
-            if ($this->mysql->connect_error)
+            if ($this->mysql->connect_error != null)
                 return false;
         
             switch($searchOption) 
@@ -71,7 +71,7 @@
 
         private function GetContactByFirstName(object $contact, int $numOfResults) : object|false
         {
-            if ($this->mysql->connect_error)
+            if ($this->mysql->connect_error != null)
                 return false;
 
             $searchQuery = $contact->firstName . "%";
@@ -86,7 +86,7 @@
 
         private function GetContactByLastName(object $contact, int $numOfResults) : object|false
         {
-            if ($this->mysql->connect_error)
+            if ($this->mysql->connect_error != null)
                 return false;
 
             $searchQuery = $contact->lastName . "%";
@@ -100,7 +100,7 @@
 
         private function GetContactByFirstNameAndLastName(object $contact, int $numOfResults) : object|false
         {
-            if ($this->mysql->connect_error)
+            if ($this->mysql->connect_error != null)
                 return false;
 
             $searchQueryFirstName = $contact->firstName . "%";
@@ -113,9 +113,9 @@
             return Contact::DeserializeArray($result);
         }
 
-        private function UpdateContact(object $contact) : bool
+        public function UpdateContact(object $contact) : bool
         {
-            if ($this->mysql->connect_error)
+            if ($this->mysql->connect_error != null)
                 return false;
         
             $result = $this->mysql->query("UPDATE FROM Contacts SET firstName=$contact->firstName, lastName=$contact->lastName, email=$contact->email, phone=$contact->phone, userID=$contact->userID WHERE ID=$contact->ID");
@@ -123,9 +123,9 @@
             return $result;
         }
 
-        private function DeleteContact(object $contact) : bool
+        public function DeleteContact(object $contact) : bool
         {
-            if ($this->mysql->connect_error)
+            if ($this->mysql->connect_error != null)
                 return false;
 
             $result = $this->mysql->query("DELETE FROM Contacts WHERE ID=$contact->ID");

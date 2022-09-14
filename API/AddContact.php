@@ -22,7 +22,7 @@
 		$contact = Contact::Deserialize($payload);
 
 		if ($mysql->connect_error != null) 
-			returnWithError( $mysql->connect_error );
+			returnWithError($mysql->connect_error);
 		else
 		{
 			$contactAPI = new ContactAPI($mysql);
@@ -30,11 +30,10 @@
 			$result = $contactAPI->CreateContact($contact);
 
 			if ($result == false)
-				returnWithError("Couldn't create a contact");
+				returnWithError("Couldn't create contact");
 			else
 				sendResultInfoAsJson($result->getJSON());
 		}
-
 	}
 	function getRequestInfo()
 	{

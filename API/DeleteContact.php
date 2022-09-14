@@ -1,32 +1,40 @@
 <?php
-	$inData = getRequestInfo();
-	
-	$ID = $inData["ID"];
-    $firstName = $inData["firstName"];
-    $lastName = $inData["lastName"];
-    $email = $inData["email"];
-    $phone = $inData["phone"];
-    $userID = $inData["userID"];
+    ini_set('display_errors', 1);
+    ini_set('error_reporting', E_ALL);
 
+	require_once __DIR__ . '/contact/Contact.php';
+	require_once __DIR__ . '/contact/ContactAPI.php';
+
+	$payload = getRequestInfo();
+	
     //connection to database
-	$servername = "localhost";
-    $username = "username";
-    $password = "password";
-    $dbname = "myDB";
+	$servername = "127.0.0.1";
+    $username = "root";
+    $password = "MyPassword";
+    $dbname = "COP4331";
 
     // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-	if ($conn->connect_error) 
+    $mysql = new mysqli($servername, $username, $password, $dbname);
+
+	if ($payload == null)
+		returnWithError("Payload is empty");
+	else 
 	{
-		returnWithError( $conn->connect_error );
-	} 
-	else
-	{
-		//determine which piece of data that we are using to determine which contact to delete
-		$stmt = $conn->query("DELETE FROM Contacts WHERE ID='$ID', firstName='$firstName', lastName='$lastName', userID='$userID'");
-		$stmt->close();
-		$conn->close();
-		returnWithError("");
+		$contact = Contact::Deserialize($payload);
+
+		if ($mysql->connect_error != null)
+			returnWithError($mysql->connect_error);
+		else
+		{
+			$contactAPI = new ContactAPI($mysql);
+
+			$result = $contactAPI->DeleteContact($contact);
+
+			if ($result == false)
+				returnWithError("Couldn't delete contact");
+			else
+				sendResultInfoAsJson("Success");
+		}
 	}
 
 	function getRequestInfo()
@@ -45,5 +53,4 @@
 		$retValue = '{"error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
-	
 ?>
