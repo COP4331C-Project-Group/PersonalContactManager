@@ -2,13 +2,12 @@
     ini_set('display_errors', 1);
     ini_set('error_reporting', E_ALL);
 
-	require_once __DIR__ . '/contact/Contact.php';
-	require_once __DIR__ . '/contact/ContactAPI.php';
+	require_once __DIR__ . '/Contact.php';
+	require_once __DIR__ . '/ContactAPI.php';
 
 	$payload = getRequestInfo();
 	
-
-	//connection to database
+    //connection to database
 	$servername = "127.0.0.1";
     $username = "root";
     $password = "MyPassword";
@@ -18,10 +17,10 @@
     $mysql = new mysqli($servername, $username, $password, $dbname);
 
 	if ($payload == null)
-		returnWithInfo("Payload is empty");
-	else
+		returnWithError("Payload is empty");
+	else 
 	{
-		$query = $payload['query'];
+		$contact = Contact::Deserialize($payload);
 
 		if ($mysql->connect_error != null)
 			returnWithError($mysql->connect_error);
@@ -29,22 +28,12 @@
 		{
 			$contactAPI = new ContactAPI($mysql);
 
-			$result = $contactAPI->GetContact($query, 10);
+			$result = $contactAPI->DeleteContact($contact);
 
 			if ($result == false)
-				returnWithError("Couldn't find contact");
+				returnWithError("Couldn't delete contact");
 			else
-			{
-				$resultSerialized = "[";
-
-				foreach ($result as $contact)
-					$resultSerialized = $resultSerialized . $contact->getJSON() . ",";
-
-				$resultSerialized = substr($resultSerialized, 0, strlen($resultSerialized) - 1);
-				$resultSerialized = $resultSerialized . "]";
-				
-				sendResultInfoAsJson($resultSerialized);
-			}
+				sendResultInfoAsJson("Success");
 		}
 	}
 
@@ -61,7 +50,7 @@
 	
 	function returnWithError( $err )
 	{
-		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+		$retValue = '{"error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
 ?>

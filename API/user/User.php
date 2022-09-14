@@ -1,21 +1,23 @@
 <?php
-    require_once __DIR__ . "/../utils/JsonUtils.php";
+    require_once __DIR__ . '/../utils/JsonUtils.php';
     
     class User extends JsonDeserializer {
-        public int $userID;
+        public int $ID;
 
         public string $firstName;
         public string $lastName;
         public string $username;
         public string $password;
-        public string $creationDate;
+        public string $dateCreated;
 
         public function __construct()
         {
+            $this->ID = -1;
             $this->firstName = "";
             $this->lastName = "";
             $this->username = "";
             $this->password = "";
+            $this->dateCreated = "";
         }
 
         public static function create(
@@ -33,15 +35,15 @@
             return $instance;
         }
 
-        public function setCreationDate($creationDate) : User
+        public function setDateCreated($dateCreated) : User
         {
-            $this->creationDate = $creationDate;
+            $this->dateCreated = $dateCreated;
             return $this;
         }
 
-        public function setUserID($userID) : User
+        public function setID($userID) : User
         {
-            $this->userID = $userID;
+            $this->ID = $userID;
             return $this;
         }
 
@@ -72,11 +74,12 @@
         public function getJSON()
         {
             $jsonArray = array(
-                "FirstName" => $this->firstName, 
-                "LastName" => $this->lastName,
-                "Username" => $this->username,
-                "Password" => $this->password,
-                "CreationDate" => $this->creationDate
+                "ID" => $this->ID,
+                "firstName" => $this->firstName, 
+                "lastName" => $this->lastName,
+                "username" => $this->username,
+                "password" => $this->password,
+                "dateCreated" => $this->dateCreated
             );
 
             return json_encode($jsonArray, JSON_PRETTY_PRINT);
