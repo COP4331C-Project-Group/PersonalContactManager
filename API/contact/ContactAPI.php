@@ -105,7 +105,10 @@
         {
             if ($this->mysql->connect_error != null)
                 return false;
-
+            
+            if ($this->GetContactByID($contact->ID) == false)
+                return false;
+                
             $result = $this->mysql->query("DELETE FROM Contacts WHERE ID=$contact->ID");
 
             return $result;
