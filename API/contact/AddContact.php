@@ -33,7 +33,7 @@
             if ($result == false)
                 returnWithError("Couldn't create contact");
             else
-                sendResultInfoAsJson($result->getJSON());
+                sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
         }
     }
     function getRequestInfo()

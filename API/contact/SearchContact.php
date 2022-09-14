@@ -33,17 +33,7 @@
             if ($result == false)
                 returnWithError("Couldn't find contact");
             else
-            {
-                $resultSerialized = "[";
-
-                foreach ($result as $contact)
-                    $resultSerialized = $resultSerialized . $contact->getJSON() . ",";
-
-                $resultSerialized = substr($resultSerialized, 0, strlen($resultSerialized) - 1);
-                $resultSerialized = $resultSerialized . "]";
-                
-                sendResultInfoAsJson($resultSerialized);
-            }
+                sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
         }
     }
 

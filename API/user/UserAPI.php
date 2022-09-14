@@ -48,7 +48,12 @@
             if ($result == false)
                 return false;
 
-            return User::Deserialize($result->fetch_object());
+            $record = $result->fetch_object();
+
+            if ($record == null)
+                return false;
+
+            return User::Deserialize($record);
         }
 
         public function GetUserByUsername(string $username) : object|false

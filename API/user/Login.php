@@ -37,7 +37,7 @@
                 if (strcmp($result->password, $user->password) != 0)
                     returnWithError("Incorrect password.");
                 else
-                    sendResultInfoAsJson($result->getJSON());
+                    sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
             }
         }
     }

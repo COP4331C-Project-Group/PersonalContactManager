@@ -1,7 +1,10 @@
 <?php
     require_once __DIR__ . '/../utils/JsonUtils.php';
     
-    class User extends JsonDeserializer {
+    class User 
+        extends JsonDeserializer
+        implements JsonSerializable 
+    {
         public int $ID;
 
         public string $firstName;
@@ -71,18 +74,16 @@
             return  $this; 
         }
 
-        public function getJSON()
+        public function jsonSerialize(): mixed
         {
-            $jsonArray = array(
+            return [
                 "ID" => $this->ID,
                 "firstName" => $this->firstName, 
                 "lastName" => $this->lastName,
                 "username" => $this->username,
                 "password" => $this->password,
                 "dateCreated" => $this->dateCreated
-            );
-
-            return json_encode($jsonArray, JSON_PRETTY_PRINT);
+            ];
         }
     }
 ?>
