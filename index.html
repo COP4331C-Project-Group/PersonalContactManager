@@ -6,17 +6,17 @@
     If update profile clicked, shows a modal dialog (same page, uses JS)
   If new contact button clicked, shows a modal dialog (same page, uses JS)
 -->
+<!DOCTYPE html>
 <html>
   <head>
-    <script type="text/javascript" src="js/globals.js"></script>
-    <script type="text/javascript" src="js/auth.js"></script>
+    <script type="text/javascript" src="js/logout.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript" src="js/main.js" defer></script>
     <link rel="stylesheet" href="css/main.css">
     <title>PCM - My Contacts</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 
     <script type="text/javascript">
-      console.log("Checking cookie");
       document.addEventListener('DOMContentLoaded', function() 
       {
         readCookie();
@@ -34,6 +34,7 @@
       <span style="font-size:50px;cursor:pointer" onclick="toggleNav()">&#9881;</span>
       <span style="font-size:50px;cursor:pointer" onclick="openCreateContactModal()">&plus;</span>
       <h1> My contacts (put this on first line between settings and new contact) </h1>
+      <span id="userName"></span><br/>
       <input type="text" id="contactString" placeholder="Search contacts...">
       <button id="searchContactsBtn">Submit</button>
 
