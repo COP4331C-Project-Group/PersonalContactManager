@@ -18,7 +18,8 @@
 
 	if ($payload == null)
 		returnWithError("Payload is empty");
-	else {
+	else 
+	{
 		$contact = Contact::Deserialize($payload);
 
 		if ($mysql->connect_error != null) 

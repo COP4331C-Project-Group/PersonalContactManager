@@ -75,7 +75,7 @@
                 return false;
 
             $searchQuery = $contact->firstName . "%";
-            $result = $this->mysql->query("SELECT * FROM Contacts WHERE firstName like $searchQuery LIMIT=$numOfResults");
+            $result = $this->mysql->query("SELECT * FROM Contacts WHERE firstName like '$searchQuery' LIMIT=$numOfResults");
 
             if ($result == false)
                 return false;
@@ -90,7 +90,7 @@
                 return false;
 
             $searchQuery = $contact->lastName . "%";
-            $result = $this->mysql->query("SELECT * FROM Contacts WHERE lastName like $searchQuery LIMIT=$numOfResults");
+            $result = $this->mysql->query("SELECT * FROM Contacts WHERE lastName like '$searchQuery' LIMIT=$numOfResults");
 
             if ($result == false)
                 return false;
@@ -105,7 +105,7 @@
 
             $searchQueryFirstName = $contact->firstName . "%";
             $searchQueryLastName = $contact->lastName . "%";
-            $result = $this->mysql->query("SELECT * FROM Contacts WHERE firstName like $searchQueryFirstName AND lastName like $searchQueryLastName LIMIT=$numOfResults");
+            $result = $this->mysql->query("SELECT * FROM Contacts WHERE firstName like '$searchQueryFirstName' AND lastName like '$searchQueryLastName' LIMIT=$numOfResults");
 
             if ($result == false)
                 return false;
@@ -113,14 +113,17 @@
             return Contact::DeserializeArray($result);
         }
 
-        public function UpdateContact(object $contact) : bool
+        public function UpdateContact(object $contact) : object|false
         {
             if ($this->mysql->connect_error != null)
                 return false;
         
-            $result = $this->mysql->query("UPDATE FROM Contacts SET firstName=$contact->firstName, lastName=$contact->lastName, email=$contact->email, phone=$contact->phone, userID=$contact->userID WHERE ID=$contact->ID");
-        
-            return $result;
+            $result = $this->mysql->query("UPDATE Contacts SET firstName='$contact->firstName', lastName='$contact->lastName', email='$contact->email', phone='$contact->phone' WHERE ID=$contact->ID");
+            
+            if ($result)
+                return $this->GetContactByID($contact->ID);
+
+            return false;
         }
 
         public function DeleteContact(object $contact) : bool
