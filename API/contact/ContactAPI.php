@@ -15,6 +15,12 @@
             $this->mysql->close();
         }
 
+        /**
+         * Creates contact record in the database.
+         * 
+         * @param contact - object of the Contact class.
+         * @return - object of the Contact class containing all information about created record or false if operation was unsuccessful. 
+         */
         public function CreateContact(object $contact) : object|false 
         {
             if ($this->mysql->connect_error != null)
@@ -38,6 +44,12 @@
             return false;
         }
 
+        /**
+         * Gets contact record by contact unique identifier.
+         * 
+         * @param contactID - unique contact identifier.
+         * @return - object of the Contact class containing all information about record or false if operation was unsuccessful.
+         */
         private function GetContactByID($contactID) : object|false
         {
             if ($this->mysql->connect_error != null)
@@ -56,6 +68,13 @@
             return Contact::Deserialize($record);
         }
 
+        /**
+         * Gets contact record which satisfies query.
+         * 
+         * @param query - search query used for searching for set of records in the database.
+         * @param numOfResults - max number of results that satisfy search query to be returned if search is successful.
+         * @return - array of objects of the Contact class containing all information about each individual record or false if operation was unsuccessful or no contacts were found.
+         */
         public function GetContact(string $query, int $numOfResults) : array|false
         {
             if ($this->mysql->connect_error != null)
@@ -88,6 +107,12 @@
             return $resultArray;
         }
 
+        /**
+         * Updates contact record.
+         * 
+         * @param contact - contact object of the Contact class.
+         * @return - contact object of the Contact class containing updated information or false if operation was unsuccessful or contact with specified ID doesn't exist.
+         */
         public function UpdateContact(object $contact) : object|false
         {
             if ($this->mysql->connect_error != null)
@@ -101,6 +126,12 @@
             return false;
         }
 
+        /**
+         * Deletes contact record.
+         * 
+         * @param contact - contact object of the Contact class.
+         * @return - true if operation was successful or false otherwise.
+         */
         public function DeleteContact(object $contact) : bool
         {
             if ($this->mysql->connect_error != null)
@@ -108,7 +139,7 @@
             
             if ($this->GetContactByID($contact->ID) == false)
                 return false;
-                
+
             $result = $this->mysql->query("DELETE FROM Contacts WHERE ID=$contact->ID");
 
             return $result;
