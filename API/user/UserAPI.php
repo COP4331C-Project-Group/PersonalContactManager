@@ -16,6 +16,12 @@
             $this->mysql->close();
         }
 
+        /**
+         * Creates user record.
+         * 
+         * @param user - object of the User class.
+         * @return - object of the User class containing all information about created record or false if operation was unsuccessful.
+         */
         public function CreateUser(object $user) : object|false
         {
             if ($this->mysql->connect_error != null)
@@ -38,6 +44,12 @@
             return false;
         }
 
+        /**
+         * Gets user record by user's unique identifier.
+         * 
+         * @param userID - unique user identifier.
+         * @return - object of the User class containing all information about record or false if operation was unsuccessful. 
+         */
         private function GetUserByID($userID) : object|false
         {
             if ($this->mysql->connect_error != null)
@@ -56,6 +68,12 @@
             return User::Deserialize($record);
         }
 
+        /**
+         * Gets user record by username.
+         * 
+         * @param username - username of the user.
+         * @return - object of the User class containing all information about record or false if operation was unsuccessful.
+         */
         public function GetUserByUsername(string $username) : object|false
         {
             if ($this->mysql->connect_error != null)
