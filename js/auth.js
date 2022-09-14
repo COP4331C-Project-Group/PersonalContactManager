@@ -15,7 +15,7 @@ loginPasswordString.addEventListener("keydown", function (e) {
 });
 
 function doLogin() {
-  window.userId = 0;
+  window.userID = 0;
   window.firstName = "";
   window.lastName = "";
   
@@ -42,9 +42,9 @@ function doLogin() {
       if (this.readyState == 4 && this.status == 200) 
       {
         let jsonObject = JSON.parse( xhr.responseText );
-        window.userId = jsonObject.id;
+        window.userID = jsonObject.userID;
 
-        if( window.userId < 1 )
+        if( window.userID < 1 )
         {       
           document.getElementById("authResult").innerHTML = "User/Password combination incorrect";
           return;
@@ -67,7 +67,7 @@ function doLogin() {
 }
 
 function doRegister() {
-  window.userId = 0;
+  window.userID = 0;
   window.firstName = "";
   window.lastName = "";
 
@@ -111,11 +111,11 @@ function doRegister() {
       if (this.readyState == 4 && this.status == 200) 
       {
         let jsonObject = JSON.parse( xhr.responseText );
-        window.userId = jsonObject.id;
+        window.userID = jsonObject.userID;
 
         // TODO: add handling here for the cases where username is taken, etc.
         // Ask joey to make it clear what errors are expected.
-        if( window.userId < 1 )
+        if( window.userID < 1 )
         {
           document.getElementById("authResult").innerHTML = "User/Password combination incorrect";
           return;
@@ -139,7 +139,7 @@ function doRegister() {
 
 function doLogout()
 {
-  window.userId = 0;
+  window.userID = 0;
   window.firstName = "";
   window.lastName = "";
   document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
@@ -151,7 +151,7 @@ function saveCookie()
   let minutes = 20;
   let date = new Date();
   date.setTime(date.getTime()+(minutes*60*1000)); 
-  document.cookie = "firstName=" + window.firstName + ",lastName=" + window.lastName + ",userId=" + window.userId + ";expires=" + date.toGMTString();
+  document.cookie = "firstName=" + window.firstName + ",lastName=" + window.lastName + ",userId=" + window.userID + ";expires=" + date.toGMTString();
 }
 
 function readCookie()
@@ -173,11 +173,11 @@ function readCookie()
     }
     else if( tokens[0] == "userId" )
     {
-      window.userId = parseInt( tokens[1].trim() );
+      window.userID = parseInt( tokens[1].trim() );
     }
   }
   
-  if( window.userId < 0 )
+  if( window.userID < 0 )
   {
     if (window.location.pathname.split("/").pop() !== "auth.html") {
       window.location.href = "auth.html";
