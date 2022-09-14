@@ -21,7 +21,7 @@
                 return false;
 
             $stmt = $this->mysql->prepare("INSERT INTO Contacts (ID, firstName, lastName, email, phone, userID) VALUES(DEFAULT, ?, ?, ?, ?, ?)");
-		    $stmt->bind_param(
+            $stmt->bind_param(
                 "sssss", 
                 $contact->firstName, 
                 $contact->lastName, 
@@ -29,8 +29,8 @@
                 $contact->phone, 
                 $contact->userID
             );
-			
-		    $result = $stmt->execute();
+            
+            $result = $stmt->execute();
 
             if ($result)
                 return $this->GetContactByID($this->mysql->insert_id);
