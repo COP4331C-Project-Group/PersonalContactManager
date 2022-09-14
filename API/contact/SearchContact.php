@@ -4,17 +4,12 @@
 
     require_once __DIR__ . '/Contact.php';
     require_once __DIR__ . '/ContactAPI.php';
+    require_once __DIR__ . '/../database/Database.php';
 
     $payload = getRequestInfo();
     
-    //connection to database
-    $servername = "127.0.0.1";
-    $username = "root";
-    $password = "MyPassword";
-    $dbname = "COP4331";
-
     // Create connection
-    $mysql = new mysqli($servername, $username, $password, $dbname);
+    $mysql = connectToDatabaseOrFail();
 
     if ($payload == null)
         returnWithError("Payload is empty");
@@ -22,8 +17,8 @@
     {
         $query = $payload['query'];
 
-        if ($mysql->connect_error != null)
-            returnWithError($mysql->connect_error);
+        if ($mysql == false)
+            returnWithError("Database Connection error");
         else
         {
             $contactAPI = new ContactAPI($mysql);
