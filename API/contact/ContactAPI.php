@@ -92,6 +92,7 @@
                 email LIKE '%$word%'" . " OR ";
             }
 
+            // Removes the last " OR " inside of the searchQuery
             $searchQuery = substr($searchQuery, 0, strlen($searchQuery) - 4);
         
             $result = $this->mysql->query("SELECT * FROM Contacts WHERE $searchQuery LIMIT $numOfResults");
