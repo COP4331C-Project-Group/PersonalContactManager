@@ -1,4 +1,9 @@
 <?php
+    /**
+     * Connects to the database.
+     * 
+     * @return mysqli|false - mysqli object upon successful connection or false otherwise.
+     */
     function connectToDatabaseOrFail() : mysqli|false {        
         $hostname = getenv("HTTP_HOSTNAME");
         $username = getenv("HTTP_DATABASE_USERNAME");

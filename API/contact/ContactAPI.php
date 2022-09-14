@@ -18,8 +18,8 @@
         /**
          * Creates contact record.
          * 
-         * @param contact - object of the Contact class.
-         * @return - object of the Contact class containing all information about created record or false if operation was unsuccessful. 
+         * @param object $contact object of the Contact class.
+         * @return object|false object of the Contact class containing all information about created record or false if operation was unsuccessful. 
          */
         public function CreateContact(object $contact) : object|false 
         {
@@ -47,8 +47,8 @@
         /**
          * Gets contact record by contact's unique identifier.
          * 
-         * @param contactID - unique contact identifier.
-         * @return - object of the Contact class containing all information about record or false if operation was unsuccessful.
+         * @param int $contactID unique contact identifier.
+         * @return object|false object of the Contact class containing all information about record or false if operation was unsuccessful.
          */
         private function GetContactByID($contactID) : object|false
         {
@@ -71,9 +71,9 @@
         /**
          * Gets contact record which satisfies query.
          * 
-         * @param query - search query used for searching for set of records in the database.
-         * @param numOfResults - max number of results that satisfy search query to be returned if search is successful.
-         * @return - array of objects of the Contact class containing all information about each individual record or false if operation was unsuccessful.
+         * @param string $query search query used for searching for set of records in the database.
+         * @param int $numOfResults max number of results that satisfy search query to be returned if search is successful.
+         * @return array|false array of objects of the Contact class containing all information about each individual record or false if operation was unsuccessful.
          */
         public function GetContact(string $query, int $numOfResults) : array|false
         {
@@ -110,8 +110,8 @@
         /**
          * Updates contact record.
          * 
-         * @param contact - contact object of the Contact class.
-         * @return - contact object of the Contact class containing updated information or false if operation was unsuccessful.
+         * @param object $contact contact object of the Contact class.
+         * @return object|false contact object of the Contact class containing updated information or false if operation was unsuccessful.
          */
         public function UpdateContact(object $contact) : object|false
         {
@@ -129,8 +129,8 @@
         /**
          * Deletes contact record.
          * 
-         * @param contact - contact object of the Contact class.
-         * @return - true if operation was successful or false otherwise.
+         * @param object $contact contact object of the Contact class.
+         * @return bool true if operation was successful or false otherwise.
          */
         public function DeleteContact(object $contact) : bool
         {
