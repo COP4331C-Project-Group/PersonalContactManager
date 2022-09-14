@@ -21,6 +21,17 @@ function doLogin() {
   
   let username = document.getElementById("loginUsername").value;
   let password = document.getElementById("loginPassword").value;
+
+  // Check that all fields are populated
+  if (username.length == 0) {
+    document.getElementById("authResult").innerHTML = "Must provide a username!";
+    return;
+  }
+
+  if (password.length == 0) {
+    document.getElementById("authResult").innerHTML = "Must provide a password!";
+    return;
+  }
   // TODO: switch to using hashes after getting everything working
   // var hash = md5( password );
 
@@ -74,22 +85,48 @@ function doRegister() {
   // TODO: update this later if needed/add more constraints
   const minimumPasswordLength = 6;
   
-  let fname = document.getElementById("registerFirstName").value;
-  let lname = document.getElementById("registerLastName").value;
+  let firstName = document.getElementById("registerFirstName").value;
+  let lastName = document.getElementById("registerLastName").value;
   let username = document.getElementById("registerUsername").value;
   let password = document.getElementById("registerPassword").value;
   let confirmPassword = document.getElementById("registerConfirmPassword").value;
 
-  if (password !== confirmPassword) {
-    document.getElementById("authResult").innerHTML = "Passwords must match!";
+  // Check that all fields are populated
+  if (firstName.length == 0) {
+    document.getElementById("authResult").innerHTML = "Must provide a first name!";
     return;
   }
+
+  if (lastName.length == 0) {
+    document.getElementById("authResult").innerHTML = "Must provide a last name!";
+    return;
+  }
+
+  if (username.length == 0) {
+    document.getElementById("authResult").innerHTML = "Must provide a username!";
+    return;
+  }
+
+  if (password.length == 0) {
+    document.getElementById("authResult").innerHTML = "Must provide a password!";
+    return;
+  }
+
+  if (confirmPassword.length == 0) {
+    document.getElementById("authResult").innerHTML = "Must confirm password!";
+    return;
+  }
+
   // TODO: add better handling of strong password here
   if (password.length < minimumPasswordLength) {
     document.getElementById("authResult").innerHTML = "Please choose a stronger password (min password length = 6)";
     return;
   }
 
+  if (password !== confirmPassword) {
+    document.getElementById("authResult").innerHTML = "Passwords must match!";
+    return;
+  }
   // TODO: switch to using hashes after getting everything working
   // var hash = md5( password );
 
