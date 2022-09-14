@@ -4,8 +4,8 @@
         /**
          * Deserializes json string or object to an object.
          * 
-         * @param json - json string or json object.
-         * @return - object of the class that inherited this method.
+         * @param string|object $json json string or json object.
+         * @return object object of the class that inherited this method.
          */
         public static function Deserialize($json) : object
         {
@@ -29,8 +29,8 @@
         /**
          * Deserializes an array of json strings or objects to an array of objects.
          * 
-         * @param json - json string or json object represented as an array.
-         * @return - array of objects of the class that inherited this method.
+         * @param string $json json string or json object represented as an array.
+         * @return array array of objects of the class that inherited this method.
          */
         public static function DeserializeArray($json) : array
         {
