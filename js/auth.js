@@ -32,13 +32,12 @@ function doLogin() {
     document.getElementById("authResult").innerHTML = "Must provide a password!";
     return;
   }
-  // TODO: switch to using hashes after getting everything working
-  // var hash = md5( password );
-
   document.getElementById("authResult").innerHTML = "";
 
   let tmp = {username:username, password:password};
-  //  var tmp = {username:username, password:hash};
+  // TODO: switch to using hashes after getting everything working
+  // var hash = md5( password );
+  // var tmp = {username:username, password:hash};
   let jsonPayload = JSON.stringify( tmp );
 
   let url = window.urlBase + '/Login' + window.extension;
@@ -127,13 +126,18 @@ function doRegister() {
     document.getElementById("authResult").innerHTML = "Passwords must match!";
     return;
   }
-  // TODO: switch to using hashes after getting everything working
-  // var hash = md5( password );
 
   document.getElementById("authResult").innerHTML = "";
 
-  let tmp = {username:username, password:password};
-  //  var tmp = {username:username, password:hash};
+  let tmp = {
+    firstName:firstName,
+    lastName:lastName,
+    username:username,
+    password:password
+  };
+  // TODO: switch to using hashes after getting everything working
+  // var hash = md5( password );
+  // var tmp = {firstName:firstName, lastName:lastName, username:username, password:hash};
   let jsonPayload = JSON.stringify( tmp );
 
   let url = window.urlBase + '/AddUser' + window.extension;
