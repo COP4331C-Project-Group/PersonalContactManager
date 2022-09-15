@@ -12,7 +12,7 @@
 
     require_once __DIR__ . '/../database/Database.php';
 
-    $contact = RequestReceiver::recieveGET(new Contact());
+    $contact = RequestReceiver::receiveGET(new Contact());
     
     $database = new Database();
 

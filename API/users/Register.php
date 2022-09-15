@@ -11,7 +11,7 @@
     
     require_once __DIR__ . '/../database/Database.php';
 
-    $user = RequestReceiver::recievePOST(new User());
+    $user = RequestReceiver::receivePOST(new User());
 
     $database = new Database();
 

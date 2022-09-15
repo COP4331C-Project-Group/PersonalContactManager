@@ -8,7 +8,7 @@
             
         }
 
-        public static function recieveGET(JSONObject $containerClass) : JSONObject|false
+        public static function receiveGET(JSONObject $containerClass) : JSONObject|false
         {
             if ($_SERVER["REQUEST_METHOD"] != "GET")
                 return false;
@@ -19,7 +19,7 @@
             return $containerClass::Deserialize($_GET);
         }
 
-        public static function recievePOST(JSONObject $containerClass) : JSONObject|false
+        public static function receivePOST(JSONObject $containerClass) : JSONObject|false
         {
             if ($_SERVER["REQUEST_METHOD"] != "POST")
                 return false;
