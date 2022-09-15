@@ -12,14 +12,14 @@
 
     require_once __DIR__ . '/../database/Database.php';
 
-    $contact = RequestReceiver::receivePOST(new Contact());
+    $contact = new Contact();
+
+    if (!RequestReceiver::receivePOST($contact))
+        ResponseSender::send(ResponseCodes::NO_CONTENT, "Missing request body");
 
     $database = new Database();
 
     $mysql = $database->connectToDatabase();
-
-    if ($contact === false)
-        ResponseSender::send(ResponseCodes::NO_CONTENT, "Missing request body");
     
     $contactAPI = new ContactAPI($mysql);
 

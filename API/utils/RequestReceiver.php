@@ -8,7 +8,7 @@
             
         }
 
-        public static function receiveGET(JSONObject $containerClass) : JSONObject|false
+        public static function receiveGET(JSONObject &$containerClass, int &$limit = 1) : bool
         {
             if ($_SERVER["REQUEST_METHOD"] !== "GET")
                 return false;
@@ -16,10 +16,13 @@
             if (empty($_GET))
                 return false;
             
-            return $containerClass::Deserialize($_GET);
+            $limit = $_GET["Limit"];
+            $containerClass = $containerClass::Deserialize($_GET);
+
+            return true;
         }
 
-        public static function receivePOST(JSONObject $containerClass) : JSONObject|false
+        public static function receivePOST(JSONObject &$containerClass) : bool
         {
             if ($_SERVER["REQUEST_METHOD"] !== "POST")
                 return false;
@@ -27,7 +30,9 @@
             if (empty($_POST))
                 return false;
             
-            return $containerClass::Deserialize($_POST);
+            $containerClass = $containerClass::Deserialize($_POST);
+
+            return true;
         }
     }
 ?>

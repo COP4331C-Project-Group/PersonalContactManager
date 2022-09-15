@@ -12,14 +12,15 @@
 
     require_once __DIR__ . '/../database/Database.php';
 
-    $contact = RequestReceiver::receiveGET(new Contact());
-    
+    $contact = new Contact;
+    $limit = 1;
+
+    if (!RequestReceiver::receiveGET($contact, $limit))
+        ResponseSender::send(ResponseCodes::NOT_FOUND, "Missing request body");
+
     $database = new Database();
 
     $mysql = $database->connectToDatabase();
-
-    if ($contact === false)
-        ResponseSender::send(ResponseCodes::NOT_FOUND, "Missing request body");
 
     $query = !empty($contact->firstName) ? $contact->firstName : "";
     $query = $query . (!empty($contact->lastName) ? " " . $contact->lastName : ""); 

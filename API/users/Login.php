@@ -11,14 +11,14 @@
     
     require_once __DIR__ . '/../database/Database.php';
 
-    $user = RequestReceiver::receiveGET(new User());
-     
+    $user = new User(); 
+
+    if (!RequestReceiver::receiveGET($user))
+        ResponseSender::send(ResponseCodes::NOT_FOUND, "Missing request body");
+
     $database = new Database();
 
     $mysql = $database->connectToDatabase();
-
-    if ($user === false)
-        ResponseSender::send(ResponseCodes::NOT_FOUND, "Missing request body");
     
     $userAPI = new UserAPI($mysql);
 
