@@ -73,9 +73,10 @@
          * 
          * @param string $query search query used for searching for set of records in the database.
          * @param int $numOfResults max number of results that satisfy search query to be returned if search is successful.
+         * @param int $userID unique userIdentificator.
          * @return array|false array of objects of the Contact class containing all information about each individual record or false if operation was unsuccessful.
          */
-        public function GetContact(string $query, int $numOfResults) : array|false
+        public function GetContact(string $query, int $userID, int $numOfResults) : array|false
         {
             if ($this->mysql->connect_error != null)
                 return false;
@@ -95,7 +96,7 @@
             // Removes the last " OR " inside of the searchQuery
             $searchQuery = substr($searchQuery, 0, strlen($searchQuery) - 4);
         
-            $result = $this->mysql->query("SELECT * FROM Contacts WHERE $searchQuery LIMIT $numOfResults");
+            $result = $this->mysql->query("SELECT * FROM Contacts WHERE ($searchQuery) AND userID=$userID LIMIT $numOfResults");
         
             if ($result == false)
                 return false;

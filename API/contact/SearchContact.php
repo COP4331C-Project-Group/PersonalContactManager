@@ -23,10 +23,11 @@
         ResponseSender::sendError("Database Connection error");
 
     $query = $payload['query'];
+    $userID = $payload['userID'];
 
     $contactAPI = new ContactAPI($mysql);
 
-    $result = $contactAPI->GetContact($query, 10);
+    $result = $contactAPI->GetContact($query, $userID, 10);
 
     if ($result == false)
         ResponseSender::sendError("Couldn't find contact");
