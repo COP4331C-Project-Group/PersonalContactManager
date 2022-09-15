@@ -51,3 +51,31 @@ function readCookie()
     }
   }
 }
+
+async function getData(url, jsonParams) {
+  for ( var key in jsonParams ) {
+    url += key + "=" + jsonParams[key] + "&";
+  }
+
+  let response = await fetch(url);
+  let responseJson = await response.json();
+  return [response.status, responseJson];
+}
+
+async function postData(url, jsonParams) {
+  var formData = new FormData()
+  for ( var key in jsonParams ) {
+    formData.append(key, jsonParams[key]);
+  }
+  const requestOptions = {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json'
+          },
+          body: formData
+      };
+
+  let response = await fetch(url, requestOptions);
+  let responseJson = await response.json();
+  return [response.status, responseJson];
+}
