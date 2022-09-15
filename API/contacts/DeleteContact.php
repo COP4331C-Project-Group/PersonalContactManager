@@ -18,14 +18,14 @@
 
     $mysql = $database->connectToDatabase();
 
-    if ($contact == false)
+    if ($contact === false)
         ResponseSender::send(ResponseCodes::NO_CONTENT, "Missing request body");
     
     $contactAPI = new ContactAPI($mysql);
 
     $result = $contactAPI->DeleteContact($contact);
 
-    if ($result == false)
+    if ($result === false)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Contact doesn't exist");
     else
         ResponseSender::send(ResponseCodes::OK);

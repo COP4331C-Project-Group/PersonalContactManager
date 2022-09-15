@@ -57,12 +57,12 @@
 
             $result = $this->mysql->query("SELECT * FROM Contacts WHERE ID=$contactID");
 
-            if ($result == false)
+            if ($result === false)
                 return false;
         
             $record = $result->fetch_object();
 
-            if ($record == null)
+            if ($record === null)
                 return false;
 
             return Contact::Deserialize($record);
@@ -98,7 +98,7 @@
         
             $result = $this->mysql->query("SELECT * FROM Contacts WHERE ($searchQuery) AND userID=$userID LIMIT $numOfResults");
         
-            if ($result == false)
+            if ($result === false)
                 return false;
         
             $resultArray = [];

@@ -30,7 +30,7 @@
                 $mysql = new mysqli($this->hostname, $this->username, $this->password, $this->dbName);
 
                 
-                if ($mysql->connect_error != null)
+                if ($mysql->connect_error !== null)
                     return false;
 
                 return $mysql;

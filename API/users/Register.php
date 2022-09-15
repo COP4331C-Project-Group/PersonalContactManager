@@ -17,17 +17,17 @@
 
     $mysql = $database->connectToDatabase();
 
-    if ($user == false)
+    if ($user === false)
         ResponseSender::send(ResponseCodes::NO_CONTENT, "Missing request body");
     
     $userAPI = new UserAPI($mysql);
 
     if (userExists($user, $userAPI))
-        ResponseSender::send(ResponseCodes::CONFLICT, "User alredy exists");
+        ResponseSender::send(ResponseCodes::CONFLICT, "User already exists");
         
     $result = $userAPI->CreateUser($user);
 
-    if ($result == false)
+    if ($result === false)
         ResponseSender::send(ResponseCodes::CONFLICT, "Couldn't create user");
     else
         ResponseSender::send(ResponseCodes::CREATED, NULL, $result);

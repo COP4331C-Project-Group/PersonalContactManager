@@ -57,12 +57,12 @@
 
             $result = $this->mysql->query("SELECT * FROM Users WHERE ID=$userID");
 
-            if ($result == false)
+            if ($result === false)
                 return false;
 
             $record = $result->fetch_object();
 
-            if ($record == null)
+            if ($record === null)
                 return false;
 
             return User::Deserialize($record);
@@ -81,12 +81,12 @@
 
             $result = $this->mysql->query("SELECT * FROM Users WHERE username='$username'");
 
-            if ($result == false)
+            if ($result === false)
                 return false;
 
             $record = $result->fetch_object();
 
-            if ($record == null)
+            if ($record === null)
                 return false;
 
             return User::Deserialize($record);

@@ -18,14 +18,14 @@
 
     $mysql = $database->connectToDatabase();
 
-    if ($contact == false)
+    if ($contact === false)
         ResponseSender::send(ResponseCodes::NO_CONTENT, "Missing request body");
     
     $contactAPI = new ContactAPI($mysql);
 
     $result = $contactAPI->CreateContact($contact);
 
-    if ($result == false)
+    if ($result === false)
         ResponseSender::send(ResponseCodes::CONFLICT, "Couldn't create contact");
     else
         ResponseSender::send(ResponseCodes::CREATED, NULL, $result);

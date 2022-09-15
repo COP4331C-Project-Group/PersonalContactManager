@@ -18,7 +18,7 @@
 
     $mysql = $database->connectToDatabase();
 
-    if ($contact == false)
+    if ($contact === false)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Missing request body");
 
     $query = !empty($contact->firstName) ? $contact->firstName : "";
@@ -30,7 +30,7 @@
 
     $result = $contactAPI->GetContact($query, $contact->userID, 10);
 
-    if ($result == false)
+    if ($result === false)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Couldn't find contact");
     else
         ResponseSender::send(ResponseCodes::OK, NULL, $result);
