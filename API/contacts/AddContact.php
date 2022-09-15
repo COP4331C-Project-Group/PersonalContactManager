@@ -11,7 +11,7 @@
     
     require_once __DIR__ . '/../database/Database.php';
 
-    $contact = RequestReciever::recieveGET(new Contact());
+    $contact = RequestReciever::recievePOST(new Contact());
     
     $mysql = connectToDatabaseOrFail();
 

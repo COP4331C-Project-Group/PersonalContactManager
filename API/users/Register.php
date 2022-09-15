@@ -10,12 +10,12 @@
     
     require_once __DIR__ . '/../database/Database.php';
 
-    $user = RequestReciever::recieveGET(new User());
+    $user = RequestReciever::recievePOST(new User());
 
     $mysql = connectToDatabaseOrFail();
 
     if ($user == false)
-        ResponseSender::sendError("Payload is empty");
+        ResponseSender::sendError("Missing request body");
     
     if ($mysql == false)
         ResponseSender::sendError("Database Connection error");

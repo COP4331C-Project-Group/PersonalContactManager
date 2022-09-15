@@ -15,7 +15,7 @@
     $mysql = connectToDatabaseOrFail();
 
     if ($user == false)
-        ResponseSender::sendError("Payload is empty");
+        ResponseSender::sendError("Missing request body");
     
     if ($mysql == false)
         ResponseSender::sendError("Database Connection error");
