@@ -17,10 +17,10 @@
     $mysql = connectToDatabaseOrFail();
 
     if ($payload == null)
-        returnWithError("Payload is empty");
+        ResponseSender::sendError("Payload is empty");
     
     if ($mysql == false)
-        returnWithError("Database Connection error");
+        ResponseSender::sendError("Database Connection error");
 
     $contact = Contact::Deserialize($payload);
 
@@ -29,7 +29,7 @@
     $result = $contactAPI->UpdateContact($contact);
 
     if ($result == false)
-        returnWithError("Couldn't update contact");
+        ResponseSender::sendError("Couldn't update contact");
     else
-        sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
+        ResponseSender::sendResult(json_encode($result, JSON_PRETTY_PRINT));
 ?>

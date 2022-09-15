@@ -15,10 +15,10 @@
     $mysql = connectToDatabaseOrFail();
 
     if ($payload == null)
-        returnWithError("Payload is empty");
+        ResponseSender::sendError("Payload is empty");
     
     if ($mysql == false)
-        returnWithError("Database Connection error");
+        ResponseSender::sendError("Database Connection error");
 
     $user = User::Deserialize($payload);
 
@@ -27,10 +27,10 @@
     $result = $userAPI->GetUserByUsername($user->username);
 
     if ($result == false)
-        returnWithError("User doesn't exist.");
+        ResponseSender::sendError("User doesn't exist.");
 
     if (strcmp($result->password, $user->password) != 0)
-        returnWithError("Incorrect password.");
+        ResponseSender::sendError("Incorrect password.");
     else
-        sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
+        ResponseSender::sendResult(json_encode($result, JSON_PRETTY_PRINT));
 ?>

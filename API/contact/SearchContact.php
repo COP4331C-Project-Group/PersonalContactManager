@@ -17,10 +17,10 @@
     $mysql = connectToDatabaseOrFail();
 
     if ($payload == null)
-        returnWithError("Payload is empty");
+        ResponseSender::sendError("Payload is empty");
     
     if ($mysql == false)
-        returnWithError("Database Connection error");
+        ResponseSender::sendError("Database Connection error");
 
     $query = $payload['query'];
 
@@ -29,7 +29,7 @@
     $result = $contactAPI->GetContact($query, 10);
 
     if ($result == false)
-        returnWithError("Couldn't find contact");
+        ResponseSender::sendError("Couldn't find contact");
     else
-        sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
+        ResponseSender::sendResult(json_encode($result, JSON_PRETTY_PRINT));
 ?>

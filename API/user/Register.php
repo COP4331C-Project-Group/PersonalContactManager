@@ -15,24 +15,24 @@
     $mysql = connectToDatabaseOrFail();
 
     if ($payload == null)
-        returnWithError("Payload is empty");
+        ResponseSender::sendError("Payload is empty");
     
     if ($mysql == false)
-        returnWithError("Database Connection error");
+        ResponseSender::sendError("Database Connection error");
     
     $user = User::Deserialize($payload);
 
     $userAPI = new UserAPI($mysql);
 
     if (userExists($user, $userAPI))
-        returnWithError("User alredy exists");
+        ResponseSender::sendError("User alredy exists");
         
     $result = $userAPI->CreateUser($user);
 
     if ($result == false)
-        returnWithError("Couldn't create user");
+        ResponseSender::sendError("Couldn't create user");
     else
-        sendResultInfoAsJson(json_encode($result, JSON_PRETTY_PRINT));
+        ResponseSender::sendResult(json_encode($result, JSON_PRETTY_PRINT));
 
 
     function userExists(object $user, UserAPI $userAPI) : bool

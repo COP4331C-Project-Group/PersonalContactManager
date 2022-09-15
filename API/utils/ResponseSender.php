@@ -1,14 +1,25 @@
 <?php
-    function sendResultInfoAsJson( $obj )
+    class ResponseSender
     {
-        header('Content-type: application/json');
-        echo $obj;
-    }
+        private function __construct()
+        {
+            
+        }
 
-    function returnWithError( $err )
-    {
-        $retValue = '{"error":"' . $err . '"}';
-        sendResultInfoAsJson( $retValue );
-        Exit();
-    }
+        public static function sendResult($obj)
+        {
+            header('Content-type: application/json');
+            echo $obj;
+            Exit();
+        }
+    
+        public static function sendError($err)
+        {
+            $retValue = '{"error":"' . $err . '"}';
+            ResponseSender::sendResult( $retValue );
+            Exit();
+        }
+    } 
+
+
 ?>

@@ -17,10 +17,10 @@
     $mysql = connectToDatabaseOrFail();
 
     if ($payload == null)
-        returnWithError("Payload is empty");
+        ResponseSender::sendError("Payload is empty");
     
     if ($mysql == false) 
-        returnWithError("Database connection error");
+        ResponseSender::sendError("Database connection error");
 
     $contact = Contact::Deserialize($payload);
 
@@ -29,7 +29,7 @@
     $result = $contactAPI->DeleteContact($contact);
 
     if ($result == false)
-        returnWithError("Couldn't delete contact");
+        ResponseSender::sendError("Couldn't delete contact");
     else
-        sendResultInfoAsJson("Success");
+        ResponseSender::sendResult("Success");
 ?>
