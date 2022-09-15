@@ -29,7 +29,7 @@
 
     $contactAPI = new ContactAPI($mysql);
 
-    $result = $contactAPI->GetContact($query, $contact->userID, 10);
+    $result = $contactAPI->GetContact($query, $contact->userID, $limit);
 
     if ($result === false)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Couldn't find contact");
