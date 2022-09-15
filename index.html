@@ -8,63 +8,58 @@
 -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <script type="text/javascript" src="js/logout.js"></script>
-    <script type="text/javascript" src="js/common.js"></script>
-    <script type="text/javascript" src="js/main.js" defer></script>
-    <link rel="stylesheet" href="css/main.css">
-    <title>PCM - My Contacts</title>
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+<head>
+  <script type="text/javascript" src="js/logout.js"></script>
+  <script type="text/javascript" src="js/common.js"></script>
+  <script type="text/javascript" src="js/main.js" defer></script>
+  <link rel="stylesheet" href="css/main.css">
+  <title>PCM - My Contacts</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 
-    <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', function() 
-      {
-        readCookie();
-      }, false);
-    </script>
-  </head>
-  <body id="newBody">
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() 
+    {
+      readCookie();
+    }, false);
+  </script>
+</head>
+<body id="newBody">
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" onclick="openUpdateProfileModal()" id="myBtn">Update profile</a>
+    <a href="javascript:void(0)" onclick="doLogout()" id="myBtn2">Log out</a>
+  </div>
 
-    <div id="mySidenav" class="sidenav">
-      <a href="javascript:void(0)" onclick="openUpdateProfileModal()" id="myBtn">Update profile</a>
-      <a href="javascript:void(0)" onclick="doLogout()" id="myBtn2">Log out</a>
+  <div id="main">
+    <span style="font-size:100px;cursor:pointer" onclick="toggleNav()">&#9881;</span>
+    <span style="font-size:100px;cursor:pointer" onclick="openCreateContactModal()">&plus;</span>
+    <span id="userName"></span><br/>
+    <span id="title">My Contacts</span>
+    <div id="contactDiv">
+      <input type="text" class="searchInput" placeholder="Search Contacts..." /><br />
+      <button type="button" id="registerButton" class="searchButton" onclick="doSearch();">Search</button>
+      <span id="loginResult"></span>
     </div>
+  </div>
 
-    <div id="main">
-      <span style="font-size:100px;cursor:pointer" onclick="toggleNav()">&#9881;</span>
-      <span style="font-size:100px;cursor:pointer" onclick="openCreateContactModal()">&plus;</span>
-
-      <span id="userName"></span><br/>
-      
-      <span id="title">My Contacts</span>
-      <div id="contactDiv">
-        <input type="text" class="searchInput" placeholder="Search Contacts..." /><br />
-  
-        <button type="button" id="registerButton" class="searchButton" onclick="doSearch();">Search</button>
-        
-        <span id="loginResult"></span>
-      </div>
+  <!-- Update profile Modal -->
+  <div id="createContactModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="closeCreateContact">&times;</span>
+      <p>This window shows all the options for creating a contact.</p><br>
+      <p>Try to share code between here and the edit contact modal (in contact.html).</p>
+      <button id="createBtn">Create contact</button>
     </div>
+  </div>
 
-    <!-- Update profile Modal -->
-    <div id="createContactModal" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content">
-        <span class="closeCreateContact">&times;</span>
-        <p>This window shows all the options for creating a contact.</p><br>
-        <p>Try to share code between here and the edit contact modal (in contact.html).</p>
-        <button id="createBtn">Create contact</button>
-      </div>
+  <!-- Update profile Modal -->
+  <div id="updateProfileModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="closeUpdateProfile">&times;</span>
+      <p>This window shows all the options for editing the profile.</p>
+      <button id="confirmBtn">Confirm update</button>
     </div>
-
-    <!-- Update profile Modal -->
-    <div id="updateProfileModal" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content">
-        <span class="closeUpdateProfile">&times;</span>
-        <p>This window shows all the options for editing the profile.</p>
-        <button id="confirmBtn">Confirm update</button>
-      </div>
-    </div>
-  </body>
+  </div>
+</body>
 </html>
