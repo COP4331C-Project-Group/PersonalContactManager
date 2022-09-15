@@ -14,7 +14,9 @@
 
     $contact = RequestReciever::recieveGET(new Contact());
     
-    $mysql = connectToDatabaseOrFail();
+    $database = new Database();
+
+    $mysql = $database->connectToDatabase();
 
     if ($contact == false)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Missing request body");

@@ -13,7 +13,9 @@
 
     $user = RequestReciever::recievePOST(new User());
 
-    $mysql = connectToDatabaseOrFail();
+    $database = new Database();
+
+    $mysql = $database->connectToDatabase();
 
     if ($user == false)
         ResponseSender::send(ResponseCodes::NO_CONTENT, "Missing request body");
