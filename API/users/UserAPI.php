@@ -24,7 +24,7 @@
          */
         public function CreateUser(object $user) : object|false
         {
-            if ($this->mysql->connect_error != null)
+            if ($this->mysql->connect_error !== null)
                 return false;
 
             $stmt = $this->mysql->prepare("INSERT INTO Users (ID, firstName, lastName, username, password, dateCreated) VALUES (DEFAULT, ?, ?, ?, ?, DEFAULT)");
@@ -52,7 +52,7 @@
          */
         private function GetUserByID($userID) : object|false
         {
-            if ($this->mysql->connect_error != null)
+            if ($this->mysql->connect_error !== null)
                 return false;
 
             $result = $this->mysql->query("SELECT * FROM Users WHERE ID=$userID");
@@ -76,7 +76,7 @@
          */
         public function GetUserByUsername(string $username) : object|false
         {
-            if ($this->mysql->connect_error != null)
+            if ($this->mysql->connect_error !== null)
                 return false;
 
             $result = $this->mysql->query("SELECT * FROM Users WHERE username='$username'");

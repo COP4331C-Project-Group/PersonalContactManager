@@ -23,7 +23,7 @@
          */
         public function CreateContact(object $contact) : object|false 
         {
-            if ($this->mysql->connect_error != null)
+            if ($this->mysql->connect_error !== null)
                 return false;
 
             $stmt = $this->mysql->prepare("INSERT INTO Contacts (ID, firstName, lastName, email, phone, userID) VALUES(DEFAULT, ?, ?, ?, ?, ?)");
@@ -52,7 +52,7 @@
          */
         private function GetContactByID($contactID) : object|false
         {
-            if ($this->mysql->connect_error != null)
+            if ($this->mysql->connect_error !== null)
                 return false;
 
             $result = $this->mysql->query("SELECT * FROM Contacts WHERE ID=$contactID");
@@ -78,7 +78,7 @@
          */
         public function GetContact(string $query, int $userID, int $numOfResults) : array|false
         {
-            if ($this->mysql->connect_error != null)
+            if ($this->mysql->connect_error !== null)
                 return false;
 
             $queryArray = explode(" ", $query);
@@ -117,7 +117,7 @@
          */
         public function UpdateContact(object $contact) : object|false
         {
-            if ($this->mysql->connect_error != null)
+            if ($this->mysql->connect_error !== null)
                 return false;
         
             $result = $this->mysql->query("UPDATE Contacts SET firstName='$contact->firstName', lastName='$contact->lastName', email='$contact->email', phone='$contact->phone' WHERE ID=$contact->ID");
@@ -136,7 +136,7 @@
          */
         public function DeleteContact(object $contact) : bool
         {
-            if ($this->mysql->connect_error != null)
+            if ($this->mysql->connect_error !== null)
                 return false;
             
             if ($this->GetContactByID($contact->ID) == false)
