@@ -10,7 +10,7 @@
 
         public static function receiveGET(JSONObject $containerClass) : JSONObject|false
         {
-            if ($_SERVER["REQUEST_METHOD"] != "GET")
+            if ($_SERVER["REQUEST_METHOD"] !== "GET")
                 return false;
 
             if (empty($_GET))
@@ -21,7 +21,7 @@
 
         public static function receivePOST(JSONObject $containerClass) : JSONObject|false
         {
-            if ($_SERVER["REQUEST_METHOD"] != "POST")
+            if ($_SERVER["REQUEST_METHOD"] !== "POST")
                 return false;
 
             if (empty($_POST))
