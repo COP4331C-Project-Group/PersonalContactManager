@@ -1,5 +1,6 @@
 <?php
-    class JSONObject
+    abstract class JSONObject
         extends JsonDeserializer
+        implements JsonSerializable
     {}
 ?>

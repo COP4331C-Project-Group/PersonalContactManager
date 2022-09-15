@@ -1,9 +1,7 @@
 <?php
     require_once __DIR__ . '/../utils/JsonUtils.php';
     
-    class User 
-        extends JSONObject
-        implements JsonSerializable 
+    class User extends JSONObject
     {
         public int $ID;
 
