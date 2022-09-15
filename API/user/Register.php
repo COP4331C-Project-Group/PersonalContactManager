@@ -32,7 +32,7 @@
     if ($result == false)
         ResponseSender::sendError("Couldn't create user");
     else
-        ResponseSender::sendResult(json_encode($result, JSON_PRETTY_PRINT));
+        ResponseSender::sendResult($result);
 
 
     function userExists(object $user, UserAPI $userAPI) : bool

@@ -6,18 +6,28 @@
             
         }
 
-        public static function sendResult($obj)
+        public static function sendResult($data, $message = NULL)
         {
-            header('Content-type: application/json');
-            echo $obj;
+            ResponseSender::sendResponse(200, $message, $data);
             Exit();
         }
     
         public static function sendError($err)
         {
-            $retValue = '{"error":"' . $err . '"}';
-            ResponseSender::sendResult( $retValue );
+            ResponseSender::sendResponse(400, $err, NULL);
             Exit();
+        }
+
+        private static function sendResponse(int $statusCode, $statusMessage, $data)
+        {
+            header("HTTP/1.1 ". $statusCode);
+
+            $response['status'] = $statusCode;
+            $response['status_message'] = $statusMessage;
+            $response['data'] = $data;
+
+            $jsonResponse = json_encode($response, JSON_PRETTY_PRINT);
+            echo $jsonResponse;
         }
     } 
 ?>

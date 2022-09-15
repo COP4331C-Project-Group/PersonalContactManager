@@ -32,5 +32,5 @@
     if ($result == false)
         ResponseSender::sendError("Couldn't find contact");
     else
-        ResponseSender::sendResult(json_encode($result, JSON_PRETTY_PRINT));
+        ResponseSender::sendResult($result);
 ?>

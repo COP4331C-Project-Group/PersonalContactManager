@@ -32,5 +32,5 @@
     if (strcmp($result->password, $user->password) != 0)
         ResponseSender::sendError("Incorrect password.");
     else
-        ResponseSender::sendResult(json_encode($result, JSON_PRETTY_PRINT));
+        ResponseSender::sendResult($result);
 ?>
