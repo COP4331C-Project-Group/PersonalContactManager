@@ -12,7 +12,7 @@
 
     require_once __DIR__ . '/../database/Database.php';
 
-    $contact = new Contact;
+    $contact = new Contact();
     $limit = 1;
 
     if (!RequestReceiver::receiveGET($contact, $limit))
