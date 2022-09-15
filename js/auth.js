@@ -28,7 +28,7 @@ function changeRegisterToLogin(){
   document.getElementById("title").innerHTML = "Log In";
 }
 
-function doLogin() {
+async function doLogin() {
   window.userID = 0;
   window.firstName = "";
   window.lastName = "";
@@ -54,43 +54,28 @@ function doLogin() {
   // var tmp = {username:username, password:hash};
   let jsonPayload = JSON.stringify( tmp );
 
-  let url = window.urlBase + '/Login' + window.extension;
-
-  let xhr = new XMLHttpRequest();
-  xhr.open("POST", url, true);
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try
-  {
-    xhr.onreadystatechange = function() 
-    {
-      if (this.readyState == 4 && this.status == 200) 
-      {
-        let jsonObject = JSON.parse( xhr.responseText );
-        window.userID = jsonObject.userID;
-
-        if( window.userID < 1 )
-        {       
-          document.getElementById("authResult").innerHTML = "User/Password combination incorrect";
-          return;
-        }
-
-        window.firstName = jsonObject.firstName;
-        window.lastName = jsonObject.lastName;
-
-        saveCookie();
-
-        window.location.href = "index.html";
-      }
-    };
-    xhr.send(jsonPayload);
+  var url = window.urlBase + '/users/Login' + window.extension + "?";
+  for ( var key in tmp ) {
+    url += key + "=" + tmp[key] + "&";
   }
-  catch(err)
-  {
-    document.getElementById("authResult").innerHTML = err.message;
+
+  let response = await fetch(url);
+  let responseJson = await response.json();
+  if (response.status == 200) {
+    window.userID = responseJson.data.userID;
+
+    window.firstName = responseJson.data.firstName;
+    window.lastName = responseJson.data.lastName;
+
+    saveCookie();
+
+    window.location.href = "index.html";
+  } else {
+    document.getElementById("authResult").innerHTML = responseJson.status_message;
   }
 }
 
-function doRegister() {
+async function doRegister() {
   window.userID = 0;
   window.firstName = "";
   window.lastName = "";
@@ -154,40 +139,38 @@ function doRegister() {
   // var tmp = {firstName:firstName, lastName:lastName, username:username, password:hash};
   let jsonPayload = JSON.stringify( tmp );
 
-  let url = window.urlBase + '/AddUser' + window.extension;
+  let url = window.urlBase + '/users/Register' + window.extension;
 
-  let xhr = new XMLHttpRequest();
-  xhr.open("POST", url, true);
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try
-  {
-    xhr.onreadystatechange = function() 
-    {
-      if (this.readyState == 4 && this.status == 200) 
-      {
-        let jsonObject = JSON.parse( xhr.responseText );
-        window.userID = jsonObject.userID;
-
-        // TODO: add handling here for the cases where username is taken, etc.
-        // Ask joey to make it clear what errors are expected.
-        if( window.userID < 1 )
-        {
-          document.getElementById("authResult").innerHTML = "User/Password combination incorrect";
-          return;
-        }
-
-        window.firstName = jsonObject.firstName;
-        window.lastName = jsonObject.lastName;
-
-        saveCookie();
-
-        window.location.href = "index.html";
-      }
-    };
-    xhr.send(jsonPayload);
+  var formData = new FormData()
+  for ( var key in tmp ) {
+    formData.append(key, tmp[key]);
   }
-  catch(err)
-  {
-    document.getElementById("authResult").innerHTML = err.message;
+  const requestOptions = {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json'
+          },
+          body: formData
+      };
+
+  let response = await fetch(url, requestOptions);
+  let responseJson = await response.json();
+  if (response.status == 201) {
+    window.userID = responseJson.data.userID;
+
+    if( window.userID < 1 )
+    {
+      document.getElementById("authResult").innerHTML = "User/Password combination incorrect";
+      return;
+    }
+
+    window.firstName = responseJson.data.firstName;
+    window.lastName = responseJson.data.lastName;
+
+    saveCookie();
+
+    window.location.href = "index.html";
+  } else {
+    document.getElementById("authResult").innerHTML = responseJson.status_message;
   }
 }
