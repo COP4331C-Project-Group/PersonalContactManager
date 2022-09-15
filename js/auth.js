@@ -14,11 +14,18 @@ loginPasswordString.addEventListener("keydown", function (e) {
   }
 });
 
-function changeLogintoRegister() {
+function changeLoginToRegister() {
   document.title = "PCM - Register";
   document.getElementById("registerDiv").style.zIndex = "1";
   document.getElementById("loginDiv").style.zIndex = "-1";
   document.getElementById("title").innerHTML = "Register";
+}
+
+function changeRegisterToLogin(){
+  document.title = "PCM - Log In";
+  document.getElementById("registerDiv").style.zIndex = "-1";
+  document.getElementById("loginDiv").style.zIndex = "1";
+  document.getElementById("title").innerHTML = "Log In";
 }
 
 function doLogin() {

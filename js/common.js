@@ -38,8 +38,8 @@ function readCookie()
 
   if( window.userID < 0 )
   {
-    if (window.location.pathname.split("/").pop() !== "loginregister.html") {
-      window.location.href = "loginregister.html";
+    if (window.location.pathname.split("/").pop() !== "auth.html") {
+      window.location.href = "auth.html";
     }
   }
   else

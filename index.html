@@ -33,12 +33,14 @@
     <div id="main">
       <span style="font-size:100px;cursor:pointer" onclick="toggleNav()">&#9881;</span>
       <span style="font-size:100px;cursor:pointer" onclick="openCreateContactModal()">&plus;</span>
+
+      <span id="userName"></span><br/>
       
       <span id="title">My Contacts</span>
       <div id="contactDiv">
         <input type="text" class="searchInput" placeholder="Search Contacts..." /><br />
   
-        <button type="button" id="registerButton" class="searchButton" onclick="doLogin();">Search</button>
+        <button type="button" id="registerButton" class="searchButton" onclick="doSearch();">Search</button>
         
         <span id="loginResult"></span>
       </div>

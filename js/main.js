@@ -46,8 +46,7 @@ window.onclick = function(event) {
 }
 
 function openUpdateProfileModal() {
-  //updateProfileModal.style.display = "block";
-  window.location.href="updateProfile.html"
+  updateProfileModal.style.display = "block";
 }
 
 var searchContactsBtn = document.getElementById("searchContactsBtn");

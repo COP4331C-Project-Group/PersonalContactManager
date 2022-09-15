@@ -133,9 +133,7 @@ body
 
 
 
-.searchInput:hover,
-.searchInput:active,
-.searchInput:focus{
+.searchInput:hover, .searchInput:active, .searchInput:focus{
   outline: none;
   border-bottom-color: #000000;
 }
@@ -158,7 +156,6 @@ body
   font-family: 'Ubuntu', sans-serif;
 }
 
-/* What occurs when you hover over the sign up button */
 .searchButton:hover{
   background-color: #ffffff;
   color: #000000;

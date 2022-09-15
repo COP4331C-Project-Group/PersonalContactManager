@@ -4,6 +4,6 @@ function doLogout()
   window.firstName = "";
   window.lastName = "";
   document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax";
-  window.location.href = "loginregister.html";
+  window.location.href = "auth.html";
 }
 
