@@ -19,11 +19,10 @@
     if ($contact == false)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Missing request body");
 
-    $query = $contact->userID 
-        . $contact->firstName 
-        . $contact->lastName
-        . $contact->phone
-        . $contact->email;
+    $query = !empty($contact->firstName) ? $contact->firstName : "";
+    $query = $query . (!empty($contact->lastName) ? " " . $contact->lastName : ""); 
+    $query = $query . (!empty($contact->phone) ? " " . $contact->phone : "");
+    $query = $query . (!empty($contact->email) ? " " . $contact->email : "");
 
     $contactAPI = new ContactAPI($mysql);
 
