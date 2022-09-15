@@ -11,7 +11,7 @@
 
     require_once __DIR__ . '/../database/Database.php';
 
-    $payload = getRequestInfo();
+    $payload = RequestReciever::recievePayload();
 
     // Create connection
     $mysql = connectToDatabaseOrFail();

@@ -1,6 +1,14 @@
 <?php
-    function getRequestInfo()
+    class RequestReciever
     {
-        return json_decode(file_get_contents('php://input'), true);
+        private function __construct()
+        {
+            
+        }
+
+        public static function recievePayload()
+        {
+            return json_decode(file_get_contents('php://input'), true);
+        }
     }
 ?>
