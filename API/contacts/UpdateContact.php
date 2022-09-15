@@ -11,23 +11,19 @@
 
     require_once __DIR__ . '/../database/Database.php';
 
-    $contact = RequestReciever::recieveGET(new Contact());
+    $contact = RequestReciever::recievePOST(new Contact());
 
-    // Create connection
     $mysql = connectToDatabaseOrFail();
 
     if ($contact == false)
-        ResponseSender::sendError("Missing request body");
+        ResponseSender::send(ResponseCodes::NO_CONTENT, "Missing request body");
     
-    if ($mysql == false)
-        ResponseSender::sendError("Database Connection error");
-
     $contactAPI = new ContactAPI($mysql);
 
     $result = $contactAPI->UpdateContact($contact);
 
     if ($result == false)
-        ResponseSender::sendError("Couldn't update contact");
+        ResponseSender::send(ResponseCodes::NOT_FOUND, "Contact doesn't exist");
     else
-        ResponseSender::sendResult($result);
+        ResponseSender::send(ResponseCodes::OK, NULL, $result);
 ?>

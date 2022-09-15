@@ -6,15 +6,9 @@
             
         }
 
-        public static function sendResult($data, $message = NULL)
+        public static function send(ResponseCodes $response, $message = NULL, $data = NULL,)
         {
-            ResponseSender::sendResponse(200, $message, $data);
-            Exit();
-        }
-    
-        public static function sendError($err)
-        {
-            ResponseSender::sendResponse(400, $err, NULL);
+            ResponseSender::sendResponse($response->value, $message, $data);
             Exit();
         }
 

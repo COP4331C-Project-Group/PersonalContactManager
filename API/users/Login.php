@@ -5,6 +5,7 @@
     require_once __DIR__ . '/../utils/JsonUtils.php';
     require_once __DIR__ . '/../utils/ResponseSender.php';
     require_once __DIR__ . '/../utils/RequestReciever.php';
+    require_once __DIR__ . '/../utils/ResponseCodes.php';
 
     require_once __DIR__ . '/UserAPI.php';
     
@@ -15,20 +16,17 @@
     $mysql = connectToDatabaseOrFail();
 
     if ($user == false)
-        ResponseSender::sendError("Missing request body");
+        ResponseSender::send(ResponseCodes::NOT_FOUND, "Missing request body");
     
-    if ($mysql == false)
-        ResponseSender::sendError("Database Connection error");
-
     $userAPI = new UserAPI($mysql);
 
     $result = $userAPI->GetUserByUsername($user->username);
 
     if ($result == false)
-        ResponseSender::sendError("User doesn't exist.");
+        ResponseSender::send(ResponseCodes::NOT_FOUND, "User doesn't exist.");
 
     if (strcmp($result->password, $user->password) != 0)
-        ResponseSender::sendError("Incorrect password.");
+        ResponseSender::send(ResponseCodes::NOT_FOUND, "Incorrect password.");
     else
-        ResponseSender::sendResult($result);
+        ResponseSender::send(ResponseCodes::OK, NULL, $result);
 ?>

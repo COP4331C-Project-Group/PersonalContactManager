@@ -16,17 +16,14 @@
     $mysql = connectToDatabaseOrFail();
 
     if ($contact == false)
-        ResponseSender::sendError("Payload is empty");
-    
-    if ($mysql == false) 
-        ResponseSender::sendError("Database connection error");
+        ResponseSender::send(ResponseCodes::NO_CONTENT, "Missing request body");
     
     $contactAPI = new ContactAPI($mysql);
 
     $result = $contactAPI->CreateContact($contact);
 
     if ($result == false)
-        ResponseSender::sendError("Couldn't create contact");
+        ResponseSender::send(ResponseCodes::CONFLICT, "Couldn't create contact");
     else
-        ResponseSender::sendResult($result);
+        ResponseSender::send(ResponseCodes::CREATED, NULL, $result);
 ?>

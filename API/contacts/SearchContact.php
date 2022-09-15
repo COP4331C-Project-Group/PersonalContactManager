@@ -16,10 +16,7 @@
     $mysql = connectToDatabaseOrFail();
 
     if ($contact == false)
-        ResponseSender::sendError("Missing request body");
-    
-    if ($mysql == false)
-        ResponseSender::sendError("Database Connection error");
+        ResponseSender::send(ResponseCodes::NOT_FOUND, "Missing request body");
 
     $query = $contact->userID 
         . $contact->firstName 
@@ -32,7 +29,7 @@
     $result = $contactAPI->GetContact($query, $contact->userID, 10);
 
     if ($result == false)
-        ResponseSender::sendError("Couldn't find contact");
+        ResponseSender::send(ResponseCodes::NOT_FOUND, "Couldn't find contact");
     else
-        ResponseSender::sendResult($result);
+        ResponseSender::send(ResponseCodes::OK, NULL, $result);
 ?>

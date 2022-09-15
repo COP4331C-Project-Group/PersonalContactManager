@@ -5,6 +5,7 @@
     require_once __DIR__ . '/../utils/JsonUtils.php';
     require_once __DIR__ . '/../utils/ResponseSender.php';
     require_once __DIR__ . '/../utils/RequestReciever.php';
+    require_once __DIR__ . '/../utils/ResponseCodes.php';
 
     require_once __DIR__ . '/UserAPI.php';
     
@@ -15,22 +16,19 @@
     $mysql = connectToDatabaseOrFail();
 
     if ($user == false)
-        ResponseSender::sendError("Missing request body");
-    
-    if ($mysql == false)
-        ResponseSender::sendError("Database Connection error");
+        ResponseSender::send(ResponseCodes::NO_CONTENT, "Missing request body");
     
     $userAPI = new UserAPI($mysql);
 
     if (userExists($user, $userAPI))
-        ResponseSender::sendError("User alredy exists");
+        ResponseSender::send(ResponseCodes::CONFLICT, "User alredy exists");
         
     $result = $userAPI->CreateUser($user);
 
     if ($result == false)
-        ResponseSender::sendError("Couldn't create user");
+        ResponseSender::send(ResponseCodes::CONFLICT, "Couldn't create user");
     else
-        ResponseSender::sendResult($result);
+        ResponseSender::send(ResponseCodes::CREATED, NULL, $result);
 
     function userExists(object $user, UserAPI $userAPI) : bool
     {
