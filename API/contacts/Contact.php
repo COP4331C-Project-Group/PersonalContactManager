@@ -2,7 +2,7 @@
     require_once __DIR__ . '/../utils/JsonUtils.php';
 
     class Contact
-        extends JsonDeserializer
+        extends JSONObject
         implements JsonSerializable  
     {
         public int $ID;

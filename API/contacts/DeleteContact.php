@@ -8,28 +8,25 @@
 
     require_once __DIR__ . '/Contact.php';
     require_once __DIR__ . '/ContactAPI.php';
-
+    
     require_once __DIR__ . '/../database/Database.php';
 
-    $payload = RequestReciever::recievePayload();
+    $contact = RequestReciever::recieveGET(new Contact());
 
-    // Create connection
     $mysql = connectToDatabaseOrFail();
 
-    if ($payload == null)
+    if ($contact == false)
         ResponseSender::sendError("Payload is empty");
     
-    if ($mysql == false)
-        ResponseSender::sendError("Database Connection error");
-
-    $contact = Contact::Deserialize($payload);
+    if ($mysql == false) 
+        ResponseSender::sendError("Database connection error");
 
     $contactAPI = new ContactAPI($mysql);
 
-    $result = $contactAPI->UpdateContact($contact);
+    $result = $contactAPI->DeleteContact($contact);
 
     if ($result == false)
-        ResponseSender::sendError("Couldn't update contact");
+        ResponseSender::sendError("Couldn't delete contact");
     else
-        ResponseSender::sendResult($result);
+        ResponseSender::sendResult("Success");
 ?>

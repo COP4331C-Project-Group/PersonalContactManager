@@ -10,38 +10,25 @@
     
     require_once __DIR__ . '/../database/Database.php';
 
-    $payload = RequestReciever::recievePayload();
-
+    $user = RequestReciever::recieveGET(new User());
+     
     $mysql = connectToDatabaseOrFail();
 
-    if ($payload == null)
+    if ($user == false)
         ResponseSender::sendError("Payload is empty");
     
     if ($mysql == false)
         ResponseSender::sendError("Database Connection error");
-    
-    $user = User::Deserialize($payload);
 
     $userAPI = new UserAPI($mysql);
 
-    if (userExists($user, $userAPI))
-        ResponseSender::sendError("User alredy exists");
-        
-    $result = $userAPI->CreateUser($user);
+    $result = $userAPI->GetUserByUsername($user->username);
 
     if ($result == false)
-        ResponseSender::sendError("Couldn't create user");
+        ResponseSender::sendError("User doesn't exist.");
+
+    if (strcmp($result->password, $user->password) != 0)
+        ResponseSender::sendError("Incorrect password.");
     else
         ResponseSender::sendResult($result);
-
-
-    function userExists(object $user, UserAPI $userAPI) : bool
-    {
-        $result = $userAPI->GetUserByUsername($user->username);
-        
-        if (is_object($result))
-            return true;
-
-        return false;
-    }
 ?>

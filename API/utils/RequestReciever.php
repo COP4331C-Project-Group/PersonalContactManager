@@ -1,4 +1,6 @@
 <?php
+    require_once __DIR__ . '/../JSONObject.php';
+
     class RequestReciever
     {
         private function __construct()
@@ -6,9 +8,12 @@
             
         }
 
-        public static function recievePayload()
+        public static function recieveGET(JSONObject $containerClass) : JSONObject|false
         {
-            return json_decode(file_get_contents('php://input'), true);
+            if (empty($_GET))
+                return false;
+            
+            return $containerClass::Deserialize($_GET);
         }
     }
 ?>

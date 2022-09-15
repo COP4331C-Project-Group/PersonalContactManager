@@ -6,31 +6,28 @@
     require_once __DIR__ . '/../utils/ResponseSender.php';
     require_once __DIR__ . '/../utils/RequestReciever.php';
 
-    require_once __DIR__ . '/UserAPI.php';
-    
+    require_once __DIR__ . '/Contact.php';
+    require_once __DIR__ . '/ContactAPI.php';
+
     require_once __DIR__ . '/../database/Database.php';
 
-    $payload = RequestReciever::recievePayload();
-     
+    $contact = RequestReciever::recieveGET(new Contact());
+
+    // Create connection
     $mysql = connectToDatabaseOrFail();
 
-    if ($payload == null)
+    if ($contact == false)
         ResponseSender::sendError("Payload is empty");
     
     if ($mysql == false)
         ResponseSender::sendError("Database Connection error");
 
-    $user = User::Deserialize($payload);
+    $contactAPI = new ContactAPI($mysql);
 
-    $userAPI = new UserAPI($mysql);
-
-    $result = $userAPI->GetUserByUsername($user->username);
+    $result = $contactAPI->UpdateContact($contact);
 
     if ($result == false)
-        ResponseSender::sendError("User doesn't exist.");
-
-    if (strcmp($result->password, $user->password) != 0)
-        ResponseSender::sendError("Incorrect password.");
+        ResponseSender::sendError("Couldn't update contact");
     else
         ResponseSender::sendResult($result);
 ?>

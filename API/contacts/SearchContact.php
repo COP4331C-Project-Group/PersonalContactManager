@@ -8,28 +8,31 @@
 
     require_once __DIR__ . '/Contact.php';
     require_once __DIR__ . '/ContactAPI.php';
-    
+
     require_once __DIR__ . '/../database/Database.php';
 
-    $payload = RequestReciever::recievePayload();
+    $contact = RequestReciever::recieveGET(new Contact());
     
-    // Create connection
     $mysql = connectToDatabaseOrFail();
 
-    if ($payload == null)
+    if ($contact == false)
         ResponseSender::sendError("Payload is empty");
     
-    if ($mysql == false) 
-        ResponseSender::sendError("Database connection error");
-    
-    $contact = Contact::Deserialize($payload);
+    if ($mysql == false)
+        ResponseSender::sendError("Database Connection error");
+
+    $query = $contact->userID 
+        . $contact->firstName 
+        . $contact->lastName
+        . $contact->phone
+        . $contact->email;
 
     $contactAPI = new ContactAPI($mysql);
 
-    $result = $contactAPI->CreateContact($contact);
+    $result = $contactAPI->GetContact($query, $contact->userID, 10);
 
     if ($result == false)
-        ResponseSender::sendError("Couldn't create contact");
+        ResponseSender::sendError("Couldn't find contact");
     else
         ResponseSender::sendResult($result);
 ?>
