@@ -158,12 +158,6 @@ async function doRegister() {
   if (response.status == 201) {
     window.userID = responseJson.data.userID;
 
-    if( window.userID < 1 )
-    {
-      document.getElementById("authResult").innerHTML = "User/Password combination incorrect";
-      return;
-    }
-
     window.firstName = responseJson.data.firstName;
     window.lastName = responseJson.data.lastName;
 
