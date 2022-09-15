@@ -4,7 +4,7 @@
 
     require_once __DIR__ . '/../utils/JsonUtils.php';
     require_once __DIR__ . '/../utils/ResponseSender.php';
-    require_once __DIR__ . '/../utils/RequestReciever.php';
+    require_once __DIR__ . '/../utils/RequestReceiver.php';
     require_once __DIR__ . '/../utils/ResponseCodes.php';
 
     require_once __DIR__ . '/Contact.php';
@@ -12,7 +12,7 @@
 
     require_once __DIR__ . '/../database/Database.php';
 
-    $contact = RequestReciever::recieveGET(new Contact());
+    $contact = RequestReceiver::recieveGET(new Contact());
     
     $database = new Database();
 

@@ -1,7 +1,7 @@
 <?php
     require_once __DIR__ . '/../JSONObject.php';
 
-    class RequestReciever
+    class RequestReceiver
     {
         private function __construct()
         {
