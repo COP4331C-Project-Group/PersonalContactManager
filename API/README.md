@@ -15,7 +15,7 @@ After that, you need to restart your apache server for changes to take effect.
 
 For testing purposes, I recommend using Postman because it's easy to use and allows you to test everything you want in a non-complicated way.
 
-Before I provide examples of request formats for the aforementioned endpoints, I have to mention the difference between GET and POST requests. 
+Before I provide examples of request formats for the endpoints, I have to mention the difference between GET and POST requests. 
 
 A GET request uses the "query" format to send a request to the API. A query usually starts after the "?" sign in the URL. For example, "localhost.com/API/search.php?searchParameter=test" can be used to send a GET request to the search.php endpoint with a single parameter "searchParameter" which has a value of "test".
 
