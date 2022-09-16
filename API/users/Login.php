@@ -7,7 +7,8 @@
     require_once __DIR__ . '/../utils/RequestReceiver.php';
     require_once __DIR__ . '/../utils/ResponseCodes.php';
 
-    require_once __DIR__ . '/UserAPI.php';
+    require_once __DIR__ . '/model/User.php';
+    require_once __DIR__ . '/model/UserAPI.php';
     
     require_once __DIR__ . '/../database/Database.php';
 

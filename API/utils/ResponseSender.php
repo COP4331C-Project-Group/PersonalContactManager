@@ -1,4 +1,6 @@
 <?php
+    require_once __DIR__ . '/ResponseCodes.php';
+
     class ResponseSender
     {
         private function __construct()
