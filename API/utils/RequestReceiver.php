@@ -16,7 +16,9 @@
             if (empty($_GET))
                 return false;
             
-            $limit = $_GET["limit"];
+            if (isset($_GET["limit"]))
+                $limit = $_GET["limit"];
+                
             $containerClass = $containerClass::Deserialize($_GET);
 
             return true;
