@@ -1,13 +1,11 @@
 <?php
-    ini_set('display_errors', 1);
-    ini_set('error_reporting', E_ALL);
-
     require_once __DIR__ . '/../utils/JsonUtils.php';
     require_once __DIR__ . '/../utils/ResponseSender.php';
     require_once __DIR__ . '/../utils/RequestReceiver.php';
     require_once __DIR__ . '/../utils/ResponseCodes.php';
 
-    require_once __DIR__ . '/UserAPI.php';
+    require_once __DIR__ . '/model/User.php';
+    require_once __DIR__ . '/model/UserAPI.php';
     
     require_once __DIR__ . '/../database/Database.php';
 
