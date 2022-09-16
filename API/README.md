@@ -29,7 +29,7 @@ In Postman, you can send POST requests by selecting "POST" as the type of the re
 
 ![](https://i.imgur.com/MRdAcTq.png)
 
-### Your API supports several public endpoints:
+### API supports several public endpoints:
 
 1. Login.php (GET)
 2. Register.php (POST)
