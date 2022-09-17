@@ -8,6 +8,6 @@
         case CREATED = 201;
         case METHOD_NOT_ALLOWED = 405;
         case BAD_REQUEST = 400;
-        case FORBIDDEN = 403
+        case FORBIDDEN = 403;
     }
 ?>
