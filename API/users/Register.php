@@ -12,7 +12,7 @@
     $user = new User();
 
     if (!RequestReceiver::receivePOST($user))
-        ResponseSender::send(ResponseCodes::NO_CONTENT, "Missing request body");
+        ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
 
     $database = new Database();
 

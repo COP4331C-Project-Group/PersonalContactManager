@@ -12,7 +12,7 @@
     $contact = new Contact();
 
     if (!RequestReceiver::receivePOST($contact))
-        ResponseSender::send(ResponseCodes::NO_CONTENT, "Missing request body");
+        ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
     
     $database = new Database();
 

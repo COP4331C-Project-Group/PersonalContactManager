@@ -12,7 +12,7 @@
     $user = new User(); 
 
     if (!RequestReceiver::receiveGET($user))
-        ResponseSender::send(ResponseCodes::NOT_FOUND, "Missing request body");
+        ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
 
     $database = new Database();
 
@@ -26,7 +26,7 @@
         ResponseSender::send(ResponseCodes::NOT_FOUND, "User doesn't exist.");
 
     if (strcmp($result->password, $user->password) != 0)
-        ResponseSender::send(ResponseCodes::NOT_FOUND, "Incorrect password.");
+        ResponseSender::send(ResponseCodes::FORBIDDEN, "Incorrect password.");
     else
         ResponseSender::send(ResponseCodes::OK, NULL, $result);
 ?>
