@@ -26,14 +26,19 @@
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p>This window shows all the options for editing the contact.</p><br>
-        <p>Try to share code between here and the create contact modal (in index.html).</p>
-        <button id="confirmBtn">Confirm update</button>
+        <p>
+          This window shows all the options for editing the contact.
+          <br>
+          Try to share code between here and the create contact modal (in index.html).
+        </p>
+        <span id="contact-form" class="contact-form"></span>
+        <button id="confirmBtn" class="confirmBtn">Confirm update</button>
+        <span id="editError"></span>
       </div>
     </div>
 
     <!-- Delete Contact button -->
-    <button onclick="confirmDeleteContact()">Delete</button>
+    <button onclick="doDeleteContact()">Delete</button>
 
   </center>
 </body>
