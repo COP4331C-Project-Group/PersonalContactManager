@@ -35,9 +35,13 @@
     <span id="userName"></span><br/>
     <span id="title">My Contacts</span>
     <div id="contactDiv">
-      <input type="text" class="searchInput" placeholder="Search Contacts..." /><br />
-      <button type="button" id="registerButton" class="searchButton" onclick="doSearch();">Search</button>
-      <span id="loginResult"></span>
+      <!-- TODO: Optionally add a button to clear the search box -->
+      <input type="text" id="contactString" class="searchInput" placeholder="Search Contacts..." /><br />
+      <!-- TODO: Add dropdown for limit of # contacts to search -->
+      <button type="button" id="searchContactsButton" class="searchButton" onclick="doSearch();">Search</button>
+    </div>
+    <div id="searchResultDiv">
+      <span id="searchResult"></span>
     </div>
   </div>
 

@@ -49,21 +49,46 @@ function openUpdateProfileModal() {
   updateProfileModal.style.display = "block";
 }
 
-var searchContactsBtn = document.getElementById("searchContactsBtn");
-searchContactsBtn.addEventListener("click", searchContacts);
+var searchContactsButton = document.getElementById("searchContactsButton");
+searchContactsButton.addEventListener("click", doSearch);
 
 var contactString = document.getElementById("contactString");
 contactString.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {  //checks whether the pressed key is "Enter"
-      searchContacts(e.target.value);
+      doSearch();
   }
 });
 
-function searchContacts(text) {
-  // TODO: implement this function
-  alert("Searching contacts is not yet implemented...");
-}
+async function doSearch() {
+  let searchQuery = document.getElementById("contactString").value;
+  if (searchQuery.length === 0) {
+    document.getElementById("searchResult").innerHTML = "Received empty search string. :(";
+    return;
+  }
 
+  document.getElementById("searchResult").innerHTML = "";
+
+  // TODO: consider updating endpoint to take a single query string instead of
+  // sending all fields populated with same value.
+  const [status, responseJson] = await getData(
+    window.urlBase + '/contacts/SearchContact' + window.extension + "?",
+    {
+      firstName:searchQuery,
+      lastName:searchQuery,
+      email:searchQuery,
+      phone:searchQuery,
+      userID:window.userID,
+      limit:100,
+    });
+
+  if (status == 200) {
+    document.getElementById("searchResult").innerHTML = "Found " + responseJson.data.length + " contacts matching " + searchQuery;
+    // TODO: update display to show contacts using responseJson.data
+    console.log(JSON.stringify(responseJson.data))
+  } else {
+    document.getElementById("searchResult").innerHTML = responseJson.status_message;
+  }
+}
 
 // Get the createContactModal
 var createContactModal = document.getElementById("createContactModal");
