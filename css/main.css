@@ -193,7 +193,7 @@ body {
   background-color: white;
 }
 
-#searchResult, #createResult {
+#searchError, #createResult {
     position: relative;
     z-index: 2;
     display: inline-block;

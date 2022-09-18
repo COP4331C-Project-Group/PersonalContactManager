@@ -55,11 +55,11 @@ contactString.addEventListener("keydown", function (e) {
 async function doSearch() {
   let searchQuery = document.getElementById("contactString").value;
   if (searchQuery.length === 0) {
-    document.getElementById("searchResult").innerHTML = "Received empty search string. :(";
+    document.getElementById("searchError").innerHTML = "Received empty search string. :(";
     return;
   }
 
-  document.getElementById("searchResult").innerHTML = "";
+  document.getElementById("searchError").innerHTML = "";
 
   // TODO: consider updating endpoint to take a single query string instead of
   // sending all fields populated with same value.
@@ -75,11 +75,11 @@ async function doSearch() {
     });
 
   if (status == 200) {
-    document.getElementById("searchResult").innerHTML = "Found " + responseJson.data.length + " contacts matching " + searchQuery;
+    document.getElementById("searchError").innerHTML = "Found " + responseJson.data.length + " contacts matching " + searchQuery;
     // TODO: update display to show contacts using responseJson.data
     console.log(JSON.stringify(responseJson.data))
   } else {
-    document.getElementById("searchResult").innerHTML = responseJson.status_message;
+    document.getElementById("searchError").innerHTML = responseJson.status_message;
   }
 }
 
