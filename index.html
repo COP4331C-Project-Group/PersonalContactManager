@@ -14,7 +14,7 @@
   <script type="text/javascript" src="js/main.js" defer></script>
   <link rel="stylesheet" href="css/main.css">
   <title>PCM - My Contacts</title>
-  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() 
@@ -41,7 +41,10 @@
       <button type="button" id="searchContactsButton" class="searchButton" onclick="doSearch();">Search</button>
 
       <br/><br/>
-      <span id="searchResult"></span>
+      <span id="searchError"></span>
+      <span id="searchResult">
+        <div id="individualContactDiv"></div>
+      </span>
     </div>
   </div>
 
