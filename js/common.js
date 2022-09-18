@@ -76,6 +76,9 @@ async function postData(url, jsonParams) {
       };
 
   let response = await fetch(url, requestOptions);
+  if (!response.ok) {
+    return [response.status, null];
+  }
   let responseJson = await response.json();
   return [response.status, responseJson];
 }
