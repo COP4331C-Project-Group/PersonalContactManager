@@ -52,6 +52,25 @@ contactString.addEventListener("keydown", function (e) {
   }
 });
 
+function createContactDiv(contact) {
+  // TODO: update this to have nice styling
+  return JSON.stringify(contact);
+}
+
+function loadContactPage(contactID) {
+  const contacts = JSON.parse(localStorage.getItem('cachedContacts'));
+  for (const contact of contacts) {
+    if (contact.ID === contactID) {
+      // console.log("contact: " + JSON.stringify(contact));
+      // TODO: see if this gets weird when you have multiple contact pages open.
+      localStorage.setItem("individualContact", JSON.stringify(contact));
+      window.location.href = "contact.html";
+      return;
+    }
+  }
+  document.getElementById("searchError").innerHTML = "Failed to load contact page. :(";
+}
+
 async function doSearch() {
   let searchQuery = document.getElementById("contactString").value;
   if (searchQuery.length === 0) {
@@ -74,10 +93,14 @@ async function doSearch() {
       limit:100,
     });
 
+  localStorage.setItem("cachedContacts", JSON.stringify(responseJson.data));
+
   if (status == 200) {
-    document.getElementById("searchError").innerHTML = "Found " + responseJson.data.length + " contacts matching " + searchQuery;
-    // TODO: update display to show contacts using responseJson.data
-    console.log(JSON.stringify(responseJson.data))
+    searchResultDiv = document.getElementById("searchResult");
+    searchResultDiv.innerHTML = "Found " + responseJson.data.length + " contacts matching " + searchQuery;
+    for ( var contact of responseJson.data ) {
+      searchResultDiv.innerHTML += "<br/><a href=javascript:loadContactPage(" + contact.ID + ")>" + createContactDiv(contact) + "</a>";
+    }
   } else {
     document.getElementById("searchError").innerHTML = responseJson.status_message;
   }

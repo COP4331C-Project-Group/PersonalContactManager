@@ -40,3 +40,9 @@ confirmBtn.onclick = function() {
   // TODO: update this to actually update the contact
   editContactModal.style.display = "none";
 }
+
+function displayContact() {
+  const contact = JSON.parse(localStorage.getItem('individualContact'));
+  contactSpan = document.getElementById("contactSpan");
+  contactSpan.innerHTML = "<h1>" + contact.firstName + " " + contact.lastName + "</h1><h2>Phone number: " + contact.phone + "<br/>Email: " + contact.email + "</h2>";
+}

@@ -10,13 +10,13 @@
   <script type="text/javascript" src="js/contact.js" defer></script>
   <link rel="stylesheet" href="css/contact.css">
   <title>PCM - *insert contact name here*</title>
-  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
-<body>
+<body onload="displayContact()">
   <center>
-    <h1> *insert contact name here* </h1>
     <img src="images/default-profile-pic.jpg" alt="Default">
     <br>
+    <span id="contactSpan"></span>
 
     <!-- Trigger/Open The Edit Contact Modal -->
     <button id="openEditContactBtn">Edit Contact</button>
