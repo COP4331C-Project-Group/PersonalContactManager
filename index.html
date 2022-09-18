@@ -39,20 +39,25 @@
       <input type="text" id="contactString" class="searchInput" placeholder="Search Contacts..." /><br />
       <!-- TODO: Add dropdown for limit of # contacts to search -->
       <button type="button" id="searchContactsButton" class="searchButton" onclick="doSearch();">Search</button>
-    </div>
-    <div id="searchResultDiv">
+
+      <br/><br/>
       <span id="searchResult"></span>
     </div>
   </div>
 
-  <!-- Update profile Modal -->
+  <!-- Create contact Modal -->
   <div id="createContactModal" class="modal">
     <!-- Modal content -->
     <div class="modal-content">
       <span class="closeCreateContact">&times;</span>
       <p>This window shows all the options for creating a contact.</p><br>
       <p>Try to share code between here and the edit contact modal (in contact.html).</p>
-      <button id="createBtn">Create contact</button>
+      <input type="text" id="firstName" class="na" placeholder="First" /><br />
+      <input type="text" id="lastName" class="na" placeholder="Last" /><br />
+      <input type="tel" id="phone" class="na" placeholder="Phone number" /><br />
+      <input type="text" id="email" class="na" placeholder="Email" /><br />
+      <button id="createContactButton" onclick="doCreateContact();">Create contact</button><br/>
+      <span id="createResult"></span>
     </div>
   </div>
 
