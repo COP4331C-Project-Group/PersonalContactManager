@@ -31,7 +31,7 @@
 
   <div id="main">
     <span style="font-size:100px;cursor:pointer" onclick="toggleNav()">&#9881;</span>
-    <span style="font-size:100px;cursor:pointer" onclick="openCreateContactModal()">&plus;</span>
+    <span style="font-size:100px;cursor:pointer;float:right" onclick="openCreateContactModal()">&plus;</span>
     <span id="userName"></span><br/>
     <span id="title">My Contacts</span>
     <div id="contactDiv">
@@ -52,14 +52,14 @@
   <div id="createContactModal" class="modal">
     <!-- Modal content -->
     <div class="modal-content">
+      <div id="modal-title">Add Contact</div>
       <span class="closeCreateContact">&times;</span>
-      <p>This window shows all the options for creating a contact.</p><br>
-      <p>Try to share code between here and the edit contact modal (in contact.html).</p>
-      <input type="text" id="firstName" class="na" placeholder="First" /><br />
-      <input type="text" id="lastName" class="na" placeholder="Last" /><br />
-      <input type="tel" id="phone" class="na" placeholder="Phone number" /><br />
-      <input type="text" id="email" class="na" placeholder="Email" /><br />
-      <button id="createContactButton" onclick="doCreateContact();">Create contact</button><br/>
+      <img src="images/default-profile-pic.jpg" alt="Default">
+      <input type="text" id="firstName" class="addContactFirstNameInput" placeholder="First Name" /><br />
+      <input type="text" id="lastName" class="addContactLastNameInput" placeholder="Last Name" /><br />
+      <input type="text" id="phone" class="phoneNumberInput" placeholder="Phone Number" /><br />
+      <input type="text" id="email" class="emailInput" placeholder="Email Address" /><br />
+      <button type="button" id="createContactButton" class="createButton" onclick="doCreateContact();">Create</button>
       <span id="createResult"></span>
     </div>
   </div>
@@ -68,9 +68,14 @@
   <div id="updateProfileModal" class="modal">
     <!-- Modal content -->
     <div class="modal-content">
+      <div id="modal-title">Update Profile</div>
       <span class="closeUpdateProfile">&times;</span>
-      <p>This window shows all the options for editing the profile.</p>
-      <button id="confirmBtn">Confirm update</button>
+      <img src="images/default-profile-pic.jpg" alt="Default">
+      <input type="text" id="updateUserFirstName" class="addContactFirstNameInput" value=firstName /><br />
+      <input type="text" id="updateUserLastName" class="addContactLastNameInput" value=lastName /><br />
+      <input type="text" id="updateUserPhone" class="phoneNumberInput" value=phone /><br />
+      <input type="text" id="updateUserEmail" class="emailInput" value=email /><br />
+      <button type="button" id="confirmBtn" class="createButton" onclick="doUpdateContact();">Update</button>
     </div>
   </div>
 </body>
