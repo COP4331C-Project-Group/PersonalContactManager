@@ -40,3 +40,16 @@ img {
   text-decoration: none;
   cursor: pointer;
 }
+
+#editError {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    font-size: 0.8em;
+    width: 90%;
+    text-align: center;
+    margin-left: 5%;
+    margin-bottom: 2%;
+    font-family: 'Ubuntu', sans-serif;
+    color: #95060a;
+}
