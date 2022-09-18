@@ -79,3 +79,50 @@ async function postData(url, jsonParams) {
   let responseJson = await response.json();
   return [response.status, responseJson];
 }
+
+// Taken from SO: https://stackoverflow.com/a/9204568
+function isValidEmail(email) {
+  var re = /\S+@\S+\.\S+/;
+  return re.test(email);
+};
+
+// Taken from https://www.w3resource.com/javascript/form/phone-no-validation.php
+// Expects phone numbers of the form
+// XXX-XXX-XXXX
+// XXX.XXX.XXXX
+// XXX XXX XXXX
+function isValidPhoneNumber(phone) {
+  if (phone.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)) {
+    return true;
+  } else {
+    return false;
+  }
+  return;
+}
+
+function validateContactForm(firstName, lastName, phone, email) {
+  console.log("validating contact form")
+  if (firstName.length === 0) {
+    document.getElementById("createResult").innerHTML = "Must provide a first name. :(";
+    return false;
+  }
+
+  if (lastName.length === 0) {
+    document.getElementById("createResult").innerHTML = "Must provide a last name. :(";
+    return false;
+  }
+
+  // If phone number is nonempty, make sure it is valid
+  if (phone.length !== 0 && !isValidPhoneNumber(phone, "us")) {
+    document.getElementById("createResult").innerHTML = "Must provide a valid us-based phone number with format: " + "XXX-XXX-XXXX or XXX.XXX.XXXX or XXX XXX XXXX";
+    return false;
+  }
+
+  // If email is nonempty, make sure it is valid
+  if (email.length !== 0 && !isValidEmail(email)) {
+    document.getElementById("createResult").innerHTML = "Must provide a valid email, in the format user@domain.extension.";
+    return false;
+  }
+
+  return true;
+}
