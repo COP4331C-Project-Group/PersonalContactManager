@@ -130,11 +130,13 @@ function validateCreateContactForm(firstName, lastName, phone, email) {
     return false;
   }
 
+  // If phone number is nonempty, make sure it is valid
   if (phone.length !== 0 && !isValidPhoneNumber(phone, "us")) {
     document.getElementById("createResult").innerHTML = "Must provide a valid us-based phone number with format: " + "XXX-XXX-XXXX or XXX.XXX.XXXX or XXX XXX XXXX";
     return false;
   }
 
+  // If email is nonempty, make sure it is valid
   if (email.length !== 0 && !isValidEmail(email)) {
     document.getElementById("createResult").innerHTML = "Must provide a valid email, in the format user@domain.extension.";
     return false;
