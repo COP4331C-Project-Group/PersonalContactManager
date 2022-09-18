@@ -1,7 +1,18 @@
-function confirmDeleteContact() {
+async function doDeleteContact() {
   if (confirm("Are you sure you want to delete this contact?")) {
-    // TODO: Delete contact here
-    console.log("Deleting...")
+    const contact = JSON.parse(localStorage.getItem('individualContact'));
+    const [status, responseJson] = await postData(
+    window.urlBase + '/contacts/UpdateContact' + window.extension,
+    {
+      ID:contact.ID,
+    });
+
+    if (status == 200) {
+      localStorage.setItem('individualContact', null);
+    } else {
+      document.getElementById("editError").innerHTML = responseJson.status_message;
+    }
+
     document.location.href = "index.html";
   }
 }
