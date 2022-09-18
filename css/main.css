@@ -193,7 +193,7 @@ body {
   background-color: white;
 }
 
-#searchResultDiv {
+#searchResult, #createResult {
     position: relative;
     z-index: 2;
     display: inline-block;
