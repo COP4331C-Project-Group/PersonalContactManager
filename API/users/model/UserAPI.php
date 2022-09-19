@@ -19,7 +19,7 @@
         /**
          * Creates user record.
          * 
-         * @param object user object of the User class.
+         * @param object $user object of the User class.
          * @return object|false object of the User class containing all information about created record or false if operation was unsuccessful.
          */
         public function CreateUser(object $user) : object|false
@@ -91,5 +91,24 @@
 
             return User::Deserialize($record);
         }
+
+        /**
+         * Updates user record.
+         * 
+         * @param object $user object of the User class.
+         * @return object|false object of the User class containing all information about updated record or false if operation was unsuccessful.
+         */
+        public function UpdateUser(object $user) : object|false
+        {
+            if ($this->mysql->connect_error != null)
+                return false;
+
+            $result = $this->mysql->query("UPDATE Users SET firstName='$user->firstName', lastName='$user->lastName', password='$user->password' WHERE ID=$user->ID");
+
+            if ($result !== false)
+                return $this->GetUserByID($user->ID);
+
+            return false;
+        } 
     }
 ?>
