@@ -123,7 +123,7 @@
         
             $result = $this->mysql->query("UPDATE Contacts SET firstName='$contact->firstName', lastName='$contact->lastName', email='$contact->email', phone='$contact->phone' WHERE ID=$contact->ID");
             
-            if ($result)
+            if ($result !== false)
                 return $this->GetContactByID($contact->ID);
 
             return false;
