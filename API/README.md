@@ -33,10 +33,11 @@ In Postman, you can send POST requests by selecting "POST" as the type of the re
 
 1. Login.php (GET)
 2. Register.php (POST)
-3. AddContact.php (POST)
-4. SearchContact.php (GET)
-5. UpdateContact.php (POST)
-6. DeleteContact.php (POST)
+3. UpdateUser.php (POST)
+4. AddContact.php (POST)
+5. SearchContact.php (GET)
+6. UpdateContact.php (POST)
+7. DeleteContact.php (POST)
 
 Examples:
 
@@ -57,7 +58,16 @@ Examples:
 2. NO CONTENT - 204 (Missing request body)
 3. CONFLICT - 409 (User already exists / Couldn't create user)
 
-#### 3. AddContact.php (POST)
+#### 3. UpdateUser.php (POST)
+![](https://i.imgur.com/93K4s22.jpeg)
+
+##### UpdateUser Endpoint Response Codes:
+
+1. OK - 200 (Upon successful operation)
+2. NOT CONTENT - 204 (Missing request body)
+3. NOT FOUND - 404 (User doesn't exist)
+
+#### 4. AddContact.php (POST)
 ![](https://i.imgur.com/mWBlEK5.png)
 
 ##### AddContact Endpoint Response Codes:
@@ -66,7 +76,7 @@ Examples:
 2. NO CONTENT - 204 (Missing request body)
 3. CONFLICT - 409 (Couldn't create contact)
 
-#### 4. SearchContact.php (GET)
+#### 5. SearchContact.php (GET)
 ![](https://i.imgur.com/NYu61so.png)
 
 ##### SearchContact Endpoint Response Codes:
@@ -74,7 +84,7 @@ Examples:
 1. OK - 200 (Upon successful operation)
 2. NOT FOUND - 404 (Missing request body / Couldn't find Contact)
 
-#### 5. UpdateContact.php (POST)
+#### 6. UpdateContact.php (POST)
 ![](https://i.imgur.com/o6NfRyE.png)
 
 ##### UpdateContact Endpoint Response Codes:
@@ -83,7 +93,7 @@ Examples:
 2. NOT CONTENT - 204 (Missing request body)
 3. NOT FOUND - 404 (Contact doesn't exist)
 
-#### 6. DeleteContact.php (POST)
+#### 7. DeleteContact.php (POST)
 ![](https://i.imgur.com/0bFEqzp.png)
 
 ##### DeleteContact Endpoint Response Codes:
