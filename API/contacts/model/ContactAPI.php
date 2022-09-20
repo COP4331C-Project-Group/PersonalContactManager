@@ -1,5 +1,6 @@
 <?php
     require_once __DIR__ . '/Contact.php';
+    require_once __DIR__ . '/../../images/model/ImageAPI.php';
 
     class ContactAPI 
     {
@@ -149,30 +150,29 @@
         {
             if ($this->mysql->connect_error !== null)
                 return false;
-        
-            $image = $this->imageAPI->GetImageByName(strval($contact->ID));
 
-            if ($image !== false)
-                $this->imageAPI->DeleteImage($image);
+            $existingContact = $this->GetContactByID($contact->ID);
 
-            $image = NULL;
-
-            if ($contact->contactImage !== NULL && strlen($contact->contactImage->imageAsBase64) !== 0)
-            {
+            if ($contact->contactImage !== NULL && strlen($contact->contactImage->imageAsBase64) > 0) {
                 $image = $contact->contactImage->setName(strval($contact->ID));
-                $image = $this->imageAPI->CreateImage($image);
-                
-                if ($image === false)
-                    return false;    
+
+                if ($existingContact->contactImage !== NULL)
+                    $contact->contactImage = $this->imageAPI->UpdateImage($image->setID($existingContact->contactImage->ID));
+                else
+                    $contact->contactImage = $this->imageAPI->CreateImage($image);
+            }
+            else
+            {
+                if ($existingContact->contactImage !== NULL)
+                    $this->imageAPI->DeleteImage($existingContact->contactImage);
             }
 
-            $result = false;
             $query = "UPDATE Contacts SET firstName='$contact->firstName', lastName='$contact->lastName', email='$contact->email', phone='$contact->phone', ";
 
-            if ($image === NULL)
+            if ($contact->contactImage === NULL || strlen($contact->contactImage->imageAsBase64) === 0)
                 $query = $query . "contactImageID=NULL WHERE ID=$contact->ID";
             else
-                $query = $query . "contactImageID=$image->ID WHERE ID=$contact->ID";
+                $query = $query . "contactImageID={$contact->contactImage->ID} WHERE ID=$contact->ID";
             
             $result = $this->mysql->query($query);
 

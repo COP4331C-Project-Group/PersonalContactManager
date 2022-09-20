@@ -18,15 +18,14 @@
             if ($this->mysql->connect_error !== null)
                 return false;
             
+            $this->server->SaveImage($image);
+
             $stmt = $this->mysql->prepare("INSERT INTO Images (ID, name, extension) VALUES (DEFAULT, ?, ?)");
             $stmt->bind_param(
                 "ss",
                 $image->name,
                 $image->extension
             );
-
-            if (!$this->server->SaveImage($image))
-                return false;
 
             $result = $stmt->execute();
 
@@ -53,8 +52,7 @@
 
             $image = Image::Deserialize($record);
 
-            if (!$this->server->LoadImage($image))
-                return false;
+            $this->server->LoadImage($image);
             
             return $image;
         } 
@@ -73,6 +71,10 @@
         {
             if ($this->mysql->connect_error !== null)
                 return false;
+
+            $this->server->DeleteImage($image);
+            
+            $this->server->SaveImage($image);
 
             $result = $this->mysql->query("UPDATE Images SET name='$image->name', extension='$image->extension' WHERE ID='$image->ID'");
 
