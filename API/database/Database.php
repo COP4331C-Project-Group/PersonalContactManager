@@ -4,7 +4,7 @@
         private $username;
         private $password;
         private $dbName;
-        private $mysql;
+        private ?mysqli $mysql;
 
         public function __construct()
         {
@@ -36,8 +36,7 @@
                 return $mysql;
             } catch (RuntimeException $e)
             {
-                echo $e->getMessage();
-                Exit();
+                die($e->getMessage());
             }
         }
     }

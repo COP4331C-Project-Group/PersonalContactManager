@@ -13,11 +13,6 @@
             $this->mysql = $mysql;
         }
 
-        public function __destruct()
-        {
-            $this->mysql->close();
-        }
-
         public function CreateImage(object $image) : object|false 
         {
             if ($this->mysql->connect_error !== null)
@@ -29,6 +24,9 @@
                 $image->name,
                 $image->extension
             );
+
+            if (!$this->server->SaveImage($image))
+                return false;
 
             $result = $stmt->execute();
 
@@ -55,7 +53,7 @@
 
             $image = Image::Deserialize($record);
 
-            if (!$this->server->GetImage($image))
+            if (!$this->server->LoadImage($image))
                 return false;
             
             return $image;

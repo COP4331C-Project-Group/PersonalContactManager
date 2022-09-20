@@ -1,7 +1,7 @@
 <?php
     ini_set('display_errors', 1);
     ini_set('error_reporting', E_ALL);
-    
+
     require_once __DIR__ . '/../utils/JsonUtils.php';
     require_once __DIR__ . '/../utils/ResponseSender.php';
     require_once __DIR__ . '/../utils/RequestReceiver.php';
@@ -21,9 +21,9 @@
 
     $user = User::Deserialize($payload);
 
-    if ($payload["profileImage"] != "")
+    if (strlen($payload["profileImage"]) !== 0)
     {
-        $image = Image::create(strval($user->ID), "png")
+        $image = Image::create(strval(time()), "png")
             ->setImageAsBase64($payload["profileImage"]);
         
         $user->setProfileImage($image);
@@ -43,7 +43,7 @@
         ResponseSender::send(ResponseCodes::CONFLICT, "Couldn't create user");
     else
         ResponseSender::send(ResponseCodes::CREATED, NULL, $result);
-
+        
     function userExists(object $user, UserAPI $userAPI) : bool
     {
         $result = $userAPI->GetUserByUsername($user->username);

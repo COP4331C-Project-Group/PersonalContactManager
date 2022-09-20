@@ -10,11 +10,6 @@
             $this->mysql = $mysql;
         }
 
-        public function __destruct()
-        {
-            $this->mysql->close();
-        }
-
         /**
          * Creates contact record.
          * 

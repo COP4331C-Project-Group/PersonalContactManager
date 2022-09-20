@@ -14,7 +14,7 @@
             $this->ID = -1;
             $this->name = "";
             $this->extension = "";
-            $this->imageBase64 = "";
+            $this->imageAsBase64 = "";
         }
 
         public static function create (

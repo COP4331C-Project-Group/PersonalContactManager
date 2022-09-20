@@ -10,10 +10,24 @@
             $this->imagePath = getenv("HTTP_IMAGE_PATH");
         }
 
-        public function GetImage(Image &$image) : bool
+        public function SaveImage(Image $image) : bool
         {
-            $fullPath = $this->imagePath . $image->name . $image->extension;
+            $binary = base64_decode($image->imageAsBase64);
 
+            $gdImage = imagecreatefromstring($binary);
+
+            if (!$image)
+                die("imageAsBase64 is not valid");
+            
+            $fullPath = $this->imagePath . $image->name . "." . $image->extension;
+
+            return imagepng($gdImage, $fullPath, 0);
+        }
+
+        public function LoadImage(Image &$image) : bool
+        {
+            $fullPath = $this->imagePath . $image->name . "." . $image->extension;
+            
             $file = file_get_contents($fullPath, FILE_USE_INCLUDE_PATH);
 
             if ($file === false)
@@ -26,7 +40,7 @@
 
         public function DeleteImage(Image $image) : bool
         {
-            $fullPath = $this->imagePath . $image->name . $image->extension;
+            $fullPath = $this->imagePath . $image->name . "." . $image->extension;
 
             return unlink($fullPath);
         }

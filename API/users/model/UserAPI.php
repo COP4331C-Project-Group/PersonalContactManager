@@ -14,11 +14,6 @@
             $this->imageAPI = $imageAPI;
         }
 
-        public function __destruct()
-        {
-            $this->mysql->close();
-        }
-
         /**
          * Creates user record.
          * 
@@ -34,6 +29,8 @@
             if ($user->profileImage !== NULL)
                 $image = $this->imageAPI->CreateImage($user->profileImage);
 
+            $profileImageID = $image !== false ? $image->ID : NULL;
+
             $stmt = $this->mysql->prepare("INSERT INTO Users (ID, firstName, lastName, username, password, dateCreated, profileImageID) VALUES (DEFAULT, ?, ?, ?, ?, DEFAULT, ?)");
             $stmt->bind_param(
                 "ssssi", 
@@ -41,7 +38,7 @@
                 $user->lastName,
                 $user->username, 
                 $user->password,
-                $image !== false ? $image->ID : NULL 
+                $profileImageID
             );
             
             $result = $stmt->execute();
@@ -75,8 +72,8 @@
 
             $user = User::Deserialize($record);
             
-            if ($record['profileImageID'] != NULL) {
-                $image = $this->imageAPI->GetImageByID($record['profileImageID']);
+            if ($record->profileImageID != NULL) {
+                $image = $this->imageAPI->GetImageByID($record->profileImageID);
 
                 if ($image !== false)
                     $user->setProfileImage($image);
@@ -106,7 +103,7 @@
             if ($record === null)
                 return false;
 
-            return $this->GetUserByID($record['ID']);
+            return $this->GetUserByID($record->ID);
         }
 
         /**
