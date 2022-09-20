@@ -1,5 +1,6 @@
 <?php
-    require_once __DIR__ . '/../../utils/JsonUtils.php';
+    require_once __DIR__ . '/../../JSONObject.php';
+    require_once __DIR__ . '/../../images/model/Image.php';
     
     class User extends JSONObject
     {
@@ -11,9 +12,12 @@
         public string $password;
         public string $dateCreated;
 
+        public Image $profileImage;
+
         public function __construct()
         {
             $this->ID = -1;
+            $this->profileImage = NULL;
             $this->firstName = "";
             $this->lastName = "";
             $this->username = "";
@@ -36,37 +40,43 @@
             return $instance;
         }
 
-        public function setDateCreated($dateCreated) : User
+        public function setProfileImage(Image $image) : User
+        {
+            $this->image = $image;
+            return $this;
+        }
+
+        public function setDateCreated(string $dateCreated) : User
         {
             $this->dateCreated = $dateCreated;
             return $this;
         }
 
-        public function setID($userID) : User
+        public function setID(int $userID) : User
         {
             $this->ID = $userID;
             return $this;
         }
 
-        public function setFirstName($firstName) : User
+        public function setFirstName(string $firstName) : User
         {
             $this->firstName = $firstName;
             return $this;
         }
 
-        public function setLastName($lastName) : User
+        public function setLastName(string $lastName) : User
         {
             $this->lastName = $lastName;
             return $this;
         }
 
-        public function setUsername($username) : User
+        public function setUsername(string $username) : User
         {
             $this->username = $username;
             return $this;
         }
 
-        public function setPassword($password) : User
+        public function setPassword(string $password) : User
         {
             $this->password = $password;
             return  $this; 
@@ -80,7 +90,8 @@
                 "lastName" => $this->lastName,
                 "username" => $this->username,
                 "password" => $this->password,
-                "dateCreated" => $this->dateCreated
+                "dateCreated" => $this->dateCreated,
+                "profileImage" => $this->profileImage->imageAsBase64
             ];
         }
     }

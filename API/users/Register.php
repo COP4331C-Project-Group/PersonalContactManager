@@ -1,4 +1,7 @@
 <?php
+    ini_set('display_errors', 1);
+    ini_set('error_reporting', E_ALL);
+    
     require_once __DIR__ . '/../utils/JsonUtils.php';
     require_once __DIR__ . '/../utils/ResponseSender.php';
     require_once __DIR__ . '/../utils/RequestReceiver.php';
@@ -6,19 +9,30 @@
 
     require_once __DIR__ . '/model/User.php';
     require_once __DIR__ . '/model/UserAPI.php';
+
+    require_once __DIR__ . '/../images/model/ImageAPI.php';
     
     require_once __DIR__ . '/../database/Database.php';
 
-    $user = new User();
+    $payload = RequestReceiver::receivePOST();
 
-    if (!RequestReceiver::receivePOST($user))
+    if ($payload === false)
         ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
 
-    $database = new Database();
+    $user = User::Deserialize($payload);
 
+    if ($payload["profileImage"] != "")
+    {
+        $image = Image::create(strval($user->ID), "png")
+            ->setImageAsBase64($payload["profileImage"]);
+        
+        $user->setProfileImage($image);
+    }
+
+    $database = new Database();
     $mysql = $database->connectToDatabase();
     
-    $userAPI = new UserAPI($mysql);
+    $userAPI = new UserAPI($mysql, new ImageAPI($mysql));
 
     if (userExists($user, $userAPI))
         ResponseSender::send(ResponseCodes::CONFLICT, "User already exists");

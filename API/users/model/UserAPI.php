@@ -1,14 +1,17 @@
 <?php
-    require_once __DIR__ . '/../../utils/JsonUtils.php';
     require_once __DIR__ . '/User.php';
+    require_once __DIR__ . '/../../images/model/ImageAPI.php';
+    require_once __DIR__ . '/../../server/Server.php';
 
     class UserAPI 
     {
         private mysqli $mysql;
+        private ImageAPI $imageAPI;
 
-        public function __construct(mysqli $mysql)
+        public function __construct(mysqli $mysql, ImageAPI $imageAPI)
         {
             $this->mysql = $mysql;
+            $this->imageAPI = $imageAPI;
         }
 
         public function __destruct()
@@ -26,19 +29,24 @@
         {
             if ($this->mysql->connect_error !== null)
                 return false;
+            
+            $image = false;
+            if ($user->profileImage !== NULL)
+                $image = $this->imageAPI->CreateImage($user->profileImage);
 
-            $stmt = $this->mysql->prepare("INSERT INTO Users (ID, firstName, lastName, username, password, dateCreated) VALUES (DEFAULT, ?, ?, ?, ?, DEFAULT)");
+            $stmt = $this->mysql->prepare("INSERT INTO Users (ID, firstName, lastName, username, password, dateCreated, profileImageID) VALUES (DEFAULT, ?, ?, ?, ?, DEFAULT, ?)");
             $stmt->bind_param(
-                "ssss", 
+                "ssssi", 
                 $user->firstName,
                 $user->lastName,
                 $user->username, 
-                $user->password
+                $user->password,
+                $image !== false ? $image->ID : NULL 
             );
             
             $result = $stmt->execute();
 
-            if ($result)
+            if ($result !== false)
                 return $this->GetUserByID($this->mysql->insert_id);
 
             return false;
@@ -65,7 +73,16 @@
             if ($record === null)
                 return false;
 
-            return User::Deserialize($record);
+            $user = User::Deserialize($record);
+            
+            if ($record['profileImageID'] != NULL) {
+                $image = $this->imageAPI->GetImageByID($record['profileImageID']);
+
+                if ($image !== false)
+                    $user->setProfileImage($image);
+            }
+
+            return $user;
         }
 
         /**
@@ -89,7 +106,7 @@
             if ($record === null)
                 return false;
 
-            return User::Deserialize($record);
+            return $this->GetUserByID($record['ID']);
         }
 
         /**

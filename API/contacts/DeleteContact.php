@@ -1,4 +1,7 @@
 <?php
+    ini_set('display_errors', 1);
+    ini_set('error_reporting', E_ALL);
+
     require_once __DIR__ . '/../utils/JsonUtils.php';
     require_once __DIR__ . '/../utils/ResponseSender.php';
     require_once __DIR__ . '/../utils/RequestReceiver.php';
@@ -9,13 +12,14 @@
     
     require_once __DIR__ . '/../database/Database.php';
 
-    $contact = new Contact();
+    $payload = RequestReceiver::receivePOST();
 
-    if (!RequestReceiver::receivePOST($contact))
-        ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
+    if ($contact === false)
+    ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
+
+    $contact = Contact::Deserialize($payload);
 
     $database = new Database();
-
     $mysql = $database->connectToDatabase();
     
     $contactAPI = new ContactAPI($mysql);

@@ -1,5 +1,5 @@
 <?php
-    require_once __DIR__ . '/../../utils/JsonUtils.php';
+    require_once __DIR__ . '/../../JSONObject.php';
 
     class Contact extends JSONObject
     {
