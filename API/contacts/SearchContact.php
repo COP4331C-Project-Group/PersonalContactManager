@@ -16,15 +16,12 @@
 
     $payload = RequestReceiver::receiveGET();
 
-    $limit = 1;
-    if (isset($payload['limit']))
-        $limit = $payload['limit'];
-    
-    if (!isset($payload['query']) || !isset($payload['userID']) || $payload === false)
+    if (!isPayloadValid($payload))
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Missing request body");
 
     $query = $payload['query'];
     $userID = $payload['userID'];
+    $limit = $payload['limit'];
 
     $database = new Database();
     $mysql = $database->connectToDatabase();
@@ -37,4 +34,9 @@
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Couldn't find contact");
     else
         ResponseSender::send(ResponseCodes::OK, NULL, $result);
+    
+    function isPayloadValid($payload) : bool
+    {
+        return $payload !== false && isset($payload['query'], $payload['userID'], $payload['limit']);
+    }
 ?>
