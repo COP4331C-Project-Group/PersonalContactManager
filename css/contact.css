@@ -123,10 +123,8 @@ body {
   border-radius: 5px;
   border-color: #ffffff;
   border-style: solid;
-  border-bottom-style: solid;
-  border-bottom-color: rgb(202, 201, 201);
   padding: 1%;
-  width: 50%;
+  width: fit-content;
   font-size: 40px;
   top: 35%;
   left: 0;
@@ -142,26 +140,14 @@ body {
   border-radius: 5px;
   border-color: #ffffff;
   border-style: solid;
-  border-bottom-style: solid;
-  border-bottom-color: rgb(202, 201, 201);
   padding: 1%;
-  width: 50%;
+  width: fit-content;
   font-size: 40px;
   top: 55%;
   left: 0;
   right: 0;
   margin: auto;
   display: block;
-}
-
-.phoneNumberDisplay:hover,
-.phoneNumberDisplay:active,
-.phoneNumberDisplay:focus,
-.emailDisplay:hover,
-.emailDisplay:active,
-.emailDisplay:focus {
-  outline: none;
-  border-bottom-color: #000000;
 }
 
 .editButton {
@@ -235,11 +221,10 @@ body {
   border-style: solid;
   border-bottom-style: solid;
   border-bottom-color: rgb(202, 201, 201);
-  padding: 1%;
   width: 20%;
   font-size: 40px;
   top: 49%;
-  left: 24%;
+  left: 25%;
   margin: auto;
   display: block;
 }
@@ -253,11 +238,10 @@ body {
   border-style: solid;
   border-bottom-style: solid;
   border-bottom-color: rgb(202, 201, 201);
-  padding: 1%;
   width: 20%;
   font-size: 40px;
   top: 49%;
-  right: 24%;
+  right: 25%;
   margin: auto;
   display: block;
 }
@@ -271,7 +255,6 @@ body {
   border-style: solid;
   border-bottom-style: solid;
   border-bottom-color: rgb(202, 201, 201);
-  padding: 1%;
   width: 50%;
   font-size: 40px;
   top: 62%;
@@ -290,7 +273,6 @@ body {
   border-style: solid;
   border-bottom-style: solid;
   border-bottom-color: rgb(202, 201, 201);
-  padding: 1%;
   width: 50%;
   font-size: 40px;
   top: 75%;
