@@ -156,6 +156,9 @@
 
             $existingContact = $this->GetContactByID($contact->ID);
 
+            if ($existingContact === false)
+                return false;
+
             if ($contact->contactImage !== NULL && strlen($contact->contactImage->imageAsBase64) > 0) {
                 $image = $contact->contactImage->setName(strval($contact->ID));
 
