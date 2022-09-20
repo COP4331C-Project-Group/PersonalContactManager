@@ -1,17 +1,13 @@
 <?php
     require_once __DIR__ . '/User.php';
-    require_once __DIR__ . '/../../images/model/ImageAPI.php';
-    require_once __DIR__ . '/../../server/Server.php';
 
     class UserAPI 
     {
         private mysqli $mysql;
-        private ImageAPI $imageAPI;
 
-        public function __construct(mysqli $mysql, ImageAPI $imageAPI)
+        public function __construct(mysqli $mysql)
         {
             $this->mysql = $mysql;
-            $this->imageAPI = $imageAPI;
         }
 
         /**
@@ -25,20 +21,13 @@
             if ($this->mysql->connect_error !== null)
                 return false;
             
-            $image = false;
-            if ($user->profileImage !== NULL)
-                $image = $this->imageAPI->CreateImage($user->profileImage);
-
-            $profileImageID = $image !== false ? $image->ID : NULL;
-
-            $stmt = $this->mysql->prepare("INSERT INTO Users (ID, firstName, lastName, username, password, dateCreated, profileImageID) VALUES (DEFAULT, ?, ?, ?, ?, DEFAULT, ?)");
+            $stmt = $this->mysql->prepare("INSERT INTO Users (ID, firstName, lastName, username, password, dateCreated) VALUES (DEFAULT, ?, ?, ?, ?, DEFAULT)");
             $stmt->bind_param(
-                "ssssi", 
+                "ssss", 
                 $user->firstName,
                 $user->lastName,
                 $user->username, 
-                $user->password,
-                $profileImageID
+                $user->password
             );
             
             $result = $stmt->execute();
@@ -69,17 +58,8 @@
 
             if ($record === null)
                 return false;
-
-            $user = User::Deserialize($record);
             
-            if ($record->profileImageID != NULL) {
-                $image = $this->imageAPI->GetImageByID($record->profileImageID);
-
-                if ($image !== false)
-                    $user->setProfileImage($image);
-            }
-
-            return $user;
+            return User::Deserialize($record);
         }
 
         /**
@@ -123,6 +103,6 @@
                 return $this->GetUserByID($user->ID);
 
             return false;
-        } 
+        }
     }
 ?>

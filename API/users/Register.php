@@ -10,8 +10,6 @@
     require_once __DIR__ . '/model/User.php';
     require_once __DIR__ . '/model/UserAPI.php';
 
-    require_once __DIR__ . '/../images/model/ImageAPI.php';
-    
     require_once __DIR__ . '/../database/Database.php';
 
     $payload = RequestReceiver::receivePOST();
@@ -21,18 +19,10 @@
 
     $user = User::Deserialize($payload);
 
-    if (strlen($payload["profileImage"]) !== 0)
-    {
-        $image = Image::create(strval(time()), "png")
-            ->setImageAsBase64($payload["profileImage"]);
-        
-        $user->setProfileImage($image);
-    }
-
     $database = new Database();
     $mysql = $database->connectToDatabase();
     
-    $userAPI = new UserAPI($mysql, new ImageAPI($mysql));
+    $userAPI = new UserAPI($mysql);
 
     if (userExists($user, $userAPI))
         ResponseSender::send(ResponseCodes::CONFLICT, "User already exists");
@@ -43,7 +33,7 @@
         ResponseSender::send(ResponseCodes::CONFLICT, "Couldn't create user");
     else
         ResponseSender::send(ResponseCodes::CREATED, NULL, $result);
-        
+
     function userExists(object $user, UserAPI $userAPI) : bool
     {
         $result = $userAPI->GetUserByUsername($user->username);

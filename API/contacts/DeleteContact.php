@@ -9,20 +9,22 @@
 
     require_once __DIR__ . '/model/Contact.php';
     require_once __DIR__ . '/model/ContactAPI.php';
+
+    require_once __DIR__ . '/../images/model/ImageAPI.php';
     
     require_once __DIR__ . '/../database/Database.php';
 
     $payload = RequestReceiver::receivePOST();
 
-    if ($contact === false)
-    ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
+    if ($payload === false)
+        ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
 
     $contact = Contact::Deserialize($payload);
 
     $database = new Database();
     $mysql = $database->connectToDatabase();
     
-    $contactAPI = new ContactAPI($mysql);
+    $contactAPI = new ContactAPI($mysql, new ImageAPI($mysql));
 
     $result = $contactAPI->DeleteContact($contact);
 

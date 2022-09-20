@@ -18,11 +18,9 @@
         }
 
         public static function create (
-            string $name,
             string $extension) : Image
         {
             $instance = new self();
-            $instance->name = $name;
             $instance->extension = $extension;
 
             return $instance;

@@ -4,10 +4,12 @@
     class ContactAPI 
     {
         private mysqli $mysql;
+        private ImageAPI $imageAPI;
 
-        public function __construct(mysqli $mysql)
+        public function __construct(mysqli $mysql, ImageAPI $imageAPI)
         {
             $this->mysql = $mysql;
+            $this->imageAPI = $imageAPI;
         }
 
         /**
@@ -21,7 +23,7 @@
             if ($this->mysql->connect_error !== null)
                 return false;
 
-            $stmt = $this->mysql->prepare("INSERT INTO Contacts (ID, firstName, lastName, email, phone, userID) VALUES(DEFAULT, ?, ?, ?, ?, ?)");
+            $stmt = $this->mysql->prepare("INSERT INTO Contacts (ID, firstName, lastName, email, phone, userID, contactImageID) VALUES(DEFAULT, ?, ?, ?, ?, ?, NULL)");
             $stmt->bind_param(
                 "ssssi", 
                 $contact->firstName, 
@@ -30,13 +32,25 @@
                 $contact->phone, 
                 $contact->userID
             );
-            
+
             $result = $stmt->execute();
 
-            if ($result)
-                return $this->GetContactByID($this->mysql->insert_id);
+            if ($result === false)
+                return false;
+            
+            $contactRecord = $this->GetContactByID($this->mysql->insert_id);
 
-            return false;
+            if ($contact->contactImage !== NULL && strlen($contact->contactImage->imageAsBase64) !== 0) {
+                $contact->contactImage->setName(strval($contactRecord->ID));
+                
+                $image = $this->imageAPI->CreateImage($contact->contactImage);
+
+                $contactRecord->contactImage = $image;
+
+                $contactRecord = $this->UpdateContact($contactRecord);
+            }
+
+            return $contactRecord;
         }
 
         /**
@@ -60,7 +74,19 @@
             if ($record === null)
                 return false;
 
-            return Contact::Deserialize($record);
+            $contact = Contact::Deserialize($record);
+
+            if ($record->contactImageID !== NULL)
+            {
+                $image = $this->imageAPI->GetImageByID($record->contactImageID);
+                
+                if ($image === false)
+                    return false;
+
+                $contact->contactImage = $image;
+            }
+
+            return $contact;
         }
 
         /**
@@ -98,9 +124,18 @@
         
             $resultArray = [];
 
-            while($record = $result->fetch_object())
-                $resultArray[] = Contact::Deserialize($record);
-                
+            while($record = $result->fetch_object()) {
+                $contact = Contact::Deserialize($record);
+
+                if ($record->contactImageID !== NULL)
+                {
+                    $image = $this->imageAPI->GetImageByID($record->contactImageID);
+                    $contact->contactImage = $image;
+                }   
+
+                $resultArray[] = $contact;
+            }
+
             return $resultArray;
         }
 
@@ -115,7 +150,27 @@
             if ($this->mysql->connect_error !== null)
                 return false;
         
-            $result = $this->mysql->query("UPDATE Contacts SET firstName='$contact->firstName', lastName='$contact->lastName', email='$contact->email', phone='$contact->phone' WHERE ID=$contact->ID");
+            $image = $this->imageAPI->GetImageByName(strval($contact->ID));
+
+            if ($image !== false)
+                $this->imageAPI->DeleteImage($image);
+
+            $image = NULL;
+
+            if ($contact->contactImage !== NULL && strlen($contact->contactImage->imageAsBase64) !== 0)
+            {
+                $image = $contact->contactImage->setName(strval($contact->ID));
+                $image = $this->imageAPI->CreateImage($image);
+                
+                if ($image === false)
+                    return false;    
+            }
+
+            $result = false;
+            if ($image === NULL)
+                $result = $this->mysql->query("UPDATE Contacts SET firstName='$contact->firstName', lastName='$contact->lastName', email='$contact->email', phone='$contact->phone', contactImageID=NULL WHERE ID=$contact->ID");
+            else
+                $result = $this->mysql->query("UPDATE Contacts SET firstName='$contact->firstName', lastName='$contact->lastName', email='$contact->email', phone='$contact->phone', contactImageID=$image->ID WHERE ID=$contact->ID");
             
             if ($result !== false)
                 return $this->GetContactByID($contact->ID);
@@ -133,9 +188,13 @@
         {
             if ($this->mysql->connect_error !== null)
                 return false;
-            
-            if ($this->GetContactByID($contact->ID) == false)
+
+            $contact = $this->GetContactByID($contact->ID);
+    
+            if ($contact === false)
                 return false;
+
+            $this->imageAPI->DeleteImage($contact->contactImage);
 
             $result = $this->mysql->query("DELETE FROM Contacts WHERE ID=$contact->ID");
 

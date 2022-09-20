@@ -12,12 +12,9 @@
         public string $password;
         public string $dateCreated;
 
-        public ?Image $profileImage;
-
         public function __construct()
         {
             $this->ID = -1;
-            $this->profileImage = NULL;
             $this->firstName = "";
             $this->lastName = "";
             $this->username = "";
@@ -38,12 +35,6 @@
             $instance->password = $password;
 
             return $instance;
-        }
-
-        public function setProfileImage(Image $image) : User
-        {
-            $this->profileImage = $image;
-            return $this;
         }
 
         public function setDateCreated(string $dateCreated) : User
@@ -90,8 +81,7 @@
                 "lastName" => $this->lastName,
                 "username" => $this->username,
                 "password" => $this->password,
-                "dateCreated" => $this->dateCreated,
-                "profileImage" => $this->profileImage !== NULL ? $this->profileImage->imageAsBase64 : ""
+                "dateCreated" => $this->dateCreated
             ];
         }
     }

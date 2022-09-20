@@ -10,8 +10,6 @@
     require_once __DIR__ . '/model/User.php';
     require_once __DIR__ . '/model/UserAPI.php';
 
-    require_once __DIR__ . '/../images/model/ImageAPI.php';
-    
     require_once __DIR__ . '/../database/Database.php';
 
     $payload = RequestReceiver::receiveGET();
@@ -20,18 +18,11 @@
         ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
 
     $user = User::Deserialize($payload);
-    /**
-     * Create:
-     * Receive Image as Base64
-     * Convert it to Image object
-     * Assign Image object to User
-     * send User to UserAPI
-     */
 
     $database = new Database();
     $mysql = $database->connectToDatabase();
     
-    $userAPI = new UserAPI($mysql, new ImageAPI($mysql));
+    $userAPI = new UserAPI($mysql);
 
     $result = $userAPI->GetUserByUsername($user->username);
 

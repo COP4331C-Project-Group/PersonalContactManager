@@ -10,6 +10,10 @@
     require_once __DIR__ . '/model/Contact.php';
     require_once __DIR__ . '/model/ContactAPI.php';
 
+    require_once __DIR__ . '/../images/model/Image.php';
+    require_once __DIR__ . '/../images/model/ImageAPI.php';
+    require_once __DIR__ . '/../images/ImageExtensions.php';
+
     require_once __DIR__ . '/../database/Database.php';
 
     $payload = RequestReceiver::receivePOST();
@@ -18,10 +22,15 @@
     
     $contact = Contact::Deserialize($payload);
 
+    $image = Image::create("png")
+        ->setImageAsBase64($payload["contactImage"]);
+
+    $contact->setContactImage($image);
+
     $database = new Database();
     $mysql = $database->connectToDatabase();
     
-    $contactAPI = new ContactAPI($mysql);
+    $contactAPI = new ContactAPI($mysql, new ImageAPI($mysql));
 
     $result = $contactAPI->UpdateContact($contact);
 

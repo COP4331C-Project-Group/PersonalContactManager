@@ -36,12 +36,12 @@
             return false;
         }
 
-        public function GetImageByID(int $imageID) : object|false
+        private function GetImageBySQLQuery(string $query) : object|false
         {
             if ($this->mysql->connect_error !== null)
                 return false;
-            
-            $result = $this->mysql->query("SELECT * FROM Images WHERE ID=$imageID");
+
+            $result = $this->mysql->query($query);
 
             if ($result === false)
                 return false;
@@ -57,6 +57,16 @@
                 return false;
             
             return $image;
+        } 
+
+        public function GetImageByID(int $imageID) : object|false
+        {
+            return $this->GetImageBySQLQuery("SELECT * FROM Images WHERE ID=$imageID");
+        }
+
+        public function GetImageByName(string $imageName) : object|false
+        {
+            return $this->GetImageBySQLQuery("SELECT * FROM Images WHERE name='$imageName'");
         }
 
         public function UpdateImage(object $image) : object|false
