@@ -74,11 +74,16 @@
             if ($this->mysql->connect_error !== null)
                 return false;
             
+            $cachedImage = $image;
+            $this->server->LoadImage($cachedImage);
+
             if (!$this->server->DeleteImage($image))
-                throw new RuntimeException("Can't delete image");
+                throw new Error("Can't delete image");
             
-            if (!$this->server->SaveImage($image))
-                throw new RuntimeException("Can't save image");
+            if (!$this->server->SaveImage($image)) {
+                $this->server->SaveImage($cachedImage);
+                throw new Error("Can't save image");
+            }
 
             $result = $this->mysql->query("UPDATE Images SET name='$image->name', extension='$image->extension' WHERE ID='$image->ID'");
 
@@ -97,7 +102,7 @@
                 return false;
             
             if (!$this->server->DeleteImage($image))
-                throw new RuntimeException("Can't delete image");
+                throw new Error("Can't delete image");
 
             $result = $this->mysql->query("DELETE FROM Images WHERE ID=$image->ID");
 
