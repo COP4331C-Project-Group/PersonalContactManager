@@ -18,7 +18,8 @@
             if ($this->mysql->connect_error !== null)
                 return false;
             
-            $this->server->SaveImage($image);
+            if (!$this->server->SaveImage($image))
+                throw new RuntimeException("Can't save image");
 
             $stmt = $this->mysql->prepare("INSERT INTO Images (ID, name, extension) VALUES (DEFAULT, ?, ?)");
             $stmt->bind_param(
@@ -52,7 +53,8 @@
 
             $image = Image::Deserialize($record);
 
-            $this->server->LoadImage($image);
+            if (!$this->server->LoadImage($image))
+                throw new RuntimeException("Can't load image");
             
             return $image;
         } 
@@ -71,10 +73,12 @@
         {
             if ($this->mysql->connect_error !== null)
                 return false;
-
-            $this->server->DeleteImage($image);
             
-            $this->server->SaveImage($image);
+            if (!$this->server->DeleteImage($image))
+                throw new RuntimeException("Can't delete image");
+            
+            if (!$this->server->SaveImage($image))
+                throw new RuntimeException("Can't save image");
 
             $result = $this->mysql->query("UPDATE Images SET name='$image->name', extension='$image->extension' WHERE ID='$image->ID'");
 
@@ -93,7 +97,7 @@
                 return false;
             
             if (!$this->server->DeleteImage($image))
-                return false;
+                throw new RuntimeException("Can't delete image");
 
             $result = $this->mysql->query("DELETE FROM Images WHERE ID=$image->ID");
 

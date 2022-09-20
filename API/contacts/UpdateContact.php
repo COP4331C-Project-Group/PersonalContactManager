@@ -33,7 +33,14 @@
     
     $contactAPI = new ContactAPI($mysql, new ImageAPI($mysql));
 
-    $result = $contactAPI->UpdateContact($contact);
+    try
+    {
+        $result = $contactAPI->UpdateContact($contact);
+    }
+    catch(Error $e)
+    {
+        ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR, $e->getMessage());
+    }
 
     if ($result === false)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Contact doesn't exist");

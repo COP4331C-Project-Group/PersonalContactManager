@@ -28,7 +28,14 @@
 
     $contactAPI = new ContactAPI($mysql, new ImageAPI($mysql));
 
-    $result = $contactAPI->GetContact($query, $userID, $limit);
+    try
+    {
+        $result = $contactAPI->GetContact($query, $userID, $limit);
+    }
+    catch (Error $e)
+    {
+        ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR, $e->getMessage());
+    }
 
     if ($result === false)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Couldn't find contact");

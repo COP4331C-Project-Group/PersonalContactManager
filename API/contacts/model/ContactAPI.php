@@ -46,6 +46,9 @@
                 
                 $image = $this->imageAPI->CreateImage($contact->contactImage);
 
+                if ($image === false)
+                    throw new RuntimeException("Can't create image");
+
                 $contactRecord->contactImage = $image;
 
                 $contactRecord = $this->UpdateContact($contactRecord);

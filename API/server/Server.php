@@ -17,7 +17,7 @@
             $gdImage = imagecreatefromstring($binary);
 
             if (!$image)
-                die("imageAsBase64 is not valid");
+                return false;
             
             $fullPath = $this->imagePath . $image->name . "." . $image->extension;
 

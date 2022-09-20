@@ -33,7 +33,14 @@
     
     $contactAPI = new ContactAPI($mysql, new ImageAPI($mysql));
 
-    $result = $contactAPI->CreateContact($contact);
+    try
+    {
+        $result = $contactAPI->CreateContact($contact);
+    }
+    catch (Error $e)
+    {
+        ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR);
+    }
 
     if ($result === false)
         ResponseSender::send(ResponseCodes::CONFLICT, "Couldn't create contact");
