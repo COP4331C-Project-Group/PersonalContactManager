@@ -167,11 +167,15 @@
             }
 
             $result = false;
+            $query = "UPDATE Contacts SET firstName='$contact->firstName', lastName='$contact->lastName', email='$contact->email', phone='$contact->phone', ";
+
             if ($image === NULL)
-                $result = $this->mysql->query("UPDATE Contacts SET firstName='$contact->firstName', lastName='$contact->lastName', email='$contact->email', phone='$contact->phone', contactImageID=NULL WHERE ID=$contact->ID");
+                $query = $query . "contactImageID=NULL WHERE ID=$contact->ID";
             else
-                $result = $this->mysql->query("UPDATE Contacts SET firstName='$contact->firstName', lastName='$contact->lastName', email='$contact->email', phone='$contact->phone', contactImageID=$image->ID WHERE ID=$contact->ID");
+                $query = $query . "contactImageID=$image->ID WHERE ID=$contact->ID";
             
+            $result = $this->mysql->query($query);
+
             if ($result !== false)
                 return $this->GetContactByID($contact->ID);
 
