@@ -35,7 +35,7 @@
                 return $mysql;
             } catch (RuntimeException $e)
             {
-                die($e->getMessage());
+                ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR, $e->getMessage());
             }
         }
     }
