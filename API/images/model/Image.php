@@ -6,7 +6,6 @@
         public int $ID;
         public string $name;
         public string $extension;
-
         public string $imageAsBase64;
 
         public function __construct()
@@ -17,8 +16,7 @@
             $this->imageAsBase64 = "";
         }
 
-        public static function create (
-            string $extension) : Image
+        public static function create (string $extension) : Image
         {
             $instance = new self();
             $instance->extension = $extension;
