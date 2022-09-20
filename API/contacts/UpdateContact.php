@@ -17,7 +17,8 @@
     require_once __DIR__ . '/../database/Database.php';
 
     $payload = RequestReceiver::receivePOST();
-    if ($payload === false)
+
+    if (!isPayloadValid($payload))
         ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
     
     $contact = Contact::Deserialize($payload);
@@ -38,4 +39,9 @@
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Contact doesn't exist");
     else
         ResponseSender::send(ResponseCodes::OK, NULL, $result);
+    
+    function isPayloadValid($payload) : bool
+    {
+        return $payload !== false && isset($payload['ID'], $payload['firstName'], $payload['lastName'], $payload['phone'], $payload['email'], $payload['contactImage']);
+    }
 ?>
