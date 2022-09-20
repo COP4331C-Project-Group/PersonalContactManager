@@ -19,7 +19,7 @@
                 return false;
             
             if (!$this->server->SaveImage($image))
-                throw new RuntimeException("Can't save image");
+                throw new Error("Can't save image");
 
             $stmt = $this->mysql->prepare("INSERT INTO Images (ID, name, extension) VALUES (DEFAULT, ?, ?)");
             $stmt->bind_param(
@@ -80,6 +80,7 @@
             if (!$this->server->DeleteImage($image))
                 throw new Error("Can't delete image");
             
+            // Doesn't throw an Error....Why?!
             if (!$this->server->SaveImage($image)) {
                 $this->server->SaveImage($cachedImage);
                 throw new Error("Can't save image");

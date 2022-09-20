@@ -20,8 +20,15 @@
                 return false;
             
             $fullPath = $this->imagePath . $image->name . "." . $image->extension;
-
-            return imagepng($gdImage, $fullPath, 0);
+            
+            try 
+            {
+                return imagepng($gdImage, $fullPath, 0);
+            }
+            catch (TypeError $e)
+            {
+                return false;
+            }
         }
 
         public function LoadImage(Image &$image) : bool
