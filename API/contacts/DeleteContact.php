@@ -16,7 +16,7 @@
 
     $payload = RequestReceiver::receivePOST();
 
-    if ($payload === false)
+    if (!isPayloadValid($payload))
         ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
 
     $contact = Contact::Deserialize($payload);
@@ -32,4 +32,9 @@
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Contact doesn't exist");
     else
         ResponseSender::send(ResponseCodes::OK);
+
+    function isPayloadValid($payload) : bool
+    {
+        return $payload !== false && isset($payload['ID']);
+    }
 ?>
