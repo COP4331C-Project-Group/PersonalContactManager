@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__ . '/Contact.php';
     require_once __DIR__ . '/../../images/model/ImageAPI.php';
+    require_once __DIR__ . '/../../server/ServerException.php';
 
     class ContactAPI 
     {
@@ -62,6 +63,7 @@
          * 
          * @param int $contactID unique contact identifier.
          * @return object|false object of the Contact class containing all information about record or false if operation was unsuccessful.
+         * @throws ServerException
          */
         private function GetContactByID($contactID) : object|false
         {
@@ -100,6 +102,7 @@
          * @param int $numOfResults max number of results that satisfy search query to be returned if search is successful.
          * @param int $userID unique user identifier.
          * @return array|false array of objects of the Contact class containing all information about each individual record or false if operation was unsuccessful.
+         * @throws ServerException
          */
         public function GetContact(string $query, int $userID, int $numOfResults) : array|false
         {
@@ -148,6 +151,7 @@
          * 
          * @param object $contact contact object of the Contact class.
          * @return object|false contact object of the Contact class containing updated information or false if operation was unsuccessful.
+         * @throws ServerException
          */
         public function UpdateContact(object $contact) : object|false
         {
@@ -158,7 +162,7 @@
 
             if ($existingContact === false)
                 return false;
-
+            
             if ($contact->contactImage !== NULL && strlen($contact->contactImage->imageAsBase64) > 0) {
                 $image = $contact->contactImage->setName(strval($contact->ID));
 
@@ -193,6 +197,7 @@
          * 
          * @param object $contact contact object of the Contact class.
          * @return bool true if operation was successful or false otherwise.
+         * @throws ServerException
          */
         public function DeleteContact(object $contact) : bool
         {

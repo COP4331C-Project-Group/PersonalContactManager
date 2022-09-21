@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__ . '/Image.php';
     require_once __DIR__ . '/../../server/Server.php';
+    require_once __DIR__ . '/../../server/ServerException.php';
 
     class ImageAPI
     {
@@ -13,13 +14,15 @@
             $this->mysql = $mysql;
         }
 
+        /**
+         * @throws ServerException
+         */
         public function CreateImage(object $image) : object|false 
         {
             if ($this->mysql->connect_error !== null)
                 return false;
             
-            if (!$this->server->SaveImage($image))
-                throw new Error("Can't save image");
+            $this->server->SaveImage($image);
 
             $stmt = $this->mysql->prepare("INSERT INTO Images (ID, name, extension) VALUES (DEFAULT, ?, ?)");
             $stmt->bind_param(
@@ -36,6 +39,9 @@
             return false;
         }
 
+        /**
+         * @throws ServerException
+         */
         private function GetImageBySQLQuery(string $query) : object|false
         {
             if ($this->mysql->connect_error !== null)
@@ -53,37 +59,53 @@
 
             $image = Image::Deserialize($record);
 
-            if (!$this->server->LoadImage($image))
-                throw new RuntimeException("Can't load image");
+            $this->server->LoadImage($image);
             
             return $image;
         } 
 
+        /**
+         * @throws ServerException
+         */
         public function GetImageByID(int $imageID) : object|false
         {
             return $this->GetImageBySQLQuery("SELECT * FROM Images WHERE ID=$imageID");
         }
 
+        /**
+         * @throws ServerException
+         */
         public function GetImageByName(string $imageName) : object|false
         {
             return $this->GetImageBySQLQuery("SELECT * FROM Images WHERE name='$imageName'");
         }
 
+        /**
+         * @throws ServerException
+         */
         public function UpdateImage(object $image) : object|false
         {
             if ($this->mysql->connect_error !== null)
                 return false;
             
-            $cachedImage = $image;
-            $this->server->LoadImage($cachedImage);
+            $cachedImage = $this->server->ImageExists($image) ? $image : NULL;            
 
-            if (!$this->server->DeleteImage($image))
-                throw new Error("Can't delete image");
-            
-            // Doesn't throw an Error....Why?!
-            if (!$this->server->SaveImage($image)) {
-                $this->server->SaveImage($cachedImage);
-                throw new Error("Can't save image");
+            if ($cachedImage !== NULL)
+            {
+                $this->server->LoadImage($cachedImage);
+                $this->server->DeleteImage($cachedImage);
+            }
+
+            try 
+            {
+                $this->server->SaveImage($image);
+            }
+            catch (ServerException $e)
+            {
+                if ($cachedImage !== NULL)
+                    $this->server->SaveImage($cachedImage);
+
+                throw new ServerException($e->getMessage());
             }
 
             $result = $this->mysql->query("UPDATE Images SET name='$image->name', extension='$image->extension' WHERE ID='$image->ID'");
@@ -94,6 +116,9 @@
             return false;
         }
 
+        /**
+         * @throws ServerException
+         */
         public function DeleteImage(object $image) : bool
         {
             if ($this->mysql->connect_error !== null)
@@ -102,8 +127,7 @@
             if ($this->GetImageByID($image->ID) == false)
                 return false;
             
-            if (!$this->server->DeleteImage($image))
-                throw new Error("Can't delete image");
+            $this->server->DeleteImage($image);
 
             $result = $this->mysql->query("DELETE FROM Images WHERE ID=$image->ID");
 
