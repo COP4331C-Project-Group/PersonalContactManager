@@ -38,9 +38,23 @@ CREATE TABLE IF NOT EXISTS Contacts (
 	email VARCHAR(100) NOT NULL DEFAULT '',
 	phone VARCHAR(20) NOT NULL DEFAULT '',
 	userID INT,
+	contactImageID INT,
 	PRIMARY KEY (ID),
 	FOREIGN KEY (userID) REFERENCES Users(ID)
 ) ENGINE = InnoDB;
+
+/*Creates table of Images
+Images have a:
+	ID that is used by a contact, if that contact has an image associated with it
+	name that is the name of the file,
+	and extension that is used to loacte the image in memory.
+*/
+CREATE TABLE IF NOT EXISTS Images (
+	ID INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(255) DEFAULT NULL,
+	extension VARCHAR(255) DEFAULT NULL,
+	PRIMARY KEY (ID)
+) ENGINE=InnoDB;
 
 /*START OF TEST DATA INSERTION*/
 INSERT INTO Users (firstName, lastName, username, password) VALUES ('John', 'Smith', 'Jsmith', 'TheGoat123');
