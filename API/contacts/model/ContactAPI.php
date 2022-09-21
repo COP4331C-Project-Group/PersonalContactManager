@@ -36,9 +36,9 @@
                 $contact->userID
             );
 
-            $result = $stmt->execute();
+            $records = $stmt->execute();
 
-            if ($result === false)
+            if ($records === false)
                 return false;
             
             $contactRecord = $this->GetContactByID($this->mysql->insert_id);
@@ -65,12 +65,12 @@
             if ($this->mysql->connect_error !== null)
                 return false;
 
-            $result = $this->mysql->query("SELECT * FROM Contacts WHERE ID=$contactID");
+            $records = $this->mysql->query("SELECT * FROM Contacts WHERE ID=$contactID");
 
-            if ($result === false)
+            if ($records === false)
                 return false;
         
-            $record = $result->fetch_object();
+            $record = $records->fetch_object();
 
             if ($record === null)
                 return false;
@@ -96,40 +96,43 @@
          * Gets contact record which satisfies query.
          * 
          * @param string $query search query used for searching for set of records in the database.
-         * @param int $numOfResults max number of results that satisfy search query to be returned if search is successful.
+         * @param int $numOfRecords max number of records that satisfy search query to be returned if search is successful.
          * @param int $userID unique user identifier.
          * @return array|false array of objects of the Contact class containing all information about each individual record or false if operation was unsuccessful.
          * @throws ServerException When image attached to contact is not valid || image doesn't exist.
          */
-        public function GetContact(string $query, int $userID, int $numOfResults) : array|false
+        public function GetContact(string $query, int $userID, int $numOfRecords) : array|false
         {
             if ($this->mysql->connect_error !== null)
                 return false;
 
-            $queryArray = explode(" ", $query);
+            $queryParameters = explode(" ", $query);
 
-            $searchQuery = "";
+            $queryArray = array();
+            foreach($queryParameters as $parameter)
+                $queryArray[] = "SELECT * FROM Contacts WHERE (firstName LIKE '%{$parameter}%' OR lastName LIKE '%{$parameter}%' OR phone LIKE '%{$parameter}%' OR email LIKE '%{$parameter}%') AND userID={$userID}";
 
-            foreach ($queryArray as $word) {
-                $searchQuery = $searchQuery . 
-                "firstName LIKE '%$word%' OR 
-                lastName LIKE '%$word%' OR
-                phone LIKE '%$word%' OR
-                email LIKE '%$word%'" . " OR ";
+            $recordArray = array();
+            foreach($queryArray as $query) {
+                $records = $this->mysql->query($query)->fetch_all(MYSQLI_ASSOC);
+
+                if ($records !== null)
+                    $recordArray[] = $records;
             }
 
-            // Removes the last " OR " inside of the searchQuery
-            $searchQuery = substr($searchQuery, 0, strlen($searchQuery) - 4);
-        
-            $result = $this->mysql->query("SELECT * FROM Contacts WHERE ($searchQuery) AND userID=$userID LIMIT $numOfResults");
-        
-            if ($result === false)
+            if (empty($recordArray))
                 return false;
-        
-            $resultArray = [];
 
-            while($record = $result->fetch_object()) {
-                $contact = Contact::Deserialize($record);
+
+            $recordArray = call_user_func_array('array_intersect_key', $recordArray);
+
+            if ($recordArray === false)
+                return false;
+
+            $contacts = array();
+
+            foreach($recordArray as $record) {
+                $contact = Contact::Deserialize((object) $record);
 
                 // Checks whether image is assigned to the contact record
                 // If so, tries to get that image and assign it to the contact object
@@ -139,10 +142,10 @@
                     $contact->contactImage = $image;
                 }   
 
-                $resultArray[] = $contact;
+                $contacts[] = $contact;
             }
 
-            return $resultArray;
+            return array_slice($contacts, 0, $numOfRecords);
         }
 
         /**
@@ -204,9 +207,9 @@
             else
                 $query = $query . "contactImageID={$contact->contactImage->ID} WHERE ID=$contact->ID";
             
-            $result = $this->mysql->query($query);
+            $records = $this->mysql->query($query);
 
-            if ($result !== false)
+            if ($records !== false)
                 return $this->GetContactByID($contact->ID);
 
             return false;
@@ -232,9 +235,9 @@
             if ($contact->contactImage !== NULL)
                 $this->imageAPI->DeleteImage($contact->contactImage);
 
-            $result = $this->mysql->query("DELETE FROM Contacts WHERE ID=$contact->ID");
+            $records = $this->mysql->query("DELETE FROM Contacts WHERE ID=$contact->ID");
 
-            return $result;
+            return $records;
         }
     }
 ?>
