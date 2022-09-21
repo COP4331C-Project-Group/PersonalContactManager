@@ -20,7 +20,8 @@
 
     $query = $payload['query'];
     $userID = $payload['userID'];
-    $limit = $payload['limit'];
+    $page = $payload['page'];
+    $itemsPerPage = $payload['itemsPerPage'];
 
     $database = new Database();
 
@@ -37,7 +38,7 @@
 
     try
     {
-        $result = $contactAPI->GetContact($query, $userID, $limit);
+        $result = $contactAPI->GetContact($query, $userID, $page, $itemsPerPage);
     }
     catch (Error $e)
     {
@@ -51,6 +52,6 @@
     
     function isPayloadValid($payload) : bool
     {
-        return $payload !== false && isset($payload['query'], $payload['userID'], $payload['limit']);
+        return $payload !== false && isset($payload['query'], $payload['userID'], $payload['page'], $payload['itemsPerPage']);
     }
 ?>
