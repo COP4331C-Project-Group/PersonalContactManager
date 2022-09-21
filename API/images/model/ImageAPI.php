@@ -87,8 +87,8 @@
         {
             if ($this->mysql->connect_error !== null)
                 return false;
-            
-            $cachedImage = $this->server->ImageExists($image) ? $image : NULL;            
+
+            $cachedImage = $this->server->ImageExists($image) ? clone $image : NULL;            
 
             if ($cachedImage !== NULL)
             {
