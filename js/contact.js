@@ -30,12 +30,14 @@ var span = document.getElementsByClassName("close")[0];
 openEditContactBtn.onclick = function() {
   editContactModal.style.display = "block";
   const contact = JSON.parse(localStorage.getItem('individualContact'));
-  document.getElementById("contact-form").innerHTML = `
-    <input type="text" id="firstName" class="na" value="` + contact.firstName + `" /><br />
-    <input type="text" id="lastName" class="na" value="` + contact.lastName + `" /><br />
-    <input type="tel" id="phone" class="na" value="` + contact.phone + `" /><br />
-    <input type="text" id="email" class="na" value="` + contact.email + `" /><br />
-  `;
+  updateFirst = document.getElementById("updateUserFirstName")
+  updateFirst.value = contact.firstName;
+  updateLast = document.getElementById("updateUserLastName")
+  updateLast.value = contact.lastName;
+  updatePhone = document.getElementById("updateUserPhone");
+  updatePhone.value = contact.phone;
+  updateEmail = document.getElementById("updateUserEmail");
+  updateEmail.value = contact.email;
 }
 
 // When the user clicks on <span> (x), close the editContactModal
@@ -98,6 +100,12 @@ async function doUpdateContact() {
 
 function displayContact() {
   const contact = JSON.parse(localStorage.getItem('individualContact'));
-  contactSpan = document.getElementById("contactSpan");
-  contactSpan.innerHTML = "<h1>" + contact.firstName + " " + contact.lastName + "</h1><h2>Phone number: " + contact.phone + "<br/>Email: " + contact.email + "</h2>";
+  document.title = "PCM - " + contact.firstName + " " + contact.lastName;
+  contactTitle = document.getElementById("title")
+  contactTitle.innerHTML = contact.firstName + " " + contact.lastName;
+  contactPhone = document.getElementById("displayContactPhoneNumber");
+  contactPhone.innerHTML = contact.phone;
+  contactEmail = document.getElementById("displayContactEmail");
+  contactEmail.innerHTML = contact.email;
+  
 }

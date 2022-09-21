@@ -258,7 +258,6 @@ img {
   border-style: solid;
   border-bottom-style: solid;
   border-bottom-color: rgb(202, 201, 201);
-  padding: 1%;
   width: 20%;
   font-size: 40px;
   top: 49%;
@@ -276,7 +275,6 @@ img {
   border-style: solid;
   border-bottom-style: solid;
   border-bottom-color: rgb(202, 201, 201);
-  padding: 1%;
   width: 20%;
   font-size: 40px;
   top: 49%;
@@ -294,7 +292,6 @@ img {
   border-style: solid;
   border-bottom-style: solid;
   border-bottom-color: rgb(202, 201, 201);
-  padding: 1%;
   width: 50%;
   font-size: 40px;
   top: 62%;
@@ -313,7 +310,6 @@ img {
   border-style: solid;
   border-bottom-style: solid;
   border-bottom-color: rgb(202, 201, 201);
-  padding: 1%;
   width: 50%;
   font-size: 40px;
   top: 75%;
@@ -361,4 +357,111 @@ img {
   background-color: #ffffff;
   color: #000000;
   opacity: 100%;
+}
+
+.updateFirstNameInput {
+  outline: none;
+  position: absolute;
+  height: fit-content;
+  border-radius: 5px;
+  border-color: #ffffff;
+  border-style: solid;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(202, 201, 201);
+  width: 20%;
+  font-size: 40px;
+  top: 28%;
+  left: 25%;
+  margin: auto;
+  display: block;
+}
+
+.updateContactLastNameInput {
+  outline: none;
+  position: absolute;
+  height: fit-content;
+  border-radius: 5px;
+  border-color: #ffffff;
+  border-style: solid;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(202, 201, 201);
+  width: 20%;
+  font-size: 40px;
+  top: 28%;
+  right: 25%;
+  margin: auto;
+  display: block;
+}
+
+.updateUserNameInput {
+  outline: none;
+  position: absolute;
+  height: fit-content;
+  border-radius: 5px;
+  border-color: #ffffff;
+  border-style: solid;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(202, 201, 201);
+  width: 50%;
+  font-size: 40px;
+  top: 42%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: block;
+}
+
+.updateUserOldPasswordInput {
+  outline: none;
+  position: absolute;
+  height: fit-content;
+  border-radius: 5px;
+  border-color: #ffffff;
+  border-style: solid;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(202, 201, 201);
+  width: 50%;
+  font-size: 40px;
+  top: 58%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: block;
+}
+
+.updateUserNewPasswordInput {
+  outline: none;
+  position: absolute;
+  height: fit-content;
+  border-radius: 5px;
+  border-color: #ffffff;
+  border-style: solid;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(202, 201, 201);
+  width: 50%;
+  font-size: 40px;
+  top: 74%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: block;
+}
+
+.updateFirstNameInput:hover,
+.updateFirstNameInput:active,
+.updateFirstNameInput:focus,
+.updateContactLastNameInput:hover,
+.updateContactLastNameInput:active,
+.updateContactLastNameInput:focus,
+.updateUserNameInput:hover,
+.updateUserNameInput:active,
+.updateUserNameInput:focus,
+.updateUserOldPasswordInput:hover,
+.updateUserOldPasswordInput:active,
+.updateUserOldPasswordInput:focus
+.updateUserNewPasswordInput:hover,
+.updateUserNewPasswordInput:active,
+.updateUserNewPasswordInput:focus {
+  outline: none;
+  border-bottom-color: #000000;
 }
