@@ -26,7 +26,7 @@
             if ($this->mysql->connect_error !== null)
                 return false;
 
-            $stmt = $this->mysql->prepare("INSERT INTO Contacts (ID, firstName, lastName, email, phone, userID, contactImageID) VALUES(DEFAULT, ?, ?, ?, ?, ?, NULL)");
+            $stmt = $this->mysql->prepare("INSERT INTO Contacts (ID, firstName, lastName, email, phone, userID, contactImageID, dateCreated) VALUES(DEFAULT, ?, ?, ?, ?, ?, NULL, DEFAULT)");
             $stmt->bind_param(
                 "ssssi", 
                 $contact->firstName, 

@@ -11,6 +11,7 @@
         public string $lastName;
         public string $phone;
         public string $email;
+        public string $dateCreated;
 
         public ?Image $contactImage;
 
@@ -23,6 +24,7 @@
             $this->userID = -1;
             $this->email = "";
             $this->ID = -1;
+            $this->dateCreated = "";
         }
 
         public static function create(
@@ -40,6 +42,12 @@
             $instance->email = $email;
             
             return $instance;
+        }
+
+        public function setDateCreated(string $dateCreated) : Contact
+        {
+            $this->dateCreated = $dateCreated;
+            return $this;
         }
 
         public function setContactImage(Image $image) : Contact
@@ -92,6 +100,7 @@
                 "lastName" => $this->lastName,
                 "phone" => $this->phone,
                 "email" => $this->email,
+                "dateCreated" => $this->dateCreated,
                 "userID" => $this->userID,
                 "contactImage" => $this->contactImage !== NULL ? $this->contactImage->imageAsBase64 : ""
             ];
