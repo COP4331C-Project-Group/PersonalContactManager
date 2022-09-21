@@ -1,4 +1,7 @@
 <?php
+    // ini_set('display_errors', 1);
+    // error_reporting(E_ALL ^ E_NOTICE);
+
     require_once __DIR__ . '/../utils/JsonUtils.php';
     require_once __DIR__ . '/../utils/ResponseSender.php';
     require_once __DIR__ . '/../utils/RequestReceiver.php';
@@ -6,6 +9,8 @@
 
     require_once __DIR__ . '/model/Contact.php';
     require_once __DIR__ . '/model/ContactAPI.php';
+
+    require_once __DIR__ . '/../contacts/model/ContactParser.php';
 
     require_once __DIR__ . '/../images/model/ImageAPI.php';
 

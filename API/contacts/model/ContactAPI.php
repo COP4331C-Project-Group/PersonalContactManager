@@ -108,28 +108,31 @@
 
             $queryArray = explode(" ", $query);
 
-            $searchQuery = "";
+            $searchQueryArray = array();
+            foreach($queryArray as $word)
+                $searchQueryArray[] = "SELECT * FROM Contacts WHERE (firstName LIKE '%{$word}%' OR lastName LIKE '%{$word}%' OR phone LIKE '%{$word}%' OR email LIKE '%{$word}%') AND userID={$userID}";
 
-            foreach ($queryArray as $word) {
-                $searchQuery = $searchQuery . 
-                "firstName LIKE '%$word%' OR 
-                lastName LIKE '%$word%' OR
-                phone LIKE '%$word%' OR
-                email LIKE '%$word%'" . " OR ";
+            $resultArray = array();
+            foreach($searchQueryArray as $searchQuery) {
+                $result = $this->mysql->query($searchQuery)->fetch_all(MYSQLI_ASSOC);
+
+                if ($result !== null)
+                    $resultArray[] = $result;
             }
 
-            // Removes the last " OR " inside of the searchQuery
-            $searchQuery = substr($searchQuery, 0, strlen($searchQuery) - 4);
-        
-            $result = $this->mysql->query("SELECT * FROM Contacts WHERE ($searchQuery) AND userID=$userID LIMIT $numOfResults");
-        
+            if (empty($resultArray))
+                return false;
+
+
+            $result = call_user_func_array('array_intersect_key', $resultArray);
+
             if ($result === false)
                 return false;
-        
+
             $resultArray = [];
 
-            while($record = $result->fetch_object()) {
-                $contact = Contact::Deserialize($record);
+            foreach($result as $record) {
+                $contact = Contact::Deserialize((object) $record);
 
                 // Checks whether image is assigned to the contact record
                 // If so, tries to get that image and assign it to the contact object
@@ -142,7 +145,7 @@
                 $resultArray[] = $contact;
             }
 
-            return $resultArray;
+            return array_slice($resultArray, 0, $numOfResults);
         }
 
         /**
