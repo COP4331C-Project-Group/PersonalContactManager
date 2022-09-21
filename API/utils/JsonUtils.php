@@ -19,8 +19,16 @@
             foreach ($json as $key => $value) {
                 if (!property_exists($classInstance, strval($key))) 
                     continue;
+                    
+                try 
+                {                
+                    $classInstance->{strval($key)} = $value;
+                }
+                catch (TypeError $e)
+                {
+                    continue;
+                }
 
-                $classInstance->{strval($key)} = $value;
             }
     
             return $classInstance;

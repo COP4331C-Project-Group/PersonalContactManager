@@ -9,13 +9,13 @@
     
     require_once __DIR__ . '/../database/Database.php';
 
-    $user = new User();
-
-    if (!RequestReceiver::receivePOST($user))
+    $payload = RequestReceiver::receivePOST();
+    if ($payload === false || !isset($payload['ID']))
         ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
 
-    $database = new Database();
+    $user = User::Deserialize($payload);
 
+    $database = new Database();
     $mysql = $database->connectToDatabase();
     
     $userAPI = new UserAPI($mysql);
@@ -23,7 +23,7 @@
     $result = $userAPI->UpdateUser($user);
 
     if ($result === false)
-        ResponseSender::send(ResponseCodes::NOT_FOUND, "Contact doesn't exist");
+        ResponseSender::send(ResponseCodes::NOT_FOUND, "User doesn't exist");
     else
         ResponseSender::send(ResponseCodes::OK, NULL, $result);
 ?>

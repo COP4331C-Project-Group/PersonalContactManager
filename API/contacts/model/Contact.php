@@ -1,5 +1,6 @@
 <?php
-    require_once __DIR__ . '/../../utils/JsonUtils.php';
+    require_once __DIR__ . '/../../JSONObject.php';
+    require_once __DIR__ . '/../../images/model/Image.php';
 
     class Contact extends JSONObject
     {
@@ -11,8 +12,11 @@
         public string $phone;
         public string $email;
 
+        public ?Image $contactImage;
+
         public function __construct()
-        {
+        {   
+            $this->contactImage = NULL;
             $this->firstName = "";
             $this->lastName = "";
             $this->phone = "";
@@ -36,6 +40,12 @@
             $instance->email = $email;
             
             return $instance;
+        }
+
+        public function setContactImage(Image $image) : Contact
+        {
+            $this->contactImage = $image;
+            return $this;
         }
 
         public function setID(int $contactID) : Contact
@@ -82,7 +92,8 @@
                 "lastName" => $this->lastName,
                 "phone" => $this->phone,
                 "email" => $this->email,
-                "userID" => $this->userID
+                "userID" => $this->userID,
+                "contactImage" => $this->contactImage !== NULL ? $this->contactImage->imageAsBase64 : ""
             ];
         }
     }

@@ -7,29 +7,48 @@
     require_once __DIR__ . '/model/Contact.php';
     require_once __DIR__ . '/model/ContactAPI.php';
 
+    require_once __DIR__ . '/../images/model/ImageAPI.php';
+
     require_once __DIR__ . '/../database/Database.php';
 
-    $contact = new Contact();
-    $limit = 1;
+    $payload = RequestReceiver::receiveGET();
 
-    if (!RequestReceiver::receiveGET($contact, $limit))
+    if (!isPayloadValid($payload))
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Missing request body");
+
+    $query = $payload['query'];
+    $userID = $payload['userID'];
+    $limit = $payload['limit'];
 
     $database = new Database();
 
-    $mysql = $database->connectToDatabase();
+    try
+    {
+        $mysql = $database->connectToDatabase();
+    }
+    catch (ServerException $e)
+    {
+        ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR, $e->getMessage());
+    }
 
-    $query = !empty($contact->firstName) ? $contact->firstName : "";
-    $query = $query . (!empty($contact->lastName) ? " " . $contact->lastName : ""); 
-    $query = $query . (!empty($contact->phone) ? " " . $contact->phone : "");
-    $query = $query . (!empty($contact->email) ? " " . $contact->email : "");
+    $contactAPI = new ContactAPI($mysql, new ImageAPI($mysql));
 
-    $contactAPI = new ContactAPI($mysql);
-
-    $result = $contactAPI->GetContact($query, $contact->userID, $limit);
+    try
+    {
+        $result = $contactAPI->GetContact($query, $userID, $limit);
+    }
+    catch (Error $e)
+    {
+        ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR, $e->getMessage());
+    }
 
     if ($result === false)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Couldn't find contact");
     else
         ResponseSender::send(ResponseCodes::OK, NULL, $result);
+    
+    function isPayloadValid($payload) : bool
+    {
+        return $payload !== false && isset($payload['query'], $payload['userID'], $payload['limit']);
+    }
 ?>

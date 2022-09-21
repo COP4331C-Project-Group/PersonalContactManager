@@ -6,17 +6,26 @@
 
     require_once __DIR__ . '/model/User.php';
     require_once __DIR__ . '/model/UserAPI.php';
-    
+
     require_once __DIR__ . '/../database/Database.php';
 
-    $user = new User();
+    $payload = RequestReceiver::receivePOST();
 
-    if (!RequestReceiver::receivePOST($user))
+    if ($payload === false)
         ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
+
+    $user = User::Deserialize($payload);
 
     $database = new Database();
 
-    $mysql = $database->connectToDatabase();
+    try
+    {
+        $mysql = $database->connectToDatabase();
+    }
+    catch (ServerException $e)
+    {
+        ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR, $e->getMessage());
+    }
     
     $userAPI = new UserAPI($mysql);
 

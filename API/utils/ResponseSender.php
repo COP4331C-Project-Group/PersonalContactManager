@@ -11,7 +11,6 @@
         public static function send(ResponseCodes $response, $message = NULL, $data = NULL,)
         {
             ResponseSender::sendResponse($response->value, $message, $data);
-            Exit();
         }
 
         private static function sendResponse(int $statusCode, $statusMessage, $data)
@@ -22,8 +21,8 @@
             $response['status_message'] = $statusMessage;
             $response['data'] = $data;
 
-            $jsonResponse = json_encode($response, JSON_PRETTY_PRINT);
-            echo $jsonResponse;
+            $jsonResponse = json_encode($response, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
+            die ($jsonResponse);
         }
     } 
 ?>

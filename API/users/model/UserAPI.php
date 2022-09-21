@@ -1,5 +1,4 @@
 <?php
-    require_once __DIR__ . '/../../utils/JsonUtils.php';
     require_once __DIR__ . '/User.php';
 
     class UserAPI 
@@ -9,11 +8,6 @@
         public function __construct(mysqli $mysql)
         {
             $this->mysql = $mysql;
-        }
-
-        public function __destruct()
-        {
-            $this->mysql->close();
         }
 
         /**
@@ -26,7 +20,7 @@
         {
             if ($this->mysql->connect_error !== null)
                 return false;
-
+            
             $stmt = $this->mysql->prepare("INSERT INTO Users (ID, firstName, lastName, username, password, dateCreated) VALUES (DEFAULT, ?, ?, ?, ?, DEFAULT)");
             $stmt->bind_param(
                 "ssss", 
@@ -38,7 +32,7 @@
             
             $result = $stmt->execute();
 
-            if ($result)
+            if ($result !== false)
                 return $this->GetUserByID($this->mysql->insert_id);
 
             return false;
@@ -64,7 +58,7 @@
 
             if ($record === null)
                 return false;
-
+            
             return User::Deserialize($record);
         }
 
@@ -89,7 +83,7 @@
             if ($record === null)
                 return false;
 
-            return User::Deserialize($record);
+            return $this->GetUserByID($record->ID);
         }
 
         /**
@@ -109,6 +103,6 @@
                 return $this->GetUserByID($user->ID);
 
             return false;
-        } 
+        }
     }
 ?>
