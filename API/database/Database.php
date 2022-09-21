@@ -1,4 +1,6 @@
 <?php
+    require_once __DIR__ . '/../server/ServerException.php';
+
     class Database {
         private $hostname;
         private $username;
@@ -19,7 +21,8 @@
         /**
         * Connects to the database.
         * 
-        * @return mysqli - mysqli object upon successful connection.
+        * @return mysqli mysqli object upon successful connection.
+        * @throws ServerException When connection to the database cannot be established.
         */
         public function connectToDatabase() : mysqli {        
             if (!is_null($this->mysql))
@@ -33,9 +36,10 @@
                     return false;
 
                 return $mysql;
-            } catch (RuntimeException $e)
+            } 
+            catch (RuntimeException $e)
             {
-                ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR, $e->getMessage());
+                throw new ServerException("Cannot connect to the database.");
             }
         }
     }

@@ -19,6 +19,7 @@
          * 
          * @param object $contact object of the Contact class.
          * @return object|false object of the Contact class containing all information about created record or false if operation was unsuccessful. 
+         * @throws ServerException When image attached to contact is not valid || image doesn't exist || image cannot be coverted to GdImage || image cannot be converted to image file.
          */
         public function CreateContact(object $contact) : object|false 
         {
@@ -42,13 +43,12 @@
             
             $contactRecord = $this->GetContactByID($this->mysql->insert_id);
 
+            // Checks whether an image was assigned to the new contact
+            // If so, tries to create an image and updates Contact table with the ID of that image
             if ($contact->contactImage !== NULL && strlen($contact->contactImage->imageAsBase64) !== 0) {
                 $contact->contactImage->setName(strval($contactRecord->ID));
                 
                 $image = $this->imageAPI->CreateImage($contact->contactImage);
-
-                if ($image === false)
-                    throw new RuntimeException("Can't create image");
 
                 $contactRecord->contactImage = $image;
 
@@ -63,7 +63,7 @@
          * 
          * @param int $contactID unique contact identifier.
          * @return object|false object of the Contact class containing all information about record or false if operation was unsuccessful.
-         * @throws ServerException
+         * @throws ServerException When image attached to contact is not valid || image doesn't exist.
          */
         private function GetContactByID($contactID) : object|false
         {
@@ -82,6 +82,8 @@
 
             $contact = Contact::Deserialize($record);
 
+            // Checks whether image is assigned to the contact record
+            // If so, tries to get that image and assign it to the contact object
             if ($record->contactImageID !== NULL)
             {
                 $image = $this->imageAPI->GetImageByID($record->contactImageID);
@@ -102,7 +104,7 @@
          * @param int $numOfResults max number of results that satisfy search query to be returned if search is successful.
          * @param int $userID unique user identifier.
          * @return array|false array of objects of the Contact class containing all information about each individual record or false if operation was unsuccessful.
-         * @throws ServerException
+         * @throws ServerException When image attached to contact is not valid || image doesn't exist.
          */
         public function GetContact(string $query, int $userID, int $numOfResults) : array|false
         {
@@ -134,6 +136,8 @@
             while($record = $result->fetch_object()) {
                 $contact = Contact::Deserialize($record);
 
+                // Checks whether image is assigned to the contact record
+                // If so, tries to get that image and assign it to the contact object
                 if ($record->contactImageID !== NULL)
                 {
                     $image = $this->imageAPI->GetImageByID($record->contactImageID);
@@ -151,7 +155,7 @@
          * 
          * @param object $contact contact object of the Contact class.
          * @return object|false contact object of the Contact class containing updated information or false if operation was unsuccessful.
-         * @throws ServerException
+         * @throws ServerException When image attached to contact is not valid || image doesn't exist || image cannot be coverted to GdImage || image cannot be converted to image file.
          */
         public function UpdateContact(object $contact) : object|false
         {
@@ -163,6 +167,14 @@
             if ($existingContact === false)
                 return false;
             
+            /**
+             * If new contact information contains image, then we are dealing with 2 cases:
+             * 1st -> There is an existing image attached to the contact
+             * 2nd -> There is no existing image attached to the contact
+             * 
+             * If Case 1 is valid, we need to "Update" existing image with the new image
+             * If Case 2 is valid, we need to "Create" new image
+             *  */ 
             if ($contact->contactImage !== NULL && strlen($contact->contactImage->imageAsBase64) > 0) {
                 $image = $contact->contactImage->setName(strval($contact->ID));
 
@@ -171,6 +183,14 @@
                 else
                     $contact->contactImage = $this->imageAPI->CreateImage($image);
             }
+            /**
+             * If new contact information doesn't contain image, then we are dealing with 2 cases:
+             * 1st -> There is an existing image attached to the contact
+             * 2nd -> There is no existing image attached to the contact
+             * 
+             * If Case 1 is valid, we nee to "Delete" existing image
+             * If Case 2 is valid, we don't need to do anything
+             */
             else
             {
                 if ($existingContact->contactImage !== NULL)
@@ -179,6 +199,11 @@
 
             $query = "UPDATE Contacts SET firstName='$contact->firstName', lastName='$contact->lastName', email='$contact->email', phone='$contact->phone', ";
 
+            /**
+             *  mysqli->query call doesn't accept mixed datatype, hence we have to explicitly define two queries which cover two cases ->
+             *  1st Case -> there is not contact image attached -> NULL
+             *  2nd Case -> there is an image attached -> contactImageID
+             */
             if ($contact->contactImage === NULL || strlen($contact->contactImage->imageAsBase64) === 0)
                 $query = $query . "contactImageID=NULL WHERE ID=$contact->ID";
             else
@@ -197,7 +222,7 @@
          * 
          * @param object $contact contact object of the Contact class.
          * @return bool true if operation was successful or false otherwise.
-         * @throws ServerException
+         * @throws ServerException When image attached to contact is not valid || image doesn't exist.
          */
         public function DeleteContact(object $contact) : bool
         {

@@ -20,7 +20,15 @@
     $user = User::Deserialize($payload);
 
     $database = new Database();
-    $mysql = $database->connectToDatabase();
+
+    try
+    {
+        $mysql = $database->connectToDatabase();
+    }
+    catch (ServerException $e)
+    {
+        ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR, $e->getMessage());
+    }
     
     $userAPI = new UserAPI($mysql);
 

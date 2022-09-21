@@ -15,7 +15,7 @@
         }
 
         /**
-         * @throws ServerException
+         * @throws ServerException When image is not valid || image doesn't exist.
          */
         public function CreateImage(object $image) : object|false 
         {
@@ -40,7 +40,7 @@
         }
 
         /**
-         * @throws ServerException
+         * @throws ServerException When image is not valid || image doesn't exist.
          */
         private function GetImageBySQLQuery(string $query) : object|false
         {
@@ -65,7 +65,7 @@
         } 
 
         /**
-         * @throws ServerException
+         * @throws ServerException When image is not valid || image doesn't exist.
          */
         public function GetImageByID(int $imageID) : object|false
         {
@@ -73,7 +73,7 @@
         }
 
         /**
-         * @throws ServerException
+         * @throws ServerException When image is not valid || image doesn't exist.
          */
         public function GetImageByName(string $imageName) : object|false
         {
@@ -81,7 +81,7 @@
         }
 
         /**
-         * @throws ServerException
+         * @throws ServerException When image is not valid || image doesn't exist || image cannot be coverted to GdImage || image cannot be converted to image file.
          */
         public function UpdateImage(object $image) : object|false
         {
@@ -117,7 +117,7 @@
         }
 
         /**
-         * @throws ServerException
+         * @throws ServerException When image is not valid || image doesn't exist.
          */
         public function DeleteImage(object $image) : bool
         {

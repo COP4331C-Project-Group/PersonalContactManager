@@ -31,7 +31,15 @@
     $contact->setContactImage($image);
 
     $database = new Database();
-    $mysql = $database->connectToDatabase();
+
+    try
+    {
+        $mysql = $database->connectToDatabase();
+    }
+    catch (ServerException $e)
+    {
+        ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR, $e->getMessage());
+    }
     
     $contactAPI = new ContactAPI($mysql, new ImageAPI($mysql));
 

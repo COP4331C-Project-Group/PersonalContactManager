@@ -2,7 +2,6 @@
     require_once __DIR__ . '/../images/model/Image.php';
     require_once __DIR__ . '/ServerException.php';
 
-
     class Server
     {
         private string $imagePath;
