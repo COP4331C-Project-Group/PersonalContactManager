@@ -45,13 +45,8 @@
 
             // Checks whether an image was assigned to the new contact
             // If so, tries to create an image and updates Contact table with the ID of that image
-            if ($contact->contactImage !== NULL && strlen($contact->contactImage->imageAsBase64) !== 0) {
-                $contact->contactImage->setName(strval($contactRecord->ID));
-                
-                $image = $this->imageAPI->CreateImage($contact->contactImage);
-
-                $contactRecord->contactImage = $image;
-
+            if ($contact->contactImage !== NULL && strlen($contact->contactImage->imageAsBase64) > 0) {
+                $contactRecord->contactImage = $contact->contactImage->setName(strval($contactRecord->ID));
                 $contactRecord = $this->UpdateContact($contactRecord);
             }
 
@@ -234,7 +229,8 @@
             if ($contact === false)
                 return false;
 
-            $this->imageAPI->DeleteImage($contact->contactImage);
+            if ($contact->contactImage !== NULL)
+                $this->imageAPI->DeleteImage($contact->contactImage);
 
             $result = $this->mysql->query("DELETE FROM Contacts WHERE ID=$contact->ID");
 
