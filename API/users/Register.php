@@ -11,7 +11,7 @@
 
     $payload = RequestReceiver::receivePOST();
 
-    if ($payload === false)
+    if (!isPayloadValid($payload))
         ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
 
     $user = User::Deserialize($payload);
@@ -47,5 +47,10 @@
             return true;
 
         return false;
+    }
+
+    function isPayloadValid($payload) : bool
+    {
+        return $payload !== false && isset($payload['firstName'], $payload['lastName'], $payload['username'], $payload['password']) && count($payload) == 4;
     }
 ?>

@@ -21,7 +21,7 @@
             if ($this->mysql->connect_error !== null)
                 return false;
             
-            $stmt = $this->mysql->prepare("INSERT INTO Users (ID, firstName, lastName, username, password, dateCreated) VALUES (DEFAULT, ?, ?, ?, ?, DEFAULT)");
+            $stmt = $this->mysql->prepare("INSERT INTO Users (ID, firstName, lastName, username, password, dateCreated, lastLogin) VALUES (DEFAULT, ?, ?, ?, ?, DEFAULT, NULL)");
             $stmt->bind_param(
                 "ssss", 
                 $user->firstName,
@@ -97,7 +97,7 @@
             if ($this->mysql->connect_error != null)
                 return false;
 
-            $result = $this->mysql->query("UPDATE Users SET firstName='$user->firstName', lastName='$user->lastName', password='$user->password' WHERE ID=$user->ID");
+            $result = $this->mysql->query("UPDATE Users SET firstName='$user->firstName', lastName='$user->lastName', password='$user->password', lastLogin='$user->lastLogin' WHERE ID=$user->ID");
 
             if ($result !== false)
                 return $this->GetUserByID($user->ID);

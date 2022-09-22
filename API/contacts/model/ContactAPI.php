@@ -101,7 +101,7 @@
          * @return array|false array of objects of the Contact class containing all information about each individual record or false if operation was unsuccessful.
          * @throws ServerException When image attached to contact is not valid || image doesn't exist.
          */
-        public function GetContact(string $query, int $userID, int $numOfRecords) : array|false
+        public function GetContact(string $query, int $userID, int $page, int $itemsPerPage) : array|false
         {
             if ($this->mysql->connect_error !== null)
                 return false;
@@ -145,7 +145,7 @@
                 $contacts[] = $contact;
             }
 
-            return array_slice($contacts, 0, $numOfRecords);
+            return array_slice($contacts, $page * $itemsPerPage, $itemsPerPage);
         }
 
         /**

@@ -11,6 +11,7 @@
         public string $username;
         public string $password;
         public string $dateCreated;
+        public string $lastLogin;
 
         public function __construct()
         {
@@ -20,6 +21,7 @@
             $this->username = "";
             $this->password = "";
             $this->dateCreated = "";
+            $this->lastLogin = "";
         }
 
         public static function create(
@@ -35,6 +37,12 @@
             $instance->password = $password;
 
             return $instance;
+        }
+
+        public function setLastLogin(string $lastLogin) : User
+        {
+            $this->lastLogin = $lastLogin;
+            return $this;
         }
 
         public function setDateCreated(string $dateCreated) : User
@@ -81,7 +89,8 @@
                 "lastName" => $this->lastName,
                 "username" => $this->username,
                 "password" => $this->password,
-                "dateCreated" => $this->dateCreated
+                "dateCreated" => $this->dateCreated,
+                "lastLogin" => $this->lastLogin
             ];
         }
     }
