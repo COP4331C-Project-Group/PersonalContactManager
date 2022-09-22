@@ -29,5 +29,18 @@
 
             return $_POST;
         }
+
+        public static function recievePUT() : array|false
+        {
+            if ($_SERVER["REQUEST_METHOD"] !== "PUT")
+                return false;
+            
+            $_PUT = json_decode(file_get_contents('php://input'), true);
+
+            if (empty($_PUT))
+                return false;
+
+            return $_PUT;
+        }
     }
 ?>
