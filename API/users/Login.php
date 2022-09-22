@@ -11,11 +11,11 @@
 
     $payload = RequestReceiver::receiveGET();
 
-    if ($payload === false)
+    if (!isPayloadValid($payload))
         ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
 
     $user = User::Deserialize($payload);
-
+    
     $database = new Database();
 
     try
@@ -34,8 +34,15 @@
     if ($result === false)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "User doesn't exist.");
 
-    if (strcmp($result->password, $user->password) != 0)
+    if (strcmp($result->password, $user->password) !== 0)
         ResponseSender::send(ResponseCodes::FORBIDDEN, "Incorrect password.");
-    else
+    else {
+        $result = $userAPI->UpdateUser($result->setLastLogin(date('y-m-d h:i:s')));
         ResponseSender::send(ResponseCodes::OK, NULL, $result);
+    }
+
+    function isPayloadValid($payload) : bool
+    {
+        return $payload !== false && isset($payload['username'], $payload['password']) && count($payload) == 2;
+    }
 ?>

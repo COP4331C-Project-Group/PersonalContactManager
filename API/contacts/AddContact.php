@@ -54,6 +54,6 @@
 
     function isPayloadValid($payload) : bool
     {
-        return $payload !== false && isset($payload['firstName'], $payload['lastName'], $payload['userID']);
+        return $payload !== false && isset($payload['firstName'], $payload['lastName'], $payload['userID'], $payload['contactImage']);
     }
 ?>
