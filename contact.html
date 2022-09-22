@@ -12,34 +12,32 @@
   <title>PCM - *insert contact name here*</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
-<body onload="displayContact()">
-  <center>
+<body id="newBody" onload="displayContact()">
+  <span id="title">Name of Contact</span>
+  <div id="contactDiv">
     <img src="images/default-profile-pic.jpg" alt="Default">
-    <br>
-    <span id="contactSpan"></span>
-
+    <label id="displayContactPhoneNumber" class="phoneNumberDisplay">Phone Number</label>
+    <label id="displayContactEmail" class="emailDisplay">Email Address</label>
     <!-- Trigger/Open The Edit Contact Modal -->
-    <button id="openEditContactBtn">Edit Contact</button>
-
-    <!-- Edit Contact Modal -->
-    <div id="editContactModal" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>
-          This window shows all the options for editing the contact.
-          <br>
-          Try to share code between here and the create contact modal (in index.html).
-        </p>
-        <span id="contact-form" class="contact-form"></span>
-        <button id="confirmBtn" class="confirmBtn">Confirm update</button>
-        <span id="editError"></span>
-      </div>
-    </div>
-
+    <button type="button" id="openEditContactBtn" class="editButton">Edit</button>
     <!-- Delete Contact button -->
-    <button onclick="doDeleteContact()">Delete</button>
+    <button type="button" id="deleteContactButton" class="deleteButton" onclick="doDeleteContact();">Delete</button>
+  </div>
 
-  </center>
+  <!-- Edit Contact Modal -->
+  <div id="editContactModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div id="modal-title">Update Contact</div>
+      <span class="close">&times;</span>
+      <img class="imgmodal" src="images/default-profile-pic.jpg" alt="Default">
+      <input type="text" id="updateUserFirstName" class="updateContactFirstNameInput" value=firstName placeholder="First Name"/><br />
+      <input type="text" id="updateUserLastName" class="updateContactLastNameInput" value=lastName placeholder="Last Name"/><br />
+      <input type="text" id="updateUserPhone" class="updatePhoneNumberInput" value=phone placeholder="Phone Number"/><br />
+      <input type="text" id="updateUserEmail" class="updateEmailInput" value=email placeholder="Email Address"/><br />
+      <button type="button" id="confirmBtn" class="updateButton" onclick="doUpdateContact();">Update</button>
+      <span id="editError"></span>
+    </div>
+  </div>
 </body>
 </html>

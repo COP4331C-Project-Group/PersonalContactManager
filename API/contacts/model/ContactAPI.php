@@ -96,7 +96,7 @@
          * Gets contact record which satisfies query.
          * 
          * @param string $query search query used for searching for set of records in the database.
-         * @param int $numOfrecordss max number of recordss that satisfy search query to be returned if search is successful.
+         * @param int $numOfRecords max number of records that satisfy search query to be returned if search is successful.
          * @param int $userID unique user identifier.
          * @return array|false array of objects of the Contact class containing all information about each individual record or false if operation was unsuccessful.
          * @throws ServerException When image attached to contact is not valid || image doesn't exist.
@@ -145,8 +145,6 @@
                 $contacts[] = $contact;
             }
 
-            // 0 * 2 = 0
-            // 1 * 2 = 2 + 2 = 4
             return array_slice($contacts, $page * $itemsPerPage, $itemsPerPage);
         }
 
