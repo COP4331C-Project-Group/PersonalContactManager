@@ -1,4 +1,7 @@
 <?php
+    ini_set('error_reporting', E_ALL);
+    ini_set('display_errors', 1);
+
     require_once __DIR__ . '/../utils/JsonUtils.php';
     require_once __DIR__ . '/../utils/ResponseSender.php';
     require_once __DIR__ . '/../utils/RequestReceiver.php';
@@ -20,10 +23,13 @@
 
     $contact = Contact::Deserialize($payload);
     
-    $image = Image::create("png")
-        ->setImageAsBase64($payload["contactImage"]);
+    if (isset($payload["contactImage"]))
+    {
+        $image = Image::create("png")
+            ->setImageAsBase64($payload["contactImage"]);
 
-    $contact->setContactImage($image);
+        $contact->setContactImage($image);
+    }
 
     $database = new Database();
     
@@ -54,6 +60,6 @@
 
     function isPayloadValid($payload) : bool
     {
-        return $payload !== false && isset($payload['firstName'], $payload['lastName'], $payload['userID'], $payload['contactImage']);
+        return $payload !== false && isset($payload['firstName'], $payload['lastName'], $payload['userID']);
     }
 ?>

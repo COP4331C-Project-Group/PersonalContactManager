@@ -132,8 +132,10 @@
             $contacts = array();
 
             foreach($recordArray as $record) {
-                $contact = Contact::Deserialize((object) $record);
+                $record = (object) $record;
 
+                $contact = Contact::Deserialize($record);
+                
                 // Checks whether image is assigned to the contact record
                 // If so, tries to get that image and assign it to the contact object
                 if ($record->contactImageID !== NULL)
