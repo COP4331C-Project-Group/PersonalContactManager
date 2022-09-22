@@ -42,5 +42,32 @@
 
             return $_PUT;
         }
+
+        public static function recieveDELETE() : array|false
+        {
+            if ($_SERVER["REQUEST_METHOD"] !== "DELETE")
+                return false;
+            
+            $start = strpos($_SERVER["REQUEST_URI"], "?");
+            if (!$start || ($start + 1) >= strlen($_SERVER["REQUEST_URI"]))
+                return false;
+            
+            $parameters = substr($_SERVER["REQUEST_URI"], $start + 1);
+            $parameters = explode("&", $parameters);
+
+            $_DELETE = array();
+
+            foreach($parameters as $parameter)
+            {
+                $pair = explode("=", $parameter, 2);
+
+                if (count($pair) < 2)
+                    return false;
+
+                $_DELETE[$pair[0]] = $pair[1];
+            }
+
+            return $_DELETE;
+        }
     }
 ?>
