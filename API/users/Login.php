@@ -37,7 +37,7 @@
     if (strcmp($result->password, $user->password) !== 0)
         ResponseSender::send(ResponseCodes::FORBIDDEN, "Incorrect password.");
     else {
-        $result = $userAPI->UpdateUser($result->setLastLogin(date('y-m-d h:i:s')));
+        $result = $userAPI->UpdateUser($result->setLastLogin(date('y-m-d H:i:s')));
         ResponseSender::send(ResponseCodes::OK, NULL, $result);
     }
 
