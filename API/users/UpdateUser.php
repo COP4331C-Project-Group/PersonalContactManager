@@ -9,8 +9,9 @@
     
     require_once __DIR__ . '/../database/Database.php';
 
-    $payload = RequestReceiver::receivePOST();
-    if ($payload === false || !isset($payload['ID']))
+    $payload = RequestReceiver::recievePUT();
+
+    if (!isPayloadValid($payload))
         ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
 
     $user = User::Deserialize($payload);
@@ -26,4 +27,9 @@
         ResponseSender::send(ResponseCodes::NOT_FOUND, "User doesn't exist");
     else
         ResponseSender::send(ResponseCodes::OK, NULL, $result);
+
+    function isPayloadValid($payload) : bool
+    {
+        return $payload !== false && isset($payload['ID'], $payload['firstName'], $payload['lastName'], $payload['password']);
+    }
 ?>
