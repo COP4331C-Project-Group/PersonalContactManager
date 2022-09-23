@@ -173,8 +173,6 @@
                 $intersectedRecords = $cur;
             }
 
-            die(json_encode($intersectedRecords, JSON_PRETTY_PRINT));
-
             $intersectedRecords = array_unique($intersectedRecords, SORT_REGULAR);
             $contacts = array();
             
