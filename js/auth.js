@@ -77,7 +77,7 @@ async function doLogin() {
     saveUserInfo(responseJson.data);
     window.location.href = "index.html";
   } else {
-    document.getElementById("authResult").innerHTML = responseJson.status_message;
+    document.getElementById("authResult").innerHTML = status;
   }
 }
 
@@ -158,6 +158,6 @@ async function doRegister() {
     saveUserInfo(responseJson.data);
     window.location.href = "index.html";
   } else {
-    document.getElementById("authResult").innerHTML = responseJson.status_message;
+    document.getElementById("authResult").innerHTML = status;
   }
 }

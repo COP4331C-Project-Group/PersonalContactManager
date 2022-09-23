@@ -58,6 +58,10 @@ async function getData(url, jsonParams) {
   }
 
   let response = await fetch(url);
+  if (!response.ok) {
+    console.log(JSON.stringify(response))
+    return [response.status, null];
+  }
   let responseJson = await response.json();
   return [response.status, responseJson];
 }
