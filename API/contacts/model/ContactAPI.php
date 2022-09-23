@@ -143,8 +143,7 @@
                     $results = $this->mysql->query("SELECT * FROM Contacts WHERE {$columnName} LIKE '%{$parameter}%' AND userID={$userID}")->fetch_all(MYSQLI_ASSOC);
 
                     if (!empty($results))
-                        foreach ($results as $record)
-                            $recordsPerParameter[] = $record;
+                        $recordsPerParameter = array_merge($recordsPerParameter, $results);
                 }
 
                 if (!empty($recordsPerParameter))
