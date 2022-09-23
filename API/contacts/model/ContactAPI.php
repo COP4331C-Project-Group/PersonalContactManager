@@ -121,6 +121,9 @@
             if ($this->mysql->connect_error !== null)
                 return false;
 
+            $queryParameters = explode(" ", $query);
+            $contacts = array();
+
             $columnNames = $this->columnNames;
 
             if (!$columnNames)
@@ -129,9 +132,6 @@
             unset($columnNames[array_search("userID", $columnNames)]);
             unset($columnNames[array_search("dateCreated", $columnNames)]);
             unset($columnNames[array_search("ID", $columnNames)]);
-
-            $contacts = array();
-            $queryParameters = explode(" ", $query);
 
             foreach($queryParameters as $parameter) {
                 $contactsPerParameter = array();
