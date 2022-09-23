@@ -167,7 +167,7 @@
                             $cur[] = $record;
                 }
 
-                if (!empty($cur))
+                if (empty($cur))
                     return false;
                     
                 $intersectedRecords = $cur;
