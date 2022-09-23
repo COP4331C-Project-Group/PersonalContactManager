@@ -1,0 +1,107 @@
+@startuml
+    abstract class JSONObject implements JsonSerializer {}
+
+    interface JsonSerializer {}
+    abstract class JsonDeserializer {
+        + static Deserialize(json): object
+        + static DeserializeArray(json): object
+    } 
+
+    JsonDeserializer <|-- JSONObject
+
+    class User extends JSONObject {
+        + ID: int
+        + firstName: string
+        + lastName: string
+        + username: string
+        + password: string
+        + dateCreated: string
+
+        + static create(firstName, lastName, username, password): User
+        
+        + setDateCreated(dateCreated): User
+        + setID(userID): User
+        + setFirstName(firstName): User
+        + setLastName(lastName): User
+        + setUsername(username): User
+        + setPassword(password): User
+        
+        + jsonSerialize(): mixed
+    }
+
+    class Contact extends JSONObject {
+        + ID: int
+        + userID: int
+        + firstName: string
+        + lastName: string
+        + phone: string
+        + email: string
+
+        + static create(firstName, lastName, phone, userID, email): Contact
+        
+        + setID(contactID): Contact
+        + setUserID(userID): Contact
+        + setFirstName(firstName): Contact
+        + setLastName(lastName): Contact
+        + setPhone(phone): Contact
+        + setEmail(email): Contact
+
+        + jsonSerialize(): mixed
+    }
+
+    class ContactAPI {
+        - mysql: mysqli
+
+        + ContactAPI(mysql)
+        + ~ContactAPI()
+
+        - GetContactByID(contactID: int): object|false
+
+        + CreateContact(contact: object): object|false
+        + GetContact(query: string, userID: int, numberOfResults: int) : array|false
+        + UpdateContact(contact: object): object|false
+        + DeleteContact(contact: object): bool
+    }
+
+    class UserAPI {
+        - mysql: mysql
+
+        + UserAPI(mysql)
+        + ~UserAPI()
+
+        - GetUserByID(userID: int): object|false
+
+        + CreateUser(user: object): object|false
+        + GetUserByUsername(username: string): object|false
+    }
+
+    class RequestReciever {
+        - RequestReciever()
+
+        + static recieveGET(containerClass: JSONObject, limit: int): bool
+        + static recievePOST(containerClass: JSONObject): bool    
+    }
+
+    enum ResponseCodes {
+        + NOT_FOUND
+        + CONFLICT
+        + OK
+        + NO_CONTENT
+        + CREATED
+        + METHOD_NOT_ALLOWED
+        + BAD_REQUEST
+        + FORBIDDEN
+    }
+
+    class ResponseSender {
+        - ResponseSender()
+
+        + static send(response: ResponseCodes, message: string, data)
+        - static sendResponse(statusCode: int, statusMessage: string, data)
+    }
+
+    ResponseSender -- ResponseCodes
+
+    Contact --* ContactAPI
+    User --* UserAPI
+@enduml

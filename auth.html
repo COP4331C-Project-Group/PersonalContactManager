@@ -1,0 +1,46 @@
+<!-- Login/register page; default page if not logged in -->
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="js/common.js" defer></script>
+  <script type="text/javascript" src="js/auth.js" defer></script>   
+  <link href="css/auth.css" rel="stylesheet" />
+  <title>PCM - Login</title>
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() 
+    {
+      readCookie();
+    }, false);
+  </script>
+
+</head>
+<body id="newBody">
+  <span id="title">Log in</span>
+  <div id="registerDiv">
+    <input type="text" id="registerFirstName" class="firstnameInput" placeholder="First" /><br />
+    <input type="text" id="registerLastName" class="lastnameInput" placeholder="Last" /><br />
+    <input type="text" id="registerUsername" class="registerUsernameInput" placeholder="Username" /><br />
+    <input type="password" id="registerPassword" class="registerPasswordInput" placeholder="Password" /><br />
+    <input type="password" id="registerConfirmPassword" class="registerRetypePasswordInput" placeholder="Retype Password" /><br />
+    <button type="button" id="registerButton" class="registerPageButton" onclick="doRegister();">Sign Up</button>
+    <div id="loginLink">
+      <a href="javascript:changeRegisterToLogin()">Log In</a>
+    </div>
+  </div>
+
+  <div id="loginDiv">
+    <input type="text" id="loginUsername" class="loginInputs" placeholder="Username" /><br />
+    <input type="password" id="loginPassword" class="loginInputs" placeholder="Password" /><br />
+    <button type="button" id="loginButton" class="loginPageButton" onclick="doLogin();">Log In</button>
+    <div id="registerLink">
+      <a href="javascript:changeLoginToRegister()">Register</a>
+    </div>
+  </div>
+
+  <div id="message">
+    <span id="authResult"></span>
+  </div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+#SetEnv HTTP_HOSTNAME "127.0.0.1"
+SetEnv HTTP_DATABASE_USERNAME "root"
+SetEnv HTTP_DATABASE_PASSWORD "MyPassword"
+SetEnv HTTP_DATABASE_NAME "COP4331"
+
+SetEnv HTTP_IMAGE_PATH "/var/www/html/images/"
+
+#RewriteEngine On
+
+#RewriteRule ^users/([1-9]+[0-9]*)/contacts$  API/contacts/SearchContact.php?userID=$1 [L]
+
+#RewriteRule ^users/([1-9]+[0-9]*)/contacts?(([a-zA-Z]+)[=]([a-zA-Z]+))$  API/contacts/SearchContact.php?userID=$1&$2[L]
+
+#(&lastName=([a-zA-Z]+)){0,1}(&phone=([a-zA-Z]+)){0,1}(&email=([a-zA-Z]+)){0,1}

@@ -1,0 +1,28 @@
+SetEnv HTTP_HOSTNAME "127.0.0.1"
+SetEnv HTTP_DATABASE_USERNAME "root"
+SetEnv HTTP_DATABASE_PASSWORD "MyPassword"
+SetEnv HTTP_DATABASE_NAME "COP4331"
+
+RewriteEngine On
+
+RewriteRule ^users/([1-9]+[0-9]*)/contacts/$  API/contacts/SearchContact.php?userID=$1 [L]
+
+RewriteRule ^users/([1-9]+[0-9]*)/contacts/([A-Za-z]+)/$  API/contacts/SearchContact.php?userID=$1&firstname=$2 [L]
+
+RewriteRule ^users/([1-9]+[0-9]*)/contacts/([A-Za-z]+)/$  API/contacts/SearchContact.php?userID=$1&lastname=$2 [L]
+
+RewriteRule ^users/([1-9]+[0-9]*)/contacts/([A-Za-z]+)/$  API/contacts/SearchContact.php?userID=$1&email=$2 [L]
+
+RewriteRule ^users/([1-9]+[0-9]*)/contacts/([A-Za-z]+)/$  API/contacts/SearchContact.php?userID=$1&phone=$2 [L]
+
+RewriteRule ^users/([1-9]+[0-9]*)/contacts/([A-Za-z]+)/([A-Za-z]+)/$  API/contacts/SearchContact.php?userID=$1&firstname=$2&lastname=$3 [L]
+
+RewriteRule ^users/([1-9]+[0-9]*)/contacts/([A-Za-z]+)/RewriteRule ^users/([1-9]+[0-9]*)/contacts/([A-Za-z]+)/$  API/contacts/SearchContact.php?userID=$1&firstname=$2 [L]
+
+
+$  API/contacts/SearchContact.php?userID=$1&firstname=$2 [L]
+
+
+
+
+RewriteRule ^users/([1-9]+[0-9]*)/contacts/([A-Za-z]+[/])([A-Za-z]+[/])([A-Za-z]+[/])([A-Za-z]+[/])$ API/contacts/SearchContact.php?userID=$1&firstname=$2&lastname=$3&email=$4&phone=$5 [L]

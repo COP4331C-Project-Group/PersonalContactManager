@@ -1,0 +1,82 @@
+<!--
+  Main page, shows contacts; default page if logged in already
+  If enter clicked in search bar, or button click, searches for contacts matching input string and displays them
+  If settings button clicked, shows a sidebar (same page, uses JS)
+    If logout button clicked, logs user out and sends to auth screen
+    If update profile clicked, shows a modal dialog (same page, uses JS)
+  If new contact button clicked, shows a modal dialog (same page, uses JS)
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="js/logout.js"></script>
+  <script type="text/javascript" src="js/common.js"></script>
+  <script type="text/javascript" src="js/main.js" defer></script>
+  <link rel="stylesheet" href="css/main.css">
+  <title>PCM - My Contacts</title>
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() 
+    {
+      readCookie();
+    }, false);
+  </script>
+</head>
+<body id="newBody">
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" onclick="openUpdateProfileModal()" id="myBtn">Update profile</a>
+    <a href="javascript:void(0)" onclick="doLogout()" id="myBtn2">Log out</a>
+  </div>
+
+  <div id="main">
+    <span style="font-size:100px;cursor:pointer" onclick="toggleNav()">&#9881;</span>
+    <span style="font-size:100px;cursor:pointer;float:right" onclick="openCreateContactModal()">&plus;</span>
+    <span id="userName"></span><br/>
+    <span id="title">My Contacts</span>
+    <div id="contactDiv">
+      <!-- TODO: Optionally add a button to clear the search box -->
+      <input type="text" id="contactString" class="searchInput" placeholder="Search Contacts..." /><br />
+      <!-- TODO: Add dropdown for limit of # contacts to search -->
+      <button type="button" id="searchContactsButton" class="searchButton" onclick="doSearch();">Search</button>
+
+      <br/><br/>
+      <span id="searchError"></span>
+      <span id="searchResult">
+        <div id="individualContactDiv"></div>
+      </span>
+    </div>
+  </div>
+
+  <!-- Create contact Modal -->
+  <div id="createContactModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div id="modal-title">Add Contact</div>
+      <span class="closeCreateContact">&times;</span>
+      <img src="images/default-profile-pic.jpg" alt="Default">
+      <input type="text" id="firstName" class="addContactFirstNameInput" placeholder="First Name" /><br />
+      <input type="text" id="lastName" class="addContactLastNameInput" placeholder="Last Name" /><br />
+      <input type="text" id="phone" class="phoneNumberInput" placeholder="Phone Number" /><br />
+      <input type="text" id="email" class="emailInput" placeholder="Email Address" /><br />
+      <button type="button" id="createContactButton" class="createButton" onclick="doCreateContact();">Create</button>
+      <span id="createResult"></span>
+    </div>
+  </div>
+
+  <!-- Update profile Modal -->
+  <div id="updateProfileModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div id="modal-title">Update Profile</div>
+      <span class="closeUpdateProfile">&times;</span>
+      <input type="text" id="updateUserFirstName" class="updateFirstNameInput" value=firstName placeholder="First Name" /><br />
+      <input type="text" id="updateUserLastName" class="updateContactLastNameInput" value=lastName placeholder="Last Name" /><br />
+      <input type="text" id="updateUserName" class="updateUserNameInput" value=userName placeholder="Username" /><br />
+      <input type="password" id="updateUserOldPass" class="updateUserOldPasswordInput" placeholder="Old Password" /><br />
+      <input type="password" id="updateUserNewPass" class="updateUserNewPasswordInput" placeholder="New Password" /><br />
+      <button type="button" id="confirmBtn" class="createButton" onclick="doUpdateContact();">Update</button>
+    </div>
+  </div>
+</body>
+</html>
