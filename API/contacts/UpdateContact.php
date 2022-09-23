@@ -9,7 +9,6 @@
 
     require_once __DIR__ . '/../images/model/Image.php';
     require_once __DIR__ . '/../images/model/ImageAPI.php';
-    require_once __DIR__ . '/../images/ImageExtensions.php';
 
     require_once __DIR__ . '/../database/Database.php';
 

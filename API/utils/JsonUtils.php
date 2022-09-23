@@ -7,7 +7,7 @@
          * @param string|object|array $json json string or json object.
          * @return object object of the class that inherited this method.
          */
-        public static function Deserialize($json) : object
+        public static function Deserialize($json)
         {
             $className = get_called_class();
 

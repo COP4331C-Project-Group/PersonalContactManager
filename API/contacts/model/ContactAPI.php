@@ -121,9 +121,6 @@
             if ($this->mysql->connect_error !== null)
                 return false;
 
-            $queryParameters = explode(" ", $query);
-            $contacts = array();
-
             $columnNames = $this->columnNames;
 
             if (!$columnNames)
@@ -133,62 +130,56 @@
             unset($columnNames[array_search("dateCreated", $columnNames)]);
             unset($columnNames[array_search("ID", $columnNames)]);
 
+            $columnNames = array_values($columnNames);
+
+            $queryParameters = explode(" ", $query);
+            $records = array();
+
             foreach($queryParameters as $parameter) {
-                $contactsPerParameter = array();
+                $recordsPerParameter = array();
 
                 foreach ($columnNames as $columnName) 
                 {
-                    $records = $this->mysql->query("SELECT * FROM Contacts WHERE {$columnName} LIKE '%{$parameter}%' AND userID={$userID}")->fetch_all(MYSQLI_ASSOC);
+                    $results = $this->mysql->query("SELECT * FROM Contacts WHERE {$columnName} LIKE '%{$parameter}%' AND userID={$userID}")->fetch_all(MYSQLI_ASSOC);
 
-                    if (!empty($records))
-                    {
-                        foreach ($records as $record)
-                            $contactsPerParameter[] = Contact::Deserialize((object) $record);
-                    }
+                    if (!empty($results))
+                        foreach ($results as $record)
+                            $recordsPerParameter[] = $record;
                 }
 
-                if (!empty($contactsPerParameter))
-                    $contacts[] = $contactsPerParameter;
+                if (!empty($recordsPerParameter))
+                    $records[] = $recordsPerParameter;
                 else
                     return false;
             }
 
-            $length = count($contacts);
-            $intersectedContacts = $contacts[0];
-
+            $length = count($records);
+            $intersectedRecords = $records[0];
+            
             for ($i = 1; $i < $length; $i++) 
             {
                 $cur = array();
                 
-                foreach($contacts[$i] as $contact)
+                foreach($records[$i] as $record)
                 {
-                    foreach($intersectedContacts as $contact)
-                    {
-                        if ($contact->ID === $contact->ID) {
-                            $cur[] = $contact;
-                            break;
-                        }
-                    }
+                    foreach($intersectedRecords as $intersectedRecord)
+                        if ($record["ID"] === $intersectedRecord["ID"])
+                            $cur[] = $record;
                 }
-                
-                $intersectedContacts = $cur;
+
+                if (!empty($cur))
+                    return false;
+                    
+                $intersectedRecords = $cur;
             }
 
-            $intersectedContacts = array_unique($intersectedContacts, SORT_REGULAR);
+            die(json_encode($intersectedRecords, JSON_PRETTY_PRINT));
 
+            $intersectedRecords = array_unique($intersectedRecords, SORT_REGULAR);
             $contacts = array();
-
-            foreach($intersectedContacts as $record) {
-                // Checks whether image is assigned to the contact record
-                // If so, tries to get that image and assign it to the contact object
-                if ($record->contactImageID !== NULL)
-                {
-                    $image = $this->imageAPI->GetImageByID($record->contactImageID);
-                    $contact->contactImage = $image;
-                }   
-
-                $contacts[] = $contact;
-            }
+            
+            foreach($intersectedRecords as $record) 
+                $contacts[] = $this->GetContactByID($record["ID"]);
 
             return array_slice($contacts, $page * $itemsPerPage, $itemsPerPage);
         }
