@@ -46,11 +46,11 @@
 
       <input title="Display all contacts?" type="text" id="contactString" class="searchInput" placeholder="Search Contacts..." oninput="doSearch();"/><br />
       <div id="numberOfContacts">
-        <a "javascript:void(0)" onclick="setNumberOfContactsToShow(10)" class="numberOfContactsNumbers" href="#">10</a>
+        <a "javascript:void(0)" onclick="setNumberOfContactsToShow(10)" class="numberOfContactsNumbers" id="limit10" href="#">10</a>
         -
-        <a "javascript:void(0)" onclick="setNumberOfContactsToShow(25)" class="numberOfContactsNumbers" href="#">25</a>
+        <a "javascript:void(0)" onclick="setNumberOfContactsToShow(25)" class="numberOfContactsNumbers" id="limit25" href="#">25</a>
         -
-        <a "javascript:void(0)" onclick="setNumberOfContactsToShow(50)" class="numberOfContactsNumbers" href="#">50</a>
+        <a "javascript:void(0)" onclick="setNumberOfContactsToShow(50)" class="numberOfContactsNumbers" id="limit50" href="#">50</a>
       </div>
       <!-- TODO: Add dropdown for limit of # contacts to search -->
       <button type="button" id="clearSearchButton" class="clearButton" onclick="clearSearchResults();">Clear</button>

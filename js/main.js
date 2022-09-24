@@ -210,9 +210,9 @@ async function doSearch() {
         searchResultDiv.innerHTML = "Found no contacts matching " + searchQuery;
         return;
       }
-      searchResultDiv.innerHTML = "Found " + responseJson.data.length + " contacts matching " + searchQuery;
+      searchResultDiv.innerHTML = "Showing all contacts matching \"" + searchQuery + "\"";
     }
-    console.log(responseJson);
+    searchResultDiv.innerHTML += " (displaying " + numberOfContacts + " at a time)"
     for ( var contact of responseJson.data ) {
       searchResultDiv.innerHTML += "<a href=javascript:loadContactPage(" + contact.ID + ")>" + createContactDiv(contact) + "</a>";
     }
@@ -308,6 +308,14 @@ btn.onclick = function() {
 
 function setNumberOfContactsToShow(n) {
   localStorage.setItem('numberOfContacts', n);
+  let limitVals = [10, 25, 50];
+  function resetStyle(val) {
+    var element = document.getElementById('limit' + val);
+    element.style.fontWeight = "normal";
+  }
+  limitVals.forEach(resetStyle);
+  var element = document.getElementById('limit' + n);
+  element.style.fontWeight = "bold";
   doSearch();
 }
 
