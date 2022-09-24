@@ -30,12 +30,18 @@ updateProfileSpan.onclick = function() {
   updateProfileModal.style.display = "none";
 }
 
-// Get the button that opens the updateProfileModal
+// Get the button that confirms profile update
 var confirmBtn = document.getElementById("confirmBtn");
 
 // When the user clicks the button, open the updateProfileModal 
-confirmBtn.onclick = function() {
-  updateProfileModal.style.display = "none";
+confirmBtn.onclick = async function() {
+  const success = await doUpdateUser();
+  if (success) {
+    console.log("successfully updated");
+    updateProfileModal.style.display = "none";
+  } else {
+    console.log("failed to update");
+  }
 }
 
 function openUpdateProfileModal() {
@@ -44,8 +50,90 @@ function openUpdateProfileModal() {
   updateUserFirst.value = window.firstName;
   updateUserLast = document.getElementById("updateUserLastName")
   updateUserLast.value = window.lastName;
-  updateUserUsername = document.getElementById("updateUsername");
-  updateUserUsername.value = window.username;
+  updateUsername = document.getElementById("updateUsername");
+  updateUsername.value = window.username;
+}
+
+async function validateUpdateUserInfo(firstName, lastName, username, oldPassword, newPassword) {
+  // Check that all fields are populated
+  if (firstName.length == 0) {
+    return "Must provide a first name!";
+  }
+
+  if (lastName.length == 0) {
+    return "Must provide a last name!";
+  }
+
+  if (username.length == 0) {
+    return "Must provide a username!";
+  }
+
+  // Try to log in using the old password and old username
+  document.getElementById("updateResult").innerHTML = "";
+
+  // TODO: switch to using hashes after getting everything working
+  // var passwordHash = md5( oldPassword );
+  const [status, responseJson] = await getData(
+    window.urlBase + '/users/Login' + window.extension + "?",
+    {
+      username:window.username,
+      password:oldPassword
+    });
+
+  // TODO: update this and other status checks to use a shared dictionary
+  // for status codes to make this more readable
+  if (status == 403) {
+    return "Old password invalid for user " + window.username;
+  }
+
+  if (newPassword.length == 0) {
+    return "Must provide a password!";
+  }
+
+  // TODO: add better handling of strong password here
+  if (newPassword.length < window.minimumPasswordLength) {
+    return "Please choose a stronger password (min password length = 6)";
+  }
+
+  return "";
+}
+
+async function doUpdateUser() {
+  firstName = document.getElementById("updateUserFirstName").value;
+  lastName = document.getElementById("updateUserLastName").value;
+  username = document.getElementById("updateUsername").value;
+  oldPassword = document.getElementById("oldPassword").value;
+  newPassword = document.getElementById("newPassword").value;
+
+  let updateSpan = document.getElementById("updateResult");
+
+  const error = await validateUpdateUserInfo(firstName, lastName, username, oldPassword, newPassword);
+  if (error !== "") {
+    updateSpan.innerHTML = error;
+    return false;
+  }
+  updateSpan.innerHTML = "";
+
+  const [status, responseJson] = await putData(
+    window.urlBase + '/users/UpdateUser' + window.extension,
+    {
+      firstName:firstName,
+      lastName:lastName,
+      username:username,
+      password:newPassword,
+      ID:window.userID,
+    });
+
+  if (status == 200) {
+    saveUserInfo(responseJson.data);
+    // reload page to reset contact name
+    window.location.href = "index.html";
+  } else {
+    updateSpan.innerHTML = responseJson.status_message;
+    return false;
+  }
+
+  return true;
 }
 
 var searchContactsButton = document.getElementById("searchContactsButton");
@@ -86,17 +174,13 @@ async function doSearch() {
 
   document.getElementById("searchError").innerHTML = "";
 
-  // TODO: consider updating endpoint to take a single query string instead of
-  // sending all fields populated with same value.
   const [status, responseJson] = await getData(
     window.urlBase + '/contacts/SearchContact' + window.extension + "?",
     {
-      firstName:searchQuery,
-      lastName:searchQuery,
-      email:searchQuery,
-      phone:searchQuery,
+      query:searchQuery,
       userID:window.userID,
-      limit:100,
+      page:0,
+      itemsPerPage:100,
     });
 
   localStorage.setItem("cachedContacts", JSON.stringify(responseJson.data));
