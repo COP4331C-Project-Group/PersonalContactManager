@@ -59,6 +59,34 @@ window.onclick = function(event) {
   }
 }
 
+// TODO: remove duplication between here and main.js
+var profileImage = document.getElementById("editProfilePicture");
+profileImage.onclick = function() {
+  let upload = document.getElementById("fileUpload");
+  console.log(upload);
+  upload.click();
+}
+
+// TODO: think of how to pass this to doCreateContact in a better way
+let imgAsBase64String = "";
+
+window.addEventListener('load', function() {
+  document.querySelector('input[type="file"]').addEventListener('change', function() {
+    if (this.files && this.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function () {
+        imgAsBase64String = reader.result.replace("data:", "")
+        .replace(/^.+,/, "");
+        console.log(imgAsBase64String);
+      }
+      reader.readAsDataURL(this.files[0]);
+
+      profileImage.src = URL.createObjectURL(this.files[0]); // set src to blob url
+    }
+  });
+});
+
 // Get the button that opens the updateProfileModal
 var confirmBtn = document.getElementById("confirmBtn");
 
@@ -75,8 +103,9 @@ async function doUpdateContact() {
   let phone = document.getElementById("phone").value;
   let email = document.getElementById("email").value;
   const contact = JSON.parse(localStorage.getItem('individualContact'));
-
-  // TODO: get the new contact image if there is one, or pass ""
+  if (imgAsBase64String == "") {
+    imgAsBase64String = contact.contactImage;
+  }
 
   const msg = validateContactForm(firstName, lastName, phone, email);
   if (msg !== "") {
@@ -94,7 +123,7 @@ async function doUpdateContact() {
       email:email,
       phone:phone,
       userID:window.userID,
-      contactImage:contact.contactImage,
+      contactImage:imgAsBase64String,
       ID:contact.ID,
     });
 

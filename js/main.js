@@ -215,6 +215,7 @@ function openCreateContactModal() {
   document.getElementById("email").value = "";
 }
 
+// TODO: remove duplication between here and contact.js
 var profileImage = document.getElementById("placeholderImage");
 profileImage.onclick = function() {
   let upload = document.getElementById("fileUpload");
@@ -228,9 +229,6 @@ let imgAsBase64String = "";
 window.addEventListener('load', function() {
   document.querySelector('input[type="file"]').addEventListener('change', function() {
     if (this.files && this.files[0]) {
-      // profileImage.onload = () => {
-      //   URL.revokeObjectURL(profileImage.src);  // no longer needed, free memory
-      // }
       var reader = new FileReader();
 
       reader.onload = function () {
