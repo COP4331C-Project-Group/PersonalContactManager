@@ -26,8 +26,30 @@ var openEditContactBtn = document.getElementById("openEditContactBtn");
 // Get the <span> element that closes the editContactModal
 var span = document.getElementsByClassName("close")[0];
 
+async function getImage(contactID) {
+  let cachedImage = JSON.parse(localStorage.getItem('cachedImage'));
+  if (cachedImage && cachedImage.contactID === contactID) {
+    return cachedImage.imgAsBase64String;
+  }
+  const [status, responseJson] = await getData(
+    window.urlBase + '/contacts/GetContactImage' + window.extension + "?",
+    {
+      ID:contactID,
+    });
+
+  if (status != 200) {
+    console.log("Failed to load image: " + status);
+    return null;
+  }
+
+  localStorage.setItem('cachedImage', JSON.stringify({
+    contactID:contactID, imgAsBase64String:responseJson.data}));
+
+  return responseJson.data;
+}
+
 // When the user clicks on the button, open the editContactModal 
-openEditContactBtn.onclick = function() {
+openEditContactBtn.onclick = async function() {
   editContactModal.style.display = "block";
   const contact = JSON.parse(localStorage.getItem('individualContact'));
   updateFirst = document.getElementById("firstName")
@@ -39,11 +61,14 @@ openEditContactBtn.onclick = function() {
   updateEmail = document.getElementById("email");
   updateEmail.value = contact.email;
   profileImage = document.getElementById("profilePicture");
-  if (contact.contactImage == "") {
-      profileImage.setAttribute('src', "images/default-profile-pic.jpg");
-  } else {
-    profileImage.setAttribute('src', "data:image/jpg;base64," + contact.contactImage);
+  if (contact.hasImage) {
+    imgAsBase64String = await getImage(contact.ID);
+    if (imgAsBase64String !== null) {
+      profileImage.setAttribute('src', "data:image/jpg;base64," + imgAsBase64String);
+      return;
+    }
   }
+  profileImage.setAttribute('src', "images/default-profile-pic.jpg");
 }
 
 // When the user clicks on <span> (x), close the editContactModal
@@ -121,18 +146,13 @@ async function displayContact() {
   contactEmail.innerHTML = contact.email;
   profileImage = document.getElementById("displayPicture");
 
-  if (contact.hasImage == true) {
-    const [status, responseJson] = await getData(
-    window.urlBase + '/contacts/GetContactImage' + window.extension + "?",
-    {
-      ID:contact.ID,
-    });
-    if (status == 200) {
-      profileImage.setAttribute('src', "data:image/jpg;base64," + responseJson.data);
+  if (contact.hasImage) {
+    imgAsBase64String = await getImage(contact.ID);
+    if (imgAsBase64String !== null) {
+      profileImage.setAttribute('src', "data:image/jpg;base64," + imgAsBase64String);
       return;
-    } else {
-      console.log("Failed to load image: " + status);
     }
+    console.log("Failed to load image: " + status);
   }
 
   // If we didn't successfully load the image, use the default
