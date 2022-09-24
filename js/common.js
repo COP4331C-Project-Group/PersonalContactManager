@@ -20,7 +20,6 @@ function saveCookie()
 
 function readCookie()
 {
-  window.userID = -1;
   let data = document.cookie;
   let parts = data.split(",");
   // parts has multiple elements if cookie is set, so we retrieve log in info

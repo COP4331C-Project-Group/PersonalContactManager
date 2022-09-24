@@ -10,7 +10,7 @@
 <html>
 <head>
   <script type="text/javascript" src="js/logout.js"></script>
-  <script type="text/javascript" src="js/common.js"></script>
+  <script type="text/javascript" src="js/common.js" defer></script>
   <script type="text/javascript" src="js/main.js" defer></script>
   <script type="text/javascript" src="js/image.js" defer></script>
   <link rel="stylesheet" href="css/main.css">
@@ -36,7 +36,15 @@
     <span id="userName"></span><br/>
     <span id="title">My Contacts</span>
     <div id="contactDiv">
-      <input type="text" id="contactString" class="searchInput" placeholder="Search Contacts..." oninput="doSearch();"/><br />
+      <div class="myDIV" id="myDiv">
+      <label class="switch">
+        <input id='toggle' type="checkbox">
+        <span class="slider round"></span>
+      </label>
+      </div>
+      <div class="hide"><span id="toggleLabel" class="toggleLabel">Show all</span></div>
+
+      <input title="Display all contacts?" type="text" id="contactString" class="searchInput" placeholder="Search Contacts..." oninput="doSearch();"/><br />
       <div id="numberOfContacts">
         <a "javascript:void(0)" onclick="setNumberOfContactsToShow(10)" class="numberOfContactsNumbers" href="#">10</a>
         -
@@ -46,8 +54,7 @@
       </div>
       <!-- TODO: Add dropdown for limit of # contacts to search -->
       <button type="button" id="clearSearchButton" class="clearButton" onclick="clearSearchResults();">Clear</button>
-
-      <br/><br/>
+      <br>
       <span id="searchError"></span>
       <span id="searchResult">
         <div id="individualContactDiv"></div>
