@@ -38,6 +38,13 @@ openEditContactBtn.onclick = function() {
   updatePhone.value = contact.phone;
   updateEmail = document.getElementById("updateContactEmail");
   updateEmail.value = contact.email;
+  profileImage = document.getElementById("editProfilePicture");
+  if (contact.contactImage == "") {
+      profileImage.setAttribute('src', "images/default-profile-pic.jpg");
+  } else {
+    console.log("setting base 64");
+    profileImage.setAttribute('src', "data:image/jpg;base64," + contact.contactImage);
+  }
 }
 
 // When the user clicks on <span> (x), close the editContactModal
@@ -107,5 +114,11 @@ function displayContact() {
   contactPhone.innerHTML = contact.phone;
   contactEmail = document.getElementById("displayContactEmail");
   contactEmail.innerHTML = contact.email;
-  
+  profileImage = document.getElementById("profilePicture");
+  if (contact.contactImage == "") {
+      profileImage.setAttribute('src', "images/default-profile-pic.jpg");
+  } else {
+    console.log("setting base 64");
+    profileImage.setAttribute('src', "data:image/jpg;base64," + contact.contactImage);
+  }
 }

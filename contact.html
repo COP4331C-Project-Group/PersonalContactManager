@@ -15,7 +15,7 @@
 <body id="newBody" onload="displayContact()">
   <span id="title">Name of Contact</span>
   <div id="contactDiv">
-    <img src="images/default-profile-pic.jpg" alt="Default">
+    <img id="profilePicture" alt="Default">
     <label id="displayContactPhoneNumber" class="phoneNumberDisplay">Phone Number</label>
     <label id="displayContactEmail" class="emailDisplay">Email Address</label>
     <!-- Trigger/Open The Edit Contact Modal -->
@@ -30,7 +30,7 @@
     <div class="modal-content">
       <div id="modal-title">Update Contact</div>
       <span class="close">&times;</span>
-      <img class="imgmodal" src="images/default-profile-pic.jpg" alt="Default">
+      <img id="editProfilePicture" class="imgmodal" alt="Default">
       <input type="text" id="updateContactFirstName" class="updateContactFirstNameInput" placeholder="First Name"/><br />
       <input type="text" id="updateContactLastName" class="updateContactLastNameInput" placeholder="Last Name"/><br />
       <input type="text" id="updateContactPhone" class="updatePhoneNumberInput" placeholder="Phone Number"/><br />
