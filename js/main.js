@@ -215,9 +215,9 @@ function openCreateContactModal() {
   document.getElementById("email").value = "";
 }
 
-var profileImage = document.getElementById("upfile1");
+var profileImage = document.getElementById("placeholderImage");
 profileImage.onclick = function() {
-  let upload = document.getElementById("file1");
+  let upload = document.getElementById("fileUpload");
   console.log(upload);
   upload.click();
 }
