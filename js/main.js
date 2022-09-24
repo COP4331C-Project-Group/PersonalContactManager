@@ -1,5 +1,8 @@
 var isSidebarOpen = false;
 
+// Initialize number of contacts to 10
+setNumberOfContactsToShow(10);
+
 function toggleNav() {
   if (isSidebarOpen) {
     closeNav();
@@ -174,6 +177,8 @@ async function doSearch(displayAll = false) {
     return;
   }
 
+  let numberOfContacts = localStorage.getItem('numberOfContacts');
+
   document.getElementById("searchError").innerHTML = "";
 
   const [status, responseJson] = await getData(
@@ -182,7 +187,7 @@ async function doSearch(displayAll = false) {
       query:searchQuery,
       userID:window.userID,
       page:0,
-      itemsPerPage:100,
+      itemsPerPage:numberOfContacts,
     });
 
   if (responseJson) {
@@ -268,4 +273,9 @@ window.onclick = function(event) {
   if (event.target == createContactModal) {
     createContactModal.style.display = "none";
   }
+}
+
+function setNumberOfContactsToShow(n) {
+  localStorage.setItem('numberOfContacts', n);
+  doSearch();
 }

@@ -37,6 +37,13 @@
     <span id="title">My Contacts</span>
     <div id="contactDiv">
       <input type="text" id="contactString" class="searchInput" placeholder="Search Contacts..." oninput="doSearch();"/><br />
+      <div id="numberOfContacts">
+        <a "javascript:void(0)" onclick="setNumberOfContactsToShow(10)" class="numberOfContactsNumbers" href="#">10</a>
+        -
+        <a "javascript:void(0)" onclick="setNumberOfContactsToShow(25)" class="numberOfContactsNumbers" href="#">25</a>
+        -
+        <a "javascript:void(0)" onclick="setNumberOfContactsToShow(50)" class="numberOfContactsNumbers" href="#">50</a>
+      </div>
       <!-- TODO: Add dropdown for limit of # contacts to search -->
       <button type="button" id="clearSearchButton" class="clearButton" onclick="clearSearchResults();">Clear</button>
 

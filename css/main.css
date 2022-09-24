@@ -172,6 +172,22 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
+#numberOfContacts {
+  font-size: 30px;
+  width: 15%;
+  position: fixed;
+  margin: auto;
+  margin-top: 0%;
+  top: 30%;
+  right: 25%;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.numberOfContactsNumbers {
+  text-decoration:  underline;
+  color: blue;
+}
+
 .searchButton:hover {
   background-color: #ffffff;
   color: #000000;
