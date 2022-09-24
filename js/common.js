@@ -6,14 +6,16 @@ window.firstName = "";
 window.lastName = "";
 window.username = "";
 
+// TODO: update this later if needed/add more constraints
+window.minimumPasswordLength = 6;
+
+
 function saveCookie()
 {
   let minutes = 20;
   let date = new Date();
   date.setTime(date.getTime()+(minutes*60*1000));
-  console.log("in save cookie " + window.username);
   document.cookie = "firstName=" + window.firstName + ",lastName=" + window.lastName + ",userId=" + window.userID + ",username=" + window.username + ";expires=" + date.toGMTString() + "; SameSite=Lax";
-  console.log(document.cookie);
 }
 
 function readCookie()
@@ -42,7 +44,6 @@ function readCookie()
       else if( tokens[0] == "username" )
       {
         window.username = tokens[1].trim();
-        console.log("got token: " + window.username);
       }
     }
   }
@@ -102,9 +103,9 @@ async function putData(url, jsonParams) {
   const requestOptions = {
           method: 'PUT',
           headers: {
-              'Accept': 'application/json'
+              'Content-Type': 'application/json'
           },
-          body: jsonParams
+          body: JSON.stringify(jsonParams)
       };
 
   let response = await fetch(url, requestOptions);

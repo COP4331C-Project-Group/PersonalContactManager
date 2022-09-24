@@ -84,9 +84,6 @@ async function doLogin() {
 }
 
 function validateRegistrationForm(firstName, lastName, username, password, confirmPassword) {  
-  // TODO: update this later if needed/add more constraints
-  const minimumPasswordLength = 6;
-
   // Check that all fields are populated
   if (firstName.length == 0) {
     document.getElementById("authResult").innerHTML = "Must provide a first name!";
@@ -114,7 +111,7 @@ function validateRegistrationForm(firstName, lastName, username, password, confi
   }
 
   // TODO: add better handling of strong password here
-  if (password.length < minimumPasswordLength) {
+  if (password.length < window.minimumPasswordLength) {
     document.getElementById("authResult").innerHTML = "Please choose a stronger password (min password length = 6)";
     return false;
   }

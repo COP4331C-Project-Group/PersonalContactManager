@@ -30,40 +30,80 @@ updateProfileSpan.onclick = function() {
   updateProfileModal.style.display = "none";
 }
 
-// Get the button that opens the updateProfileModal
+// Get the button that confirms profile update
 var confirmBtn = document.getElementById("confirmBtn");
 
 // When the user clicks the button, open the updateProfileModal 
 confirmBtn.onclick = function() {
-  updateProfileModal.style.display = "none";
+  if (doUpdateUser() === true) {
+    console.log("successfully updated");
+    updateProfileModal.style.display = "none";
+  } else {
+    console.log("failed to update");
+  }
 }
 
 function openUpdateProfileModal() {
   updateProfileModal.style.display = "block";
-  doUpdateContact();
-}
-
-function doUpdateContact() {
   updateUserFirst = document.getElementById("updateUserFirstName")
   updateUserFirst.value = window.firstName;
   updateUserLast = document.getElementById("updateUserLastName")
   updateUserLast.value = window.lastName;
   updateUsername = document.getElementById("updateUsername");
-  console.log(window.username);
   updateUsername.value = window.username;
+}
 
-  // document.getElementById("searchError").innerHTML = "";
+function validateUpdateUserInfo(firstName, lastName, username, oldPassword, newPassword) {
+  // Check that all fields are populated
+  if (firstName.length == 0) {
+    return "Must provide a first name!";
+  }
 
-  // // TODO: consider updating endpoint to take a single query string instead of
-  // // sending all fields populated with same value.
-  // const [status, responseJson] = await getData(
-  //   window.urlBase + '/contacts/SearchContact' + window.extension + "?",
-  //   {
-  //     query:searchQuery,
-  //     userID:window.userID,
-  //     page:0,
-  //     itemsPerPage:100,
-  //   });
+  if (lastName.length == 0) {
+    return "Must provide a last name!";
+  }
+
+  if (username.length == 0) {
+    return "Must provide a username!";
+  }
+
+  // TODO: Try to log in using the old password, if fails return false.
+
+  if (newPassword.length == 0) {
+    return "Must provide a password!";
+  }
+
+  // TODO: add better handling of strong password here
+  if (newPassword.length < window.minimumPasswordLength) {
+    return "Please choose a stronger password (min password length = 6)";
+  }
+
+  return "";
+}
+
+async function doUpdateUser() {
+  firstName = document.getElementById("updateUserFirstName").value;
+  lastName = document.getElementById("updateUserLastName").value;
+  username = document.getElementById("updateUsername").value;
+  oldPassword = document.getElementById("oldPassword").value;
+  newPassword = document.getElementById("newPassword").value;
+
+  const error = validateUpdateUserInfo(firstName, lastName, username, oldPassword, newPassword);
+  if (error !== "") {
+    document.getElementById("updateResult").innerHTML = error;
+    return false;
+  }
+  document.getElementById("updateResult").innerHTML = "";
+
+  const [status, responseJson] = await putData(
+    window.urlBase + '/users/UpdateUser' + window.extension,
+    {
+      firstName:firstName,
+      lastName:lastName,
+      username:username,
+      password:newPassword,
+      userID:window.userID,
+    });
 
   // localStorage.setItem("cachedContacts", JSON.stringify(responseJson.data));
 
