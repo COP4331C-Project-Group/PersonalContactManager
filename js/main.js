@@ -73,7 +73,6 @@ async function validateUpdateUserInfo(firstName, lastName, username, oldPassword
 
   // TODO: switch to using hashes after getting everything working
   // var passwordHash = md5( oldPassword );
-
   const [status, responseJson] = await getData(
     window.urlBase + '/users/Login' + window.extension + "?",
     {
