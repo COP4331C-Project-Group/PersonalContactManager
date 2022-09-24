@@ -18,7 +18,7 @@
          */
         public function CreateUser(object $user) : object|false
         {
-            if ($this->mysql->connect_error !== null)
+            if (!is_null($this->mysql->connect_error))
                 return false;
             
             $stmt = $this->mysql->prepare("INSERT INTO Users (ID, firstName, lastName, username, password, dateCreated, lastLogin) VALUES (DEFAULT, ?, ?, ?, ?, DEFAULT, NULL)");
@@ -32,10 +32,10 @@
             
             $result = $stmt->execute();
 
-            if ($result !== false)
-                return $this->GetUserByID($this->mysql->insert_id);
+            if (!$result)
+                return false;
 
-            return false;
+            return $this->GetUserByID($this->mysql->insert_id);
         }
 
         /**
@@ -46,17 +46,17 @@
          */
         private function GetUserByID($userID) : object|false
         {
-            if ($this->mysql->connect_error !== null)
+            if (!is_null($this->mysql->connect_error))
                 return false;
 
             $result = $this->mysql->query("SELECT * FROM Users WHERE ID=$userID");
 
-            if ($result === false)
+            if (!$result)
                 return false;
 
             $record = $result->fetch_object();
 
-            if ($record === null)
+            if (is_null($record))
                 return false;
             
             return User::Deserialize($record);
@@ -70,17 +70,17 @@
          */
         public function GetUserByUsername(string $username) : object|false
         {
-            if ($this->mysql->connect_error !== null)
+            if (!is_null($this->mysql->connect_error))
                 return false;
 
             $result = $this->mysql->query("SELECT * FROM Users WHERE username='$username'");
 
-            if ($result === false)
+            if (!$result)
                 return false;
 
             $record = $result->fetch_object();
 
-            if ($record === null)
+            if (is_null($record))
                 return false;
 
             return $this->GetUserByID($record->ID);
@@ -94,15 +94,15 @@
          */
         public function UpdateUser(object $user) : object|false
         {
-            if ($this->mysql->connect_error != null)
+            if (!is_null($this->mysql->connect_error))
                 return false;
 
             $result = $this->mysql->query("UPDATE Users SET firstName='$user->firstName', lastName='$user->lastName', username='$user->username', password='$user->password' WHERE ID=$user->ID");
 
-            if ($result !== false)
-                return $this->GetUserByID($user->ID);
+            if (!$result)
+                return false;
 
-            return false;
+            return $this->GetUserByID($user->ID);
         }
     }
 ?>

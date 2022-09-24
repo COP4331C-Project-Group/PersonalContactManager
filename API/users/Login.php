@@ -31,7 +31,7 @@
 
     $result = $userAPI->GetUserByUsername($user->username);
 
-    if ($result === false)
+    if (!$result)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "User doesn't exist.");
 
     if (strcmp($result->password, $user->password) !== 0)
