@@ -30,7 +30,7 @@
             return $_POST;
         }
 
-        public static function recievePUT() : array|false
+        public static function receivePUT() : array|false
         {
             if ($_SERVER["REQUEST_METHOD"] !== "PUT")
                 return false;

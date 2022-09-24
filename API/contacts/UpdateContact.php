@@ -14,7 +14,7 @@
 
     require_once __DIR__ . '/../server/ServerException.php';
 
-    $payload = RequestReceiver::recievePUT();
+    $payload = RequestReceiver::receivePUT();
 
     if (!isPayloadValid($payload))
         ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
