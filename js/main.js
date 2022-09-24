@@ -143,9 +143,12 @@ contactString.addEventListener("keydown", function (e) {
   }
 });
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function createContactDiv(contact) {
-  // TODO: update this to have nice styling
-  return JSON.stringify(contact);
+  return "<center><h3 style='border:1px solid black; width: 50%;'>" + capitalizeFirstLetter(contact.firstName) + " " + capitalizeFirstLetter(contact.lastName) + "</h6></center>";
 }
 
 function loadContactPage(contactID) {
@@ -185,7 +188,7 @@ async function doSearch() {
     searchResultDiv = document.getElementById("searchResult");
     searchResultDiv.innerHTML = "Found " + responseJson.data.length + " contacts matching " + searchQuery;
     for ( var contact of responseJson.data ) {
-      searchResultDiv.innerHTML += "<br/><a href=javascript:loadContactPage(" + contact.ID + ")>" + createContactDiv(contact) + "</a>";
+      searchResultDiv.innerHTML += "<a href=javascript:loadContactPage(" + contact.ID + ")>" + createContactDiv(contact) + "</a>";
     }
   } else {
     document.getElementById("searchError").innerHTML = responseJson.status_message;
