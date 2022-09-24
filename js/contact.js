@@ -91,8 +91,9 @@ window.addEventListener('load', function() {
 var confirmBtn = document.getElementById("confirmBtn");
 
 // When the user clicks the button, open the updateProfileModal 
-confirmBtn.onclick = function() {
-  if (doUpdateContact()) {
+confirmBtn.onclick = async function() {
+  const error = await doUpdateContact();
+  if (error) {
     editContactModal.style.display = "none";
   }
 }
@@ -150,7 +151,6 @@ function displayContact() {
   if (contact.contactImage == "") {
       profileImage.setAttribute('src', "images/default-profile-pic.jpg");
   } else {
-    console.log("setting base 64");
     profileImage.setAttribute('src', "data:image/jpg;base64," + contact.contactImage);
   }
 }
