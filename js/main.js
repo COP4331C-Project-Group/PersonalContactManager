@@ -37,10 +37,7 @@ var confirmBtn = document.getElementById("confirmBtn");
 confirmBtn.onclick = async function() {
   const success = await doUpdateUser();
   if (success) {
-    console.log("successfully updated");
     updateProfileModal.style.display = "none";
-  } else {
-    console.log("failed to update");
   }
 }
 
@@ -155,7 +152,6 @@ function loadContactPage(contactID) {
   const contacts = JSON.parse(localStorage.getItem('cachedContacts'));
   for (const contact of contacts) {
     if (contact.ID === contactID) {
-      // console.log("contact: " + JSON.stringify(contact));
       // TODO: see if this gets weird when you have multiple contact pages open.
       localStorage.setItem("individualContact", JSON.stringify(contact));
       window.location.href = "contact.html";
@@ -245,10 +241,9 @@ async function doCreateContact() {
     });
 
   if (status == 201) {
-    console.log("Successfully created contact");
     createContactModal.style.display = "none";
   } else {
-    document.getElementById("createResult").innerHTML = responseJson.status;
+    document.getElementById("createResult").innerHTML = status;
   }
 }
 

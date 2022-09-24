@@ -42,7 +42,6 @@ openEditContactBtn.onclick = function() {
   if (contact.contactImage == "") {
       profileImage.setAttribute('src', "images/default-profile-pic.jpg");
   } else {
-    console.log("setting base 64");
     profileImage.setAttribute('src', "data:image/jpg;base64," + contact.contactImage);
   }
 }

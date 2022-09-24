@@ -8,6 +8,7 @@ window.username = "";
 
 // TODO: update this later if needed/add more constraints
 window.minimumPasswordLength = 6;
+window.imageSizeLimit = 2000000;
 
 function saveCookie()
 {
