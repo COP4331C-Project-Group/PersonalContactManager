@@ -94,6 +94,26 @@
             return $contact;
         }
 
+        /**
+         * Gets contact image by contact's unique identifier.
+         * 
+         * @param int $contactID unique contact identifier.
+         * @return object|false object of the Image class containing all information about contact image or false if operation was unsuccessful.
+         * @throws ServerException When image attached to contact is not valid || image doesn't exist.
+         */
+        public function GetContactImage(int $contactID) : object|false
+        {
+            if ($this->mysql->connect_error !== null)
+                return false;
+
+            $contact = $this->GetContactByID($contactID);
+
+            if (!$contact || is_null($contact->contactImage))
+                return false;
+
+            return $this->imageAPI->GetImageByID($contact->contactImage->ID);
+        }
+
         private function GetContactColumns() : array|false
         {
             if ($this->mysql->connect_error !== null)
