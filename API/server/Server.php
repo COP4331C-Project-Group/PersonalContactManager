@@ -63,7 +63,7 @@
             
             try 
             {
-                return imagepng($gdImage, $fullPath, 0);
+                return imagepng($gdImage, $fullPath, 1);
             }
             catch (TypeError $e)
             {
