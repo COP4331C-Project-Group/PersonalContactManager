@@ -2,7 +2,7 @@ async function doDeleteContact() {
   if (confirm("Are you sure you want to delete this contact?")) {
     const contact = JSON.parse(localStorage.getItem('individualContact'));
     const [status, responseJson] = await postData(
-    window.urlBase + '/contacts/UpdateContact' + window.extension,
+    window.urlBase + '/contacts/DeleteContact' + window.extension,
     {
       ID:contact.ID,
     });
