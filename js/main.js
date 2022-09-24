@@ -102,7 +102,7 @@ async function doUpdateUser() {
       lastName:lastName,
       username:username,
       password:newPassword,
-      userID:window.userID,
+      ID:window.userID,
     });
 
   // localStorage.setItem("cachedContacts", JSON.stringify(responseJson.data));

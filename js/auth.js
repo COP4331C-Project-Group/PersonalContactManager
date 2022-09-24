@@ -76,7 +76,6 @@ async function doLogin() {
 
   if (status == 200) {
     saveUserInfo(responseJson.data);
-    console.log("after saving user info: " + window.username);
     window.location.href = "index.html";
   } else {
     document.getElementById("authResult").innerHTML = status;
