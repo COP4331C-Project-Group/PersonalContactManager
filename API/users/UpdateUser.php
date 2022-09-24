@@ -29,6 +29,11 @@
 
     $userAPI = new UserAPI($mysql);
 
+    $result = $userAPI->GetUserByUsername($user->username);
+
+    if (is_object($result) && $result->ID !== $user->ID)
+        ResponseSender::send(ResponseCodes::CONFLICT, "Username already exists");
+
     $result = $userAPI->UpdateUser($user);
 
     if ($result === false)
@@ -38,6 +43,6 @@
 
     function isPayloadValid($payload) : bool
     {
-        return $payload !== false && isset($payload['ID'], $payload['firstName'], $payload['lastName'], $payload['password']);
+        return $payload !== false && isset($payload['ID'], $payload['firstName'], $payload['lastName'], $payload['password'], $payload['username']);
     }
 ?>
