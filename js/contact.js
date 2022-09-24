@@ -110,7 +110,7 @@ async function doUpdateContact() {
   return true;
 }
 
-function displayContact() {
+async function displayContact() {
   const contact = JSON.parse(localStorage.getItem('individualContact'));
   document.title = "PCM - " + contact.firstName + " " + contact.lastName;
   contactTitle = document.getElementById("title")
@@ -120,9 +120,21 @@ function displayContact() {
   contactEmail = document.getElementById("displayContactEmail");
   contactEmail.innerHTML = contact.email;
   profileImage = document.getElementById("displayPicture");
-  if (contact.contactImage == "") {
-      profileImage.setAttribute('src', "images/default-profile-pic.jpg");
-  } else {
-    profileImage.setAttribute('src', "data:image/jpg;base64," + contact.contactImage);
+
+  if (contact.hasImage == true) {
+    const [status, responseJson] = await getData(
+    window.urlBase + '/contacts/GetContactImage' + window.extension + "?",
+    {
+      ID:contact.ID,
+    });
+    if (status == 200) {
+      profileImage.setAttribute('src', "data:image/jpg;base64," + responseJson.data);
+      return;
+    } else {
+      console.log("Failed to load image: " + status);
+    }
   }
+
+  // If we didn't successfully load the image, use the default
+  profileImage.setAttribute('src', "images/default-profile-pic.jpg");
 }
