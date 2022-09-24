@@ -45,7 +45,7 @@
         ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR, $e->getMessage());
     }
 
-    if ($result === false)
+    if (!$result)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Couldn't find contact");
     else
         ResponseSender::send(ResponseCodes::OK, NULL, $result);
