@@ -10,6 +10,10 @@ window.username = "";
 window.minimumPasswordLength = 6;
 window.imageSizeLimit = 2000000;
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function saveCookie()
 {
   let minutes = 20;
@@ -58,7 +62,7 @@ function readCookie()
     if (window.location.pathname.split("/").pop() !== "index.html") {
       window.location.href = "index.html";
     } else {
-      document.getElementById("userName").innerHTML = "Logged in as " + window.firstName + " " + window.lastName;
+      document.getElementById("userName").innerHTML = "Logged in as " + capitalizeFirstLetter(window.firstName) + " " + capitalizeFirstLetter(window.lastName);
     }
   }
 }

@@ -37,10 +37,10 @@
     <span id="title">My Contacts</span>
     <div id="contactDiv">
       <div class="myDIV" id="myDiv">
-      <label class="switch">
-        <input id='toggle' type="checkbox">
-        <span class="slider round"></span>
-      </label>
+        <label class="switch">
+          <input id='toggle' type="checkbox">
+          <span class="slider round"></span>
+        </label>
       </div>
       <div class="hide"><span id="toggleLabel" class="toggleLabel">Show all</span></div>
 
@@ -54,11 +54,13 @@
       </div>
       <!-- TODO: Add dropdown for limit of # contacts to search -->
       <button type="button" id="clearSearchButton" class="clearButton" onclick="clearSearchResults();">Clear</button>
-      <br>
+      <br><br>
       <span id="searchError"></span>
-      <span id="searchResult">
-        <div id="individualContactDiv"></div>
-      </span>
+      <div class="container">
+        <span id="searchResult">
+          <div id="individualContactDiv"></div>
+        </span>
+      </div>
     </div>
   </div>
 

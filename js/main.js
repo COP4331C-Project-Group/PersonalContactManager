@@ -1,4 +1,5 @@
 var isSidebarOpen = false;
+let currentPage = 0;
 
 // Initialize number of contacts to 10
 setNumberOfContactsToShow(10);
@@ -143,10 +144,6 @@ contactString.addEventListener("keydown", function (e) {
   }
 });
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 function createContactDiv(contact) {
   return "<center><h3 style='border:1px solid black; width: 50%;'>" + capitalizeFirstLetter(contact.firstName) + " " + capitalizeFirstLetter(contact.lastName) + "</h6></center>";
 }
@@ -165,9 +162,12 @@ function loadContactPage(contactID) {
 }
 
 function clearSearchResults() {
+  console.log("in clear search results");
   searchResultDiv = document.getElementById("searchResult");
   searchResultDiv.innerHTML = "";
   document.getElementById("contactString").value = "";
+  currentPage = 0;
+  localStorage.setItem("cachedContacts", null);
 }
 
 async function doSearch() {
@@ -192,26 +192,28 @@ async function doSearch() {
     {
       query:searchQuery,
       userID:window.userID,
-      page:0,
+      page:currentPage,
       itemsPerPage:numberOfContacts,
     });
 
   if (responseJson) {
-    localStorage.setItem("cachedContacts", JSON.stringify(responseJson.data));
+    let cached = JSON.parse(localStorage.getItem("cachedContacts"));
+    cached = (cached == null) ? responseJson.data : cached.concat(responseJson.data);
+    localStorage.setItem("cachedContacts", JSON.stringify(cached));
   }
 
   if (status == 200) {
     searchResultDiv = document.getElementById("searchResult");
     if (displayAll) {
-      searchResultDiv.innerHTML = "Showing all of your contacts";
+      // searchResultDiv.innerHTML = "Showing all of your contacts";
     } else {
       if (responseJson.data === false) {
         searchResultDiv.innerHTML = "Found no contacts matching " + searchQuery;
         return;
       }
-      searchResultDiv.innerHTML = "Showing all contacts matching \"" + searchQuery + "\"";
+      // searchResultDiv.innerHTML = "Showing all contacts matching \"" + searchQuery + "\"";
     }
-    searchResultDiv.innerHTML += " (displaying " + numberOfContacts + " at a time)"
+    // searchResultDiv.innerHTML += " (displaying " + numberOfContacts + " at a time)"
     for ( var contact of responseJson.data ) {
       searchResultDiv.innerHTML += "<a href=javascript:loadContactPage(" + contact.ID + ")>" + createContactDiv(contact) + "</a>";
     }
@@ -288,7 +290,6 @@ window.onclick = function(event) {
 
 let btn = document.getElementById('toggle');
 btn.onclick = function() {
-  clearSearchResults();
   let searchBox = document.getElementById("contactString");
   let toggleLabel = document.getElementById("toggleLabel");
   if (searchBox.disabled) {
@@ -297,6 +298,7 @@ btn.onclick = function() {
     searchBox.display='block';
     toggleLabel.innerHTML = "Show all";
   } else {
+    clearSearchResults();
     searchBox.placeholder = "Displaying all contacts...";
     searchBox.disabled = true;
     searchBox.display = 'none';
@@ -327,3 +329,12 @@ window.onload = (event) => {
     toggleLabel.innerHTML = "Hide all";
   }
 }
+
+let cont = document.querySelector(".container");
+
+cont.addEventListener("scroll", () => {
+  if (cont.scrollTop >= (cont.scrollHeight - cont.clientHeight) * 0.9) {
+    currentPage += 1;
+    doSearch();
+  }
+});
