@@ -9,7 +9,7 @@
     
     require_once __DIR__ . '/../database/Database.php';
 
-    $payload = RequestReceiver::recievePUT();
+    $payload = RequestReceiver::receivePUT();
 
     if (!isPayloadValid($payload))
         ResponseSender::send(ResponseCodes::BAD_REQUEST, "Missing request body");
