@@ -1,10 +1,10 @@
 async function doDeleteContact() {
   if (confirm("Are you sure you want to delete this contact?")) {
     const contact = JSON.parse(localStorage.getItem('individualContact'));
-    const [status, responseJson] = await postData(
-    window.urlBase + '/contacts/UpdateContact' + window.extension,
+    const [status, responseJson] = await deleteData(
+    window.urlBase + '/contacts/DeleteContact' + window.extension + '?',
     {
-      ID:contact.ID,
+      ID:contact.ID
     });
 
     if (status == 200) {
@@ -30,14 +30,21 @@ var span = document.getElementsByClassName("close")[0];
 openEditContactBtn.onclick = function() {
   editContactModal.style.display = "block";
   const contact = JSON.parse(localStorage.getItem('individualContact'));
-  updateFirst = document.getElementById("updateContactFirstName")
+  updateFirst = document.getElementById("firstName")
   updateFirst.value = contact.firstName;
-  updateLast = document.getElementById("updateContactLastName")
+  updateLast = document.getElementById("lastName")
   updateLast.value = contact.lastName;
-  updatePhone = document.getElementById("updateContactPhone");
+  updatePhone = document.getElementById("phone");
   updatePhone.value = contact.phone;
-  updateEmail = document.getElementById("updateContactEmail");
+  updateEmail = document.getElementById("email");
   updateEmail.value = contact.email;
+  profileImage = document.getElementById("profilePicture");
+  if (contact.contactImage == "") {
+      profileImage.setAttribute('src', "images/default-profile-pic.jpg");
+  } else {
+    console.log("setting base 64");
+    profileImage.setAttribute('src', "data:image/jpg;base64," + contact.contactImage);
+  }
 }
 
 // When the user clicks on <span> (x), close the editContactModal
@@ -56,8 +63,9 @@ window.onclick = function(event) {
 var confirmBtn = document.getElementById("confirmBtn");
 
 // When the user clicks the button, open the updateProfileModal 
-confirmBtn.onclick = function() {
-  if (doUpdateContact()) {
+confirmBtn.onclick = async function() {
+  const error = await doUpdateContact();
+  if (error) {
     editContactModal.style.display = "none";
   }
 }
@@ -68,6 +76,10 @@ async function doUpdateContact() {
   let phone = document.getElementById("phone").value;
   let email = document.getElementById("email").value;
   const contact = JSON.parse(localStorage.getItem('individualContact'));
+  let imgAsBase64String = localStorage.getItem('imgAsBase64String');
+  if (imgAsBase64String == null) {
+    imgAsBase64String = contact.contactImage;
+  }
 
   const msg = validateContactForm(firstName, lastName, phone, email);
   if (msg !== "") {
@@ -77,7 +89,7 @@ async function doUpdateContact() {
 
   document.getElementById("editError").innerHTML = "";
 
-  const [status, responseJson] = await postData(
+  const [status, responseJson] = await putData(
     window.urlBase + '/contacts/UpdateContact' + window.extension,
     {
       firstName:firstName,
@@ -85,6 +97,7 @@ async function doUpdateContact() {
       email:email,
       phone:phone,
       userID:window.userID,
+      contactImage:imgAsBase64String,
       ID:contact.ID,
     });
 
@@ -107,5 +120,10 @@ function displayContact() {
   contactPhone.innerHTML = contact.phone;
   contactEmail = document.getElementById("displayContactEmail");
   contactEmail.innerHTML = contact.email;
-  
+  profileImage = document.getElementById("displayPicture");
+  if (contact.contactImage == "") {
+      profileImage.setAttribute('src', "images/default-profile-pic.jpg");
+  } else {
+    profileImage.setAttribute('src', "data:image/jpg;base64," + contact.contactImage);
+  }
 }

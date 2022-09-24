@@ -8,6 +8,7 @@
 <head>
   <script type="text/javascript" src="js/common.js" defer></script>
   <script type="text/javascript" src="js/contact.js" defer></script>
+  <script type="text/javascript" src="js/image.js" defer></script>
   <link rel="stylesheet" href="css/contact.css">
   <title>PCM - *insert contact name here*</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.ico">
@@ -15,7 +16,7 @@
 <body id="newBody" onload="displayContact()">
   <span id="title">Name of Contact</span>
   <div id="contactDiv">
-    <img src="images/default-profile-pic.jpg" alt="Default">
+    <img id="displayPicture" alt="Default">
     <label id="displayContactPhoneNumber" class="phoneNumberDisplay">Phone Number</label>
     <label id="displayContactEmail" class="emailDisplay">Email Address</label>
     <!-- Trigger/Open The Edit Contact Modal -->
@@ -30,11 +31,12 @@
     <div class="modal-content">
       <div id="modal-title">Update Contact</div>
       <span class="close">&times;</span>
-      <img class="imgmodal" src="images/default-profile-pic.jpg" alt="Default">
-      <input type="text" id="updateContactFirstName" class="updateContactFirstNameInput" placeholder="First Name"/><br />
-      <input type="text" id="updateContactLastName" class="updateContactLastNameInput" placeholder="Last Name"/><br />
-      <input type="text" id="updateContactPhone" class="updatePhoneNumberInput" placeholder="Phone Number"/><br />
-      <input type="text" id="updateContactEmail" class="updateEmailInput" placeholder="Email Address"/><br />
+      <img id="profilePicture" class="imgmodal" style="cursor:pointer" />
+      <input type="file" id="fileUpload" name="fileUpload" style="display:none" />
+      <input type="text" id="firstName" class="updateContactFirstNameInput" placeholder="First Name"/><br />
+      <input type="text" id="lastName" class="updateContactLastNameInput" placeholder="Last Name"/><br />
+      <input type="text" id="phone" class="updatePhoneNumberInput" placeholder="Phone Number"/><br />
+      <input type="text" id="email" class="updateEmailInput" placeholder="Email Address"/><br />
       <button type="button" id="confirmBtn" class="updateButton" onclick="doUpdateContact();">Update</button>
       <span id="editError"></span>
     </div>

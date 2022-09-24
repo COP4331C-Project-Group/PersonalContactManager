@@ -209,6 +209,10 @@ createContactSpan.onclick = function() {
 
 function openCreateContactModal() {
   createContactModal.style.display = "block";
+  document.getElementById("firstName").value = "";
+  document.getElementById("lastName").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("email").value = "";
 }
 
 async function doCreateContact() {
@@ -216,6 +220,10 @@ async function doCreateContact() {
   let lastName = document.getElementById("lastName").value;
   let phone = document.getElementById("phone").value;
   let email = document.getElementById("email").value;
+  let imgAsBase64String = localStorage.getItem('imgAsBase64String');
+  if (imgAsBase64String == null) {
+    imgAsBase64String = "";
+  }
 
   const msg = validateContactForm(firstName, lastName, phone, email);
   if (msg !== "") {
@@ -232,15 +240,15 @@ async function doCreateContact() {
       lastName:lastName,
       email:email,
       phone:phone,
+      contactImage:imgAsBase64String,
       userID:window.userID,
     });
-  console.log(status);
 
   if (status == 201) {
     console.log("Successfully created contact");
     createContactModal.style.display = "none";
   } else {
-    document.getElementById("createResult").innerHTML = responseJson.status_message;
+    document.getElementById("createResult").innerHTML = responseJson.status;
   }
 }
 

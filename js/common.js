@@ -86,6 +86,28 @@ async function getData(url, jsonParams) {
   return [response.status, responseJson];
 }
 
+async function deleteData(url, jsonParams) {
+  for ( var key in jsonParams ) {
+    url += key + "=" + jsonParams[key] + "&";
+  }
+  
+  // removes the last &
+  url = url.slice(0, -1);
+
+  const requestOptions = {
+    method: 'DELETE'
+  };
+
+  let response = await fetch(url, requestOptions);
+  if (!response.ok) {
+    console.log(JSON.stringify(response));
+    return [response.status, null];
+  }
+
+  let responseJson = await response.json();
+  return [response.status, responseJson];
+}
+
 async function postData(url, jsonParams) {
   var formData = new FormData()
   for ( var key in jsonParams ) {
