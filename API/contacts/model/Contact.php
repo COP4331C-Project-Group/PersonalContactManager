@@ -101,7 +101,7 @@
                 . $this->email
                 . $this->dateCreated
                 . strval($this->userID)
-                . $this->contactImage; 
+                . $this->contactImage->imageAsBase64; 
         }
 
         public function jsonSerialize(): mixed
@@ -114,7 +114,7 @@
                 "email" => $this->email,
                 "dateCreated" => $this->dateCreated,
                 "userID" => $this->userID,
-                "contactImage" => $this->contactImage !== NULL ? $this->contactImage->imageAsBase64 : ""
+                "hasImage" => !is_null($this->contactImage) ? "true" : "false"
             ];
         }
     }
