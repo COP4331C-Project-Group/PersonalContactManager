@@ -1,7 +1,4 @@
 <?php
-    ini_set('error_reporting', E_ALL);
-    ini_set('display_errors', 1);
-
     require_once __DIR__ . '/../utils/JsonUtils.php';
     require_once __DIR__ . '/../utils/ResponseSender.php';
     require_once __DIR__ . '/../utils/RequestReceiver.php';
@@ -13,6 +10,8 @@
     require_once __DIR__ . '/../images/model/ImageAPI.php';
     
     require_once __DIR__ . '/../database/Database.php';
+
+    require_once __DIR__ . '/../server/ServerException.php';
 
     $payload = RequestReceiver::recieveDELETE();
 

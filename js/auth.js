@@ -8,9 +8,21 @@ confirmPasswordString.addEventListener("keydown", function (e) {
 var loginPasswordString = document.getElementById("loginPassword");
 loginPasswordString.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {
-    doLogin();
+    let username = document.getElementById("loginUsername").value;
+    let password = document.getElementById("loginPassword").value;
+    doLogin(username, password);
   }
 });
+
+// Get the button that confirms profile update
+var loginBtn = document.getElementById("loginButton");
+
+// When the user clicks the button, open the updateProfileModal 
+loginBtn.onclick = function() {
+  let username = document.getElementById("loginUsername").value;
+  let password = document.getElementById("loginPassword").value;
+  doLogin(username, password);
+}
 
 function changeLoginToRegister() {
   document.title = "PCM - Register";
@@ -24,15 +36,6 @@ function changeRegisterToLogin(){
   document.getElementById("registerDiv").style.zIndex = "-1";
   document.getElementById("loginDiv").style.zIndex = "1";
   document.getElementById("title").innerHTML = "Log In";
-}
-
-function saveUserInfo(userJson) {
-  window.userID = userJson.ID;
-
-  window.firstName = userJson.firstName;
-  window.lastName = userJson.lastName;
-
-  saveCookie();
 }
 
 function validateLoginForm(username, password) {
@@ -58,13 +61,11 @@ function validateLoginForm(username, password) {
   return true;
 }
 
-async function doLogin() {
+async function doLogin(username, password) {
   window.userID = 0;
   window.firstName = "";
   window.lastName = "";
-  
-  let username = document.getElementById("loginUsername").value;
-  let password = document.getElementById("loginPassword").value;
+  window.username = "";
 
   if (!validateLoginForm(username, password)) {
     return;
@@ -86,7 +87,7 @@ async function doLogin() {
     saveUserInfo(responseJson.data);
     window.location.href = "index.html";
   } else {
-    document.getElementById("authResult").innerHTML = responseJson.status_message;
+    document.getElementById("authResult").innerHTML = status;
   }
 }
 
@@ -152,9 +153,10 @@ function validateRegistrationForm(firstName, lastName, username, password, confi
 }
 
 async function doRegister() {
-  window.userID = 0;
+  window.userID = -1;
   window.firstName = "";
   window.lastName = "";
+  window.username = "";
   
   let firstName = document.getElementById("registerFirstName").value;
   let lastName = document.getElementById("registerLastName").value;
@@ -184,6 +186,6 @@ async function doRegister() {
     saveUserInfo(responseJson.data);
     window.location.href = "index.html";
   } else {
-    document.getElementById("authResult").innerHTML = responseJson.status_message;
+    document.getElementById("authResult").innerHTML = status;
   }
 }
