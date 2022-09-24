@@ -114,11 +114,25 @@ a {
     height: auto;
 }
 
+.authLoginAlert{
+    z-index: 5;
+    display: none;
+    position: absolute;
+    top: 66%;
+    right: 30%;
+    max-width: 3%;
+    height: auto;
+}
+
 .usernameLoginAlert:hover ~ #usernameLoginAlertMessage{
     visibility: visible;
 }
 
 .passLoginAlert:hover ~ #passLoginAlertMessage{
+    visibility: visible;
+}
+
+.authLoginAlert:hover ~ #authLoginAlertMessage{
     visibility: visible;
 }
 
@@ -154,6 +168,22 @@ a {
     right: 5%;
 }
 
+#authLoginAlertMessage {
+    visibility: hidden;
+    text-align: center;
+    position: absolute;
+    z-index: 5;
+    height: auto;
+    width: 15%;
+    border-style: solid;
+    background-color: white;
+    border-color: black;
+    box-shadow: 10px 5px 5px red;
+    border-radius: 2px;
+    top: 63%;
+    right: 10%;
+}
+
 #authLoginUsernameResult {
     position: absolute;
     z-index: 5;
@@ -168,6 +198,19 @@ a {
 }
 
 #authLoginPasswordResult {
+    position: absolute;
+    z-index: 5;
+    display: contents;
+    font-size: 0.8em;
+    width: 90%;
+    text-align: center;
+    margin-left: 5%;
+    margin-bottom: 2%;
+    font-family: 'Ubuntu', sans-serif;
+    color: #95060a;
+}
+
+#authLoginResult {
     position: absolute;
     z-index: 5;
     display: contents;
@@ -461,6 +504,16 @@ a {
     height: auto;
 }
 
+.authRegisterAlert{
+    z-index: 5;
+    display: none;
+    position: absolute;
+    top: 75%;
+    right: 28%;
+    max-width: 4%;
+    height: auto;
+}
+
 .firstRegisterAlert:hover ~ #firstRegisterAlertMessage{
     visibility: visible;
 }
@@ -478,6 +531,10 @@ a {
 }
 
 .retypepassRegisterAlert:hover ~ #retypepassRegisterAlertMessage{
+    visibility: visible;
+}
+
+.authRegisterAlert:hover ~ #authRegisterAlertMessage{
     visibility: visible;
 }
 
@@ -561,11 +618,28 @@ a {
     right: 2%;
 }
 
+#authRegisterAlertMessage {
+    visibility: hidden;
+    text-align: center;
+    position: absolute;
+    z-index: 5;
+    height: auto;
+    width: 15%;
+    border-style: solid;
+    background-color: white;
+    border-color: black;
+    box-shadow: 10px 5px 5px red;
+    border-radius: 2px;
+    top: 75%;
+    right: 10%;
+}
+
 #authRegisterFirstResult, 
 #authRegisterLastResult,
 #authRegisterUsernameResult,
 #authRegisterPasswordResult,
-#authRegisterRetypePasswordResult{
+#authRegisterRetypePasswordResult,
+#authRegisterResult{
     position: absolute;
     z-index: 5;
     display: contents;

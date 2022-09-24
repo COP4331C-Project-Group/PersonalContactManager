@@ -221,8 +221,6 @@ async function doCreateContact() {
     return;
   }
 
-  document.getElementById("createResult").innerHTML = "";
-
   const [status, responseJson] = await postData(
     window.urlBase + '/contacts/AddContact' + window.extension,
     {
@@ -238,7 +236,8 @@ async function doCreateContact() {
     console.log("Successfully created contact");
     createContactModal.style.display = "none";
   } else {
-    document.getElementById("createResult").innerHTML = responseJson.status_message;
+    document.getElementById("authContactResult").innerHTML = responseJson.status_message;
+    document.getElementById("authContactAlert").style.display = "block";
   }
 }
 

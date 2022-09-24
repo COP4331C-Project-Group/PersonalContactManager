@@ -506,6 +506,16 @@ img {
   height: auto;
 }
 
+.authContactAlert{
+  z-index: 5;
+  display: none;
+  position: absolute;
+  top: 89%;
+  left: 43%;
+  max-width: 5%;
+  height: auto;
+}
+
 .firstContactAlert:hover ~ #firstContactAlertMessage{
   visibility: visible;
 }
@@ -519,6 +529,10 @@ img {
 }
 
 .emailContactAlert:hover ~ #emailContactAlertMessage{
+  visibility: visible;
+}
+
+.authContactAlert:hover ~ #authContactAlertMessage{
   visibility: visible;
 }
 
@@ -586,10 +600,27 @@ img {
   right: 2%;
 }
 
+#authContactAlertMessage {
+  visibility: hidden;
+  text-align: center;
+  position: absolute;
+  z-index: 5;
+  height: auto;
+  width: 15%;
+  border-style: solid;
+  background-color: white;
+  border-color: black;
+  box-shadow: 10px 5px 5px red;
+  border-radius: 2px;
+  top: 90%;
+  right: 8%;
+}
+
 #authContactFirstResult, 
 #authContactLastResult,
 #authContactPhoneResult,
-#authContactEmailResult{
+#authContactEmailResult,
+#authContactResult{
   position: absolute;
   z-index: 5;
   display: contents;

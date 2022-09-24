@@ -71,8 +71,6 @@ async function doLogin(username, password) {
     return;
   }
 
-  document.getElementById("authResult").innerHTML = "";
-
   // TODO: switch to using hashes after getting everything working
   // var passwordHash = md5( password );
 
@@ -87,7 +85,8 @@ async function doLogin(username, password) {
     saveUserInfo(responseJson.data);
     window.location.href = "index.html";
   } else {
-    document.getElementById("authResult").innerHTML = status;
+    document.getElementById("authLoginResult").innerHTML = status;
+    document.getElementById("authLoginAlert").style.display = "block";
   }
 }
 
@@ -168,8 +167,6 @@ async function doRegister() {
     return;
   }
 
-  document.getElementById("authResult").innerHTML = "";
-
   // TODO: switch to using hashes after getting everything working
   // var passwordHash = md5( password );
 
@@ -186,6 +183,7 @@ async function doRegister() {
     saveUserInfo(responseJson.data);
     window.location.href = "index.html";
   } else {
-    document.getElementById("authResult").innerHTML = status;
+    document.getElementById("authRegisterResult").innerHTML = status;
+    document.getElementById("authRegisterAlert").style.display = "block";
   }
 }
