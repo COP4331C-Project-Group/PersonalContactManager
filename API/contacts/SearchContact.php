@@ -7,11 +7,11 @@
     require_once __DIR__ . '/model/Contact.php';
     require_once __DIR__ . '/model/ContactAPI.php';
 
-    require_once __DIR__ . '/../contacts/model/ContactParser.php';
-
     require_once __DIR__ . '/../images/model/ImageAPI.php';
 
     require_once __DIR__ . '/../database/Database.php';
+
+    require_once __DIR__ . '/../server/ServerException.php';
 
     $payload = RequestReceiver::receiveGET();
 

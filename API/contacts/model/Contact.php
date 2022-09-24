@@ -92,6 +92,18 @@
             return $this;
         }
 
+        public function __toString()
+        {
+            return $this->firstName
+                . $this->lastName
+                . strval($this->ID)
+                . $this->phone
+                . $this->email
+                . $this->dateCreated
+                . strval($this->userID)
+                . $this->contactImage; 
+        }
+
         public function jsonSerialize(): mixed
         {
             return [
