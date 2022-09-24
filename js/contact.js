@@ -30,13 +30,13 @@ var span = document.getElementsByClassName("close")[0];
 openEditContactBtn.onclick = function() {
   editContactModal.style.display = "block";
   const contact = JSON.parse(localStorage.getItem('individualContact'));
-  updateFirst = document.getElementById("updateContactFirstName")
+  updateFirst = document.getElementById("firstName")
   updateFirst.value = contact.firstName;
-  updateLast = document.getElementById("updateContactLastName")
+  updateLast = document.getElementById("lastName")
   updateLast.value = contact.lastName;
-  updatePhone = document.getElementById("updateContactPhone");
+  updatePhone = document.getElementById("phone");
   updatePhone.value = contact.phone;
-  updateEmail = document.getElementById("updateContactEmail");
+  updateEmail = document.getElementById("email");
   updateEmail.value = contact.email;
   profileImage = document.getElementById("editProfilePicture");
   if (contact.contactImage == "") {
@@ -76,6 +76,8 @@ async function doUpdateContact() {
   let email = document.getElementById("email").value;
   const contact = JSON.parse(localStorage.getItem('individualContact'));
 
+  // TODO: get the new contact image if there is one, or pass ""
+
   const msg = validateContactForm(firstName, lastName, phone, email);
   if (msg !== "") {
     document.getElementById("editError").innerHTML = msg;
@@ -84,7 +86,7 @@ async function doUpdateContact() {
 
   document.getElementById("editError").innerHTML = "";
 
-  const [status, responseJson] = await postData(
+  const [status, responseJson] = await putData(
     window.urlBase + '/contacts/UpdateContact' + window.extension,
     {
       firstName:firstName,
@@ -92,6 +94,7 @@ async function doUpdateContact() {
       email:email,
       phone:phone,
       userID:window.userID,
+      contactImage:contact.contactImage,
       ID:contact.ID,
     });
 
