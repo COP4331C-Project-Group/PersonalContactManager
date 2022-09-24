@@ -1,13 +1,9 @@
-// TODO: remove duplication between here and contact.js
 var profileImage = document.getElementById("profilePicture");
 profileImage.onclick = function() {
   let upload = document.getElementById("fileUpload");
   console.log(upload);
   upload.click();
 }
-
-// // TODO: think of how to pass this to doCreateContact in a better way
-// let imgAsBase64String = "";
 
 window.addEventListener('load', function() {
   document.querySelector('input[type="file"]').addEventListener('change', function() {
