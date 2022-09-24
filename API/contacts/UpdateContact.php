@@ -48,7 +48,7 @@
         ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR, $e->getMessage());
     }
 
-    if ($result === false)
+    if (!$result)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "Contact doesn't exist");
     else
         ResponseSender::send(ResponseCodes::OK, NULL, $result);
