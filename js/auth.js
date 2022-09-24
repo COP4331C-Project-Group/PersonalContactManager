@@ -8,9 +8,21 @@ confirmPasswordString.addEventListener("keydown", function (e) {
 var loginPasswordString = document.getElementById("loginPassword");
 loginPasswordString.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {
-    doLogin();
+    let username = document.getElementById("loginUsername").value;
+    let password = document.getElementById("loginPassword").value;
+    doLogin(username, password);
   }
 });
+
+// Get the button that confirms profile update
+var loginBtn = document.getElementById("loginButton");
+
+// When the user clicks the button, open the updateProfileModal 
+loginBtn.onclick = function() {
+  let username = document.getElementById("loginUsername").value;
+  let password = document.getElementById("loginPassword").value;
+  doLogin(username, password);
+}
 
 function changeLoginToRegister() {
   document.title = "PCM - Register";
@@ -24,15 +36,6 @@ function changeRegisterToLogin(){
   document.getElementById("registerDiv").style.zIndex = "-1";
   document.getElementById("loginDiv").style.zIndex = "1";
   document.getElementById("title").innerHTML = "Log In";
-}
-
-function saveUserInfo(userJson) {
-  window.userID = userJson.ID;
-  window.firstName = userJson.firstName;
-  window.lastName = userJson.lastName;
-  window.username = userJson.username;
-
-  saveCookie();
 }
 
 function validateLoginForm(username, password) {
@@ -49,14 +52,11 @@ function validateLoginForm(username, password) {
   return true;
 }
 
-async function doLogin() {
+async function doLogin(username, password) {
   window.userID = 0;
   window.firstName = "";
   window.lastName = "";
   window.username = "";
-
-  let username = document.getElementById("loginUsername").value;
-  let password = document.getElementById("loginPassword").value;
 
   if (!validateLoginForm(username, password)) {
     return;
