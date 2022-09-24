@@ -21,7 +21,7 @@
 
     $contact = Contact::Deserialize($payload);
     
-    if (isset($payload["contactImage"]))
+    if (strlen($payload["contactImage"]) !== 0)
     {
         $image = Image::create("png")
             ->setImageAsBase64($payload["contactImage"]);
@@ -58,6 +58,6 @@
 
     function isPayloadValid($payload) : bool
     {
-        return $payload !== false && isset($payload['firstName'], $payload['lastName'], $payload['userID']);
+        return $payload !== false && isset($payload['firstName'], $payload['lastName'], $payload['userID'], $payload['email'], $payload['phone'], $payload['contactImage']);
     }
 ?>
