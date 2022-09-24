@@ -209,7 +209,41 @@ createContactSpan.onclick = function() {
 
 function openCreateContactModal() {
   createContactModal.style.display = "block";
+  document.getElementById("firstName").value = "";
+  document.getElementById("lastName").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("email").value = "";
 }
+
+var profileImage = document.getElementById("upfile1");
+profileImage.onclick = function() {
+  let upload = document.getElementById("file1");
+  console.log(upload);
+  upload.click();
+}
+
+// TODO: think of how to pass this to doCreateContact in a better way
+let imgAsBase64String = "";
+
+window.addEventListener('load', function() {
+  document.querySelector('input[type="file"]').addEventListener('change', function() {
+    if (this.files && this.files[0]) {
+      // profileImage.onload = () => {
+      //   URL.revokeObjectURL(profileImage.src);  // no longer needed, free memory
+      // }
+      var reader = new FileReader();
+
+      reader.onload = function () {
+        imgAsBase64String = reader.result.replace("data:", "")
+        .replace(/^.+,/, "");
+        console.log(imgAsBase64String);
+      }
+      reader.readAsDataURL(this.files[0]);
+
+      profileImage.src = URL.createObjectURL(this.files[0]); // set src to blob url
+    }
+  });
+});
 
 async function doCreateContact() {
   let firstName = document.getElementById("firstName").value;
@@ -232,15 +266,15 @@ async function doCreateContact() {
       lastName:lastName,
       email:email,
       phone:phone,
+      contactImage:imgAsBase64String,
       userID:window.userID,
     });
-  console.log(status);
 
   if (status == 201) {
     console.log("Successfully created contact");
     createContactModal.style.display = "none";
   } else {
-    document.getElementById("createResult").innerHTML = responseJson.status_message;
+    document.getElementById("createResult").innerHTML = responseJson.status;
   }
 }
 
