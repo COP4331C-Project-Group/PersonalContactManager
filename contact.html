@@ -8,6 +8,7 @@
 <head>
   <script type="text/javascript" src="js/common.js" defer></script>
   <script type="text/javascript" src="js/contact.js" defer></script>
+  <script type="text/javascript" src="js/image.js" defer></script>
   <link rel="stylesheet" href="css/contact.css">
   <title>PCM - *insert contact name here*</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.ico">
@@ -15,7 +16,7 @@
 <body id="newBody" onload="displayContact()">
   <span id="title">Name of Contact</span>
   <div id="contactDiv">
-    <img id="profilePicture" alt="Default">
+    <img id="displayPicture" alt="Default">
     <label id="displayContactPhoneNumber" class="phoneNumberDisplay">Phone Number</label>
     <label id="displayContactEmail" class="emailDisplay">Email Address</label>
     <!-- Trigger/Open The Edit Contact Modal -->
@@ -30,7 +31,7 @@
     <div class="modal-content">
       <div id="modal-title">Update Contact</div>
       <span class="close">&times;</span>
-      <img id="editProfilePicture" class="imgmodal" style="cursor:pointer" />
+      <img id="profilePicture" class="imgmodal" style="cursor:pointer" />
       <input type="file" id="fileUpload" name="fileUpload" style="display:none" />
       <input type="text" id="firstName" class="updateContactFirstNameInput" placeholder="First Name"/><br />
       <input type="text" id="lastName" class="updateContactLastNameInput" placeholder="Last Name"/><br />
