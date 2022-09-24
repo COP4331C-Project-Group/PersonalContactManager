@@ -51,7 +51,7 @@
         ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR, $e->getMessage());
     }
 
-    if ($result === false)
+    if (!$result)
         ResponseSender::send(ResponseCodes::CONFLICT, "Couldn't create contact");
     else
         ResponseSender::send(ResponseCodes::CREATED, NULL, $result);
