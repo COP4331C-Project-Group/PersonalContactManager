@@ -7,11 +7,13 @@
     {
         private mysqli $mysql;
         private ImageAPI $imageAPI;
+        private $columnNames;
 
         public function __construct(mysqli $mysql, ImageAPI $imageAPI)
         {
             $this->mysql = $mysql;
             $this->imageAPI = $imageAPI;
+            $this->columnNames = $this->GetContactColumns();
         }
 
         /**
@@ -92,6 +94,19 @@
             return $contact;
         }
 
+        private function GetContactColumns() : array|false
+        {
+            if ($this->mysql->connect_error !== null)
+                return false;
+            
+            $databaseName = $this->mysql->query("SELECT database() AS dbName")->fetch_object();
+
+            $columnNames = $this->mysql->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$databaseName->dbName' AND TABLE_NAME = 'Contacts'")->fetch_all();
+            $columnNames = array_map(function($item){return $item[0];}, $columnNames);
+
+            return $columnNames;
+        }
+
         /**
          * Gets contact record which satisfies query.
          * 
@@ -106,46 +121,62 @@
             if ($this->mysql->connect_error !== null)
                 return false;
 
+            $columnNames = $this->columnNames;
+
+            if (!$columnNames)
+                return false;
+
+            unset($columnNames[array_search("userID", $columnNames)]);
+            unset($columnNames[array_search("dateCreated", $columnNames)]);
+            unset($columnNames[array_search("ID", $columnNames)]);
+
+            $columnNames = array_values($columnNames);
+
             $queryParameters = explode(" ", $query);
+            $records = array();
 
-            $queryArray = array();
-            foreach($queryParameters as $parameter)
-                $queryArray[] = "SELECT * FROM Contacts WHERE (firstName LIKE '%{$parameter}%' OR lastName LIKE '%{$parameter}%' OR phone LIKE '%{$parameter}%' OR email LIKE '%{$parameter}%') AND userID={$userID}";
+            foreach($queryParameters as $parameter) {
+                $recordsPerParameter = array();
 
-            $recordArray = array();
-            foreach($queryArray as $query) {
-                $records = $this->mysql->query($query)->fetch_all(MYSQLI_ASSOC);
-
-                if ($records !== null)
-                    $recordArray[] = $records;
-            }
-
-            if (empty($recordArray))
-                return false;
-
-
-            $recordArray = call_user_func_array('array_intersect_key', $recordArray);
-
-            if ($recordArray === false)
-                return false;
-
-            $contacts = array();
-
-            foreach($recordArray as $record) {
-                $record = (object) $record;
-
-                $contact = Contact::Deserialize($record);
-                
-                // Checks whether image is assigned to the contact record
-                // If so, tries to get that image and assign it to the contact object
-                if ($record->contactImageID !== NULL)
+                foreach ($columnNames as $columnName) 
                 {
-                    $image = $this->imageAPI->GetImageByID($record->contactImageID);
-                    $contact->contactImage = $image;
-                }   
+                    $results = $this->mysql->query("SELECT * FROM Contacts WHERE {$columnName} LIKE '%{$parameter}%' AND userID={$userID}")->fetch_all(MYSQLI_ASSOC);
 
-                $contacts[] = $contact;
+                    if (!empty($results))
+                        $recordsPerParameter = array_merge($recordsPerParameter, $results);
+                }
+
+                if (!empty($recordsPerParameter))
+                    $records[] = $recordsPerParameter;
+                else
+                    return false;
             }
+
+            $length = count($records);
+            $intersectedRecords = $records[0];
+            
+            for ($i = 1; $i < $length; $i++) 
+            {
+                $cur = array();
+                
+                foreach($records[$i] as $record)
+                {
+                    foreach($intersectedRecords as $intersectedRecord)
+                        if ($record["ID"] === $intersectedRecord["ID"])
+                            $cur[] = $record;
+                }
+
+                if (empty($cur))
+                    return false;
+                    
+                $intersectedRecords = $cur;
+            }
+
+            $intersectedRecords = array_unique($intersectedRecords, SORT_REGULAR);
+            $contacts = array();
+            
+            foreach($intersectedRecords as $record) 
+                $contacts[] = $this->GetContactByID($record["ID"]);
 
             return array_slice($contacts, $page * $itemsPerPage, $itemsPerPage);
         }
