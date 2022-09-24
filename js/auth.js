@@ -28,9 +28,9 @@ function changeRegisterToLogin(){
 
 function saveUserInfo(userJson) {
   window.userID = userJson.ID;
-
   window.firstName = userJson.firstName;
   window.lastName = userJson.lastName;
+  window.username = userJson.username;
 
   saveCookie();
 }
@@ -53,7 +53,8 @@ async function doLogin() {
   window.userID = 0;
   window.firstName = "";
   window.lastName = "";
-  
+  window.username = "";
+
   let username = document.getElementById("loginUsername").value;
   let password = document.getElementById("loginPassword").value;
 
@@ -75,6 +76,7 @@ async function doLogin() {
 
   if (status == 200) {
     saveUserInfo(responseJson.data);
+    console.log("after saving user info: " + window.username);
     window.location.href = "index.html";
   } else {
     document.getElementById("authResult").innerHTML = status;
@@ -126,9 +128,10 @@ function validateRegistrationForm(firstName, lastName, username, password, confi
 }
 
 async function doRegister() {
-  window.userID = 0;
+  window.userID = -1;
   window.firstName = "";
   window.lastName = "";
+  window.username = "";
   
   let firstName = document.getElementById("registerFirstName").value;
   let lastName = document.getElementById("registerLastName").value;

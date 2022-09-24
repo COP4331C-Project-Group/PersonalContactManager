@@ -40,12 +40,42 @@ confirmBtn.onclick = function() {
 
 function openUpdateProfileModal() {
   updateProfileModal.style.display = "block";
+  doUpdateContact();
+}
+
+function doUpdateContact() {
   updateUserFirst = document.getElementById("updateUserFirstName")
   updateUserFirst.value = window.firstName;
   updateUserLast = document.getElementById("updateUserLastName")
   updateUserLast.value = window.lastName;
-  updateUserUsername = document.getElementById("updateUsername");
-  updateUserUsername.value = window.username;
+  updateUsername = document.getElementById("updateUsername");
+  console.log(window.username);
+  updateUsername.value = window.username;
+
+  // document.getElementById("searchError").innerHTML = "";
+
+  // // TODO: consider updating endpoint to take a single query string instead of
+  // // sending all fields populated with same value.
+  // const [status, responseJson] = await getData(
+  //   window.urlBase + '/contacts/SearchContact' + window.extension + "?",
+  //   {
+  //     query:searchQuery,
+  //     userID:window.userID,
+  //     page:0,
+  //     itemsPerPage:100,
+  //   });
+
+  // localStorage.setItem("cachedContacts", JSON.stringify(responseJson.data));
+
+  // if (status == 200) {
+  //   searchResultDiv = document.getElementById("searchResult");
+  //   searchResultDiv.innerHTML = "Found " + responseJson.data.length + " contacts matching " + searchQuery;
+  //   for ( var contact of responseJson.data ) {
+  //     searchResultDiv.innerHTML += "<br/><a href=javascript:loadContactPage(" + contact.ID + ")>" + createContactDiv(contact) + "</a>";
+  //   }
+  // } else {
+  //   document.getElementById("searchError").innerHTML = responseJson.status_message;
+  // }
 }
 
 var searchContactsButton = document.getElementById("searchContactsButton");

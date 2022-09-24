@@ -1,38 +1,49 @@
 window.urlBase = '/API';
 window.extension = '.php';
 
-window.userID = 0;
+window.userID = -1;
 window.firstName = "";
 window.lastName = "";
+window.username = "";
 
 function saveCookie()
 {
   let minutes = 20;
   let date = new Date();
   date.setTime(date.getTime()+(minutes*60*1000));
-  document.cookie = "firstName=" + window.firstName + ",lastName=" + window.lastName + ",userId=" + window.userID + ";expires=" + date.toGMTString() + "; SameSite=Lax";
+  console.log("in save cookie " + window.username);
+  document.cookie = "firstName=" + window.firstName + ",lastName=" + window.lastName + ",userId=" + window.userID + ",username=" + window.username + ";expires=" + date.toGMTString() + "; SameSite=Lax";
+  console.log(document.cookie);
 }
 
 function readCookie()
 {
   window.userID = -1;
   let data = document.cookie;
-  let splits = data.split(",");
-  for(var i = 0; i < splits.length; i++)
-  {
-    let thisOne = splits[i].trim();
-    let tokens = thisOne.split("=");
-    if( tokens[0] == "firstName" )
+  let parts = data.split(",");
+  // parts has multiple elements if cookie is set, so we retrieve log in info
+  if (parts.length > 1) {
+    for(var i = 0; i < parts.length; i++)
     {
-      window.firstName = tokens[1];
-    }
-    else if( tokens[0] == "lastName" )
-    {
-      window.lastName = tokens[1];
-    }
-    else if( tokens[0] == "userId" )
-    {
-      window.userID = parseInt( tokens[1].trim() );
+      let thisOne = parts[i].trim();
+      let tokens = thisOne.split("=");
+      if( tokens[0] == "firstName" )
+      {
+        window.firstName = tokens[1];
+      }
+      else if( tokens[0] == "lastName" )
+      {
+        window.lastName = tokens[1];
+      }
+      else if( tokens[0] == "userId" )
+      {
+        window.userID = parseInt( tokens[1].trim() );
+      }
+      else if( tokens[0] == "username" )
+      {
+        window.username = tokens[1].trim();
+        console.log("got token: " + window.username);
+      }
     }
   }
 
@@ -77,6 +88,23 @@ async function postData(url, jsonParams) {
               'Accept': 'application/json'
           },
           body: formData
+      };
+
+  let response = await fetch(url, requestOptions);
+  if (!response.ok) {
+    return [response.status, null];
+  }
+  let responseJson = await response.json();
+  return [response.status, responseJson];
+}
+
+async function putData(url, jsonParams) {
+  const requestOptions = {
+          method: 'PUT',
+          headers: {
+              'Accept': 'application/json'
+          },
+          body: jsonParams
       };
 
   let response = await fetch(url, requestOptions);
