@@ -40,6 +40,12 @@ confirmBtn.onclick = function() {
 
 function openUpdateProfileModal() {
   updateProfileModal.style.display = "block";
+  updateUserFirst = document.getElementById("updateUserFirstName")
+  updateUserFirst.value = window.firstName;
+  updateUserLast = document.getElementById("updateUserLastName")
+  updateUserLast.value = window.lastName;
+  updateUserUsername = document.getElementById("updateUsername");
+  updateUserUsername.value = window.username;
 }
 
 var searchContactsButton = document.getElementById("searchContactsButton");

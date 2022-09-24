@@ -30,13 +30,13 @@ var span = document.getElementsByClassName("close")[0];
 openEditContactBtn.onclick = function() {
   editContactModal.style.display = "block";
   const contact = JSON.parse(localStorage.getItem('individualContact'));
-  updateFirst = document.getElementById("updateUserFirstName")
+  updateFirst = document.getElementById("updateContactFirstName")
   updateFirst.value = contact.firstName;
-  updateLast = document.getElementById("updateUserLastName")
+  updateLast = document.getElementById("updateContactLastName")
   updateLast.value = contact.lastName;
-  updatePhone = document.getElementById("updateUserPhone");
+  updatePhone = document.getElementById("updateContactPhone");
   updatePhone.value = contact.phone;
-  updateEmail = document.getElementById("updateUserEmail");
+  updateEmail = document.getElementById("updateContactEmail");
   updateEmail.value = contact.email;
 }
 
