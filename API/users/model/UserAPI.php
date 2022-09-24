@@ -97,7 +97,10 @@
             if ($this->mysql->connect_error != null)
                 return false;
 
-            $result = $this->mysql->query("UPDATE Users SET firstName='$user->firstName', lastName='$user->lastName', password='$user->password' WHERE ID=$user->ID");
+            if ($this->GetUserByUsername($user->username) !== false)
+                return false;
+
+            $result = $this->mysql->query("UPDATE Users SET firstName='$user->firstName', lastName='$user->lastName', username='$user->username', password='$user->password' WHERE ID=$user->ID");
 
             if ($result !== false)
                 return $this->GetUserByID($user->ID);
