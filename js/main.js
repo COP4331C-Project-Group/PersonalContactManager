@@ -196,7 +196,6 @@ async function doSearch() {
       itemsPerPage:numberOfContacts,
     });
 
-  console.log(responseJson);
   if (responseJson) {
     localStorage.setItem("cachedContacts", JSON.stringify(responseJson.data));
   }
