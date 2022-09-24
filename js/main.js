@@ -85,12 +85,10 @@ async function doSearch() {
   const [status, responseJson] = await getData(
     window.urlBase + '/contacts/SearchContact' + window.extension + "?",
     {
-      firstName:searchQuery,
-      lastName:searchQuery,
-      email:searchQuery,
-      phone:searchQuery,
+      query:searchQuery,
       userID:window.userID,
-      limit:100,
+      page:0,
+      itemsPerPage:100,
     });
 
   localStorage.setItem("cachedContacts", JSON.stringify(responseJson.data));
