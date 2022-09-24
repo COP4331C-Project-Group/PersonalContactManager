@@ -36,16 +36,25 @@ function saveUserInfo(userJson) {
 }
 
 function validateLoginForm(username, password) {
+  if ((username.length == 0) && (password.length == 0)) {
+    document.getElementById("authLoginUsernameResult").innerHTML = "Must provide a username!";
+    document.getElementById("authLoginPasswordResult").innerHTML = "Must provide a password!";
+    document.getElementById("usernameLoginAlert").style.display = "block";
+    document.getElementById("passLoginAlert").style.display = "block";
+    return false;
+  }
   if (username.length == 0) {
-    document.getElementById("authResult").innerHTML = "Must provide a username!";
+    document.getElementById("authLoginUsernameResult").innerHTML = "Must provide a username!";
+    document.getElementById("usernameLoginLoginAlert").style.display = "block";
+    document.getElementById("passLoginAlert").style.display = "none";
     return false;
   }
-
   if (password.length == 0) {
-    document.getElementById("authResult").innerHTML = "Must provide a password!";
+    document.getElementById("authLoginPasswordResult").innerHTML = "Must provide a username!";
+    document.getElementById("usernameLoginAlert").style.display = "none";
+    document.getElementById("passLoginAlert").style.display = "block";
     return false;
   }
-
   return true;
 }
 
@@ -85,41 +94,58 @@ function validateRegistrationForm(firstName, lastName, username, password, confi
   // TODO: update this later if needed/add more constraints
   const minimumPasswordLength = 6;
 
-  // Check that all fields are populated
-  if (firstName.length == 0) {
-    document.getElementById("authResult").innerHTML = "Must provide a first name!";
+// Check that all fields are populated
+  if (firstName.length == 0 || lastName.length == 0 || username.length == 0 || password.length == 0 || confirmPassword.length == 0 || password.length < minimumPasswordLength || password !== confirmPassword){
+    document.getElementById("authRegisterUsernameResult").innerHTML = "Must provide a username!";
+    document.getElementById("authRegisterPasswordResult").innerHTML = "Must provide a password!";
+    document.getElementById("authRegisterRetypePasswordResult").innerHTML = "Must retype password!";
+    document.getElementById("authRegisterFirstResult").innerHTML = "Must provide a first name!";
+    document.getElementById("authRegisterLastResult").innerHTML = "Must provide a last name!";
+    document.getElementById("usernameRegisterAlert").style.display = "block";
+    document.getElementById("firstRegisterAlert").style.display = "block";
+    document.getElementById("lastRegisterAlert").style.display = "block";
+    document.getElementById("passRegisterAlert").style.display = "block";
+    document.getElementById("retypepassRegisterAlert").style.display = "block";
+
+    if (firstName.length != 0) {
+      document.getElementById("firstRegisterAlert").style.display = "none";
+    }
+  
+    if (lastName.length != 0) {
+      document.getElementById("lastRegisterAlert").style.display = "none";
+    }
+  
+    if (username.length != 0) {
+      document.getElementById("usernameRegisterAlert").style.display = "none";
+    }
+  
+    if (password.length != 0) {
+      if (password.length < minimumPasswordLength) {
+        document.getElementById("passRegisterAlert").style.display = "block";
+        document.getElementById("authRegisterPasswordResult").innerHTML = "Please choose a stronger password (min password length = 6)";
+      }
+      else{
+        document.getElementById("passRegisterAlert").style.display = "none";
+      }
+    }
+  
+    if (confirmPassword.length != 0) {
+      if (password !== confirmPassword) {
+        document.getElementById("authRegisterRetypePasswordResult").innerHTML = "Must match password!";
+      }
+      else{
+        document.getElementById("retypepassRegisterAlert").style.display = "none";
+      }
+    }
+
+    else if (confirmPassword.length == 0) {
+      document.getElementById("authRegisterRetypePasswordResult").innerHTML = "Must match password!";
+    }
     return false;
   }
-
-  if (lastName.length == 0) {
-    document.getElementById("authResult").innerHTML = "Must provide a last name!";
-    return false;
-  }
-
-  if (username.length == 0) {
-    document.getElementById("authResult").innerHTML = "Must provide a username!";
-    return false;
-  }
-
-  if (password.length == 0) {
-    document.getElementById("authResult").innerHTML = "Must provide a password!";
-    return false;
-  }
-
-  if (confirmPassword.length == 0) {
-    document.getElementById("authResult").innerHTML = "Must confirm password!";
-    return false;
-  }
-
-  // TODO: add better handling of strong password here
-  if (password.length < minimumPasswordLength) {
-    document.getElementById("authResult").innerHTML = "Please choose a stronger password (min password length = 6)";
-    return false;
-  }
-
-  if (password !== confirmPassword) {
-    document.getElementById("authResult").innerHTML = "Passwords must match!";
-    return false;
+  else{
+    document.getElementById("retypepassRegisterAlert").style.display = "none";
+    return true;
   }
 
   return true;

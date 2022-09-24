@@ -104,23 +104,47 @@ function isValidPhoneNumber(phone) {
 }
 
 function validateContactForm(firstName, lastName, phone, email) {
-  if (firstName.length === 0) {
-    return "Must provide a first name. :(";
-  }
+  if (firstName.length === 0 || lastName.length === 0 || phone.length === 0 || email.length === 0 || (phone.length !== 0 && !isValidPhoneNumber(phone, "us")) || (email.length !== 0 && !isValidEmail(email))){
+    document.getElementById("authContactPhoneResult").innerHTML = "Must provide a phone number!";
+    document.getElementById("authContactEmailResult").innerHTML = "Must provide a email address!";
+    document.getElementById("authContactFirstResult").innerHTML = "Must provide a first name!";
+    document.getElementById("authContactLastResult").innerHTML = "Must provide a last name!";
+    document.getElementById("phoneContactAlert").style.display = "block";
+    document.getElementById("firstContactAlert").style.display = "block";
+    document.getElementById("lastContactAlert").style.display = "block";
+    document.getElementById("emailContactAlert").style.display = "block";
 
-  if (lastName.length === 0) {
-    return "Must provide a last name. :(";
+    if (firstName.length !== 0) {
+      document.getElementById("firstContactAlert").style.display = "none";
+    }
+  
+    if (lastName.length !== 0) {
+      document.getElementById("lastContactAlert").style.display = "none";
+    }
+  
+    // If phone number is nonempty, make sure it is valid
+    if (phone.length !== 0) {
+      if (isValidPhoneNumber(phone, "us")){
+        document.getElementById("phoneContactAlert").style.display = "none";
+      }
+      else{
+        document.getElementById("authContactPhoneResult").innerHTML = "Must provide a valid us-based phone number with format: " + "XXX-XXX-XXXX or XXX.XXX.XXXX or XXX XXX XXXX";
+      }
+    }
+  
+    // If email is nonempty, make sure it is valid
+    if (email.length !== 0) {
+      if (isValidEmail(email)){
+        document.getElementById("emailContactAlert").style.display = "none";
+      }
+      else{
+        document.getElementById("authContactEmailResult").innerHTML = "Must provide a valid email, in the format user@domain.extension.";
+      }
+    }
+    return false;
   }
-
-  // If phone number is nonempty, make sure it is valid
-  if (phone.length !== 0 && !isValidPhoneNumber(phone, "us")) {
-    return "Must provide a valid us-based phone number with format: " + "XXX-XXX-XXXX or XXX.XXX.XXXX or XXX XXX XXXX";
+  else{
+    document.getElementById("emailContactAlert").style.display = "none";
+    true;
   }
-
-  // If email is nonempty, make sure it is valid
-  if (email.length !== 0 && !isValidEmail(email)) {
-    return "Must provide a valid email, in the format user@domain.extension.";
-  }
-
-  return "";
 }

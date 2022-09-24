@@ -69,10 +69,8 @@ async function doUpdateContact() {
   let email = document.getElementById("email").value;
   const contact = JSON.parse(localStorage.getItem('individualContact'));
 
-  const msg = validateContactForm(firstName, lastName, phone, email);
-  if (msg !== "") {
-    document.getElementById("editError").innerHTML = msg;
-    return false;
+  if (!validateContactForm(firstName, lastName, phone, email)) {
+    return;
   }
 
   document.getElementById("editError").innerHTML = "";

@@ -133,9 +133,7 @@ async function doCreateContact() {
   let phone = document.getElementById("phone").value;
   let email = document.getElementById("email").value;
 
-  const msg = validateContactForm(firstName, lastName, phone, email);
-  if (msg !== "") {
-    document.getElementById("createResult").innerHTML = msg;
+  if (!validateContactForm(firstName, lastName, phone, email)) {
     return;
   }
 

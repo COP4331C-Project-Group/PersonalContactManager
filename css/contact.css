@@ -320,3 +320,139 @@ body {
   color: #000000;
   opacity: 100%;
 }
+
+.firstContactAlert{
+  z-index: 5;
+  display: none;
+  position: absolute;
+  top: 49%;
+  right: 2%;
+  max-width: 5%;
+  height: auto;
+}
+
+.lastContactAlert{
+  z-index: 5;
+  display: none;
+  position: absolute;
+  top: 49%;
+  left: 55%;
+  max-width: 5%;
+  height: auto;
+}
+
+.phoneContactAlert{
+  z-index: 5;
+  display: none;
+  position: absolute;
+  top: 60%;
+  left: 55%;
+  max-width: 5%;
+  height: auto;
+}
+
+.emailContactAlert{
+  z-index: 5;
+  display: none;
+  position: absolute;
+  top: 73%;
+  left: 55%;
+  max-width: 5%;
+  height: auto;
+}
+
+.firstContactAlert:hover ~ #firstContactAlertMessage{
+  visibility: visible;
+}
+
+.lastContactAlert:hover ~ #lastContactAlertMessage{
+  visibility: visible;
+}
+
+.phoneContactAlert:hover ~ #phoneContactAlertMessage{
+  visibility: visible;
+}
+
+.emailContactAlert:hover ~ #emailContactAlertMessage{
+  visibility: visible;
+}
+
+#firstContactAlertMessage {
+  visibility: hidden;
+  text-align: center;
+  position: absolute;
+  z-index: 5;
+  height: auto;
+  width: 15%;
+  border-style: solid;
+  background-color: white;
+  border-color: black;
+  box-shadow: 10px 5px 5px red;
+  border-radius: 2px;
+  top: 49%;
+  right: 30%;
+}
+
+#lastContactAlertMessage {
+  visibility: hidden;
+  text-align: center;
+  position: absolute;
+  z-index: 5;
+  height: auto;
+  width: 15%;
+  border-style: solid;
+  background-color: white;
+  border-color: black;
+  box-shadow: 10px 5px 5px red;
+  border-radius: 2px;
+  top: 49%;
+  right: 2%;
+}
+
+#phoneContactAlertMessage {
+  visibility: hidden;
+  text-align: center;
+  position: absolute;
+  z-index: 5;
+  height: auto;
+  width: 15%;
+  border-style: solid;
+  background-color: white;
+  border-color: black;
+  box-shadow: 10px 5px 5px red;
+  border-radius: 2px;
+  top: 60%;
+  right: 2%;
+}
+
+#emailContactAlertMessage {
+  visibility: hidden;
+  text-align: center;
+  position: absolute;
+  z-index: 5;
+  height: auto;
+  width: 15%;
+  border-style: solid;
+  background-color: white;
+  border-color: black;
+  box-shadow: 10px 5px 5px red;
+  border-radius: 2px;
+  top: 73%;
+  right: 2%;
+}
+
+#authContactFirstResult, 
+#authContactLastResult,
+#authContactPhoneResult,
+#authContactEmailResult{
+  position: absolute;
+  z-index: 5;
+  display: contents;
+  font-size: 20px;
+  width: 90%;
+  text-align: center;
+  margin-left: 5%;
+  margin-bottom: 2%;
+  font-family: 'Ubuntu', sans-serif;
+  color: #95060a;
+}
