@@ -1,10 +1,10 @@
 async function doDeleteContact() {
   if (confirm("Are you sure you want to delete this contact?")) {
     const contact = JSON.parse(localStorage.getItem('individualContact'));
-    const [status, responseJson] = await postData(
-    window.urlBase + '/contacts/UpdateContact' + window.extension,
+    const [status, responseJson] = await deleteData(
+    window.urlBase + '/contacts/DeleteContact' + window.extension + '?',
     {
-      ID:contact.ID,
+      ID:contact.ID
     });
 
     if (status == 200) {
@@ -26,18 +26,49 @@ var openEditContactBtn = document.getElementById("openEditContactBtn");
 // Get the <span> element that closes the editContactModal
 var span = document.getElementsByClassName("close")[0];
 
+async function getImage(contactID) {
+  let cachedImage = JSON.parse(localStorage.getItem('cachedImage'));
+  if (cachedImage && cachedImage.contactID === contactID) {
+    return cachedImage.imgAsBase64String;
+  }
+  const [status, responseJson] = await getData(
+    window.urlBase + '/contacts/GetContactImage' + window.extension + "?",
+    {
+      ID:contactID,
+    });
+
+  if (status != 200) {
+    console.log("Failed to load image: " + status);
+    return null;
+  }
+
+  localStorage.setItem('cachedImage', JSON.stringify({
+    contactID:contactID, imgAsBase64String:responseJson.data}));
+
+  return responseJson.data;
+}
+
 // When the user clicks on the button, open the editContactModal 
-openEditContactBtn.onclick = function() {
+openEditContactBtn.onclick = async function() {
   editContactModal.style.display = "block";
   const contact = JSON.parse(localStorage.getItem('individualContact'));
-  updateFirst = document.getElementById("updateContactFirstName")
+  updateFirst = document.getElementById("firstName")
   updateFirst.value = contact.firstName;
-  updateLast = document.getElementById("updateContactLastName")
+  updateLast = document.getElementById("lastName")
   updateLast.value = contact.lastName;
-  updatePhone = document.getElementById("updateContactPhone");
+  updatePhone = document.getElementById("phone");
   updatePhone.value = contact.phone;
-  updateEmail = document.getElementById("updateContactEmail");
+  updateEmail = document.getElementById("email");
   updateEmail.value = contact.email;
+  profileImage = document.getElementById("profilePicture");
+  if (contact.hasImage) {
+    imgAsBase64String = await getImage(contact.ID);
+    if (imgAsBase64String !== null) {
+      profileImage.setAttribute('src', "data:image/jpg;base64," + imgAsBase64String);
+      return;
+    }
+  }
+  profileImage.setAttribute('src', "images/default-profile-pic.jpg");
 }
 
 // When the user clicks on <span> (x), close the editContactModal
@@ -56,8 +87,9 @@ window.onclick = function(event) {
 var confirmBtn = document.getElementById("confirmBtn");
 
 // When the user clicks the button, open the updateProfileModal 
-confirmBtn.onclick = function() {
-  if (doUpdateContact()) {
+confirmBtn.onclick = async function() {
+  const error = await doUpdateContact();
+  if (error) {
     editContactModal.style.display = "none";
   }
 }
@@ -68,6 +100,10 @@ async function doUpdateContact() {
   let phone = document.getElementById("phone").value;
   let email = document.getElementById("email").value;
   const contact = JSON.parse(localStorage.getItem('individualContact'));
+  let imgAsBase64String = localStorage.getItem('imgAsBase64String');
+  if (imgAsBase64String == null) {
+    imgAsBase64String = contact.contactImage;
+  }
 
   if (!validateContactForm(firstName, lastName, phone, email)) {
     return;
@@ -75,7 +111,7 @@ async function doUpdateContact() {
 
   document.getElementById("editError").innerHTML = "";
 
-  const [status, responseJson] = await postData(
+  const [status, responseJson] = await putData(
     window.urlBase + '/contacts/UpdateContact' + window.extension,
     {
       firstName:firstName,
@@ -83,6 +119,7 @@ async function doUpdateContact() {
       email:email,
       phone:phone,
       userID:window.userID,
+      contactImage:imgAsBase64String,
       ID:contact.ID,
     });
 
@@ -97,7 +134,7 @@ async function doUpdateContact() {
   return true;
 }
 
-function displayContact() {
+async function displayContact() {
   const contact = JSON.parse(localStorage.getItem('individualContact'));
   document.title = "PCM - " + contact.firstName + " " + contact.lastName;
   contactTitle = document.getElementById("title")
@@ -106,5 +143,17 @@ function displayContact() {
   contactPhone.innerHTML = contact.phone;
   contactEmail = document.getElementById("displayContactEmail");
   contactEmail.innerHTML = contact.email;
-  
+  profileImage = document.getElementById("displayPicture");
+
+  if (contact.hasImage) {
+    imgAsBase64String = await getImage(contact.ID);
+    if (imgAsBase64String !== null) {
+      profileImage.setAttribute('src', "data:image/jpg;base64," + imgAsBase64String);
+      return;
+    }
+    console.log("Failed to load image: " + status);
+  }
+
+  // If we didn't successfully load the image, use the default
+  profileImage.setAttribute('src', "images/default-profile-pic.jpg");
 }

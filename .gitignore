@@ -1,3 +1,7 @@
 # Ignore secret keys from server
 .htaccess
 .htacess.save
+
+# Ignore user uploaded image files
+Database/contacts/images/*
+

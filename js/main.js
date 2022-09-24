@@ -37,10 +37,7 @@ var confirmBtn = document.getElementById("confirmBtn");
 confirmBtn.onclick = async function() {
   const success = await doUpdateUser();
   if (success) {
-    console.log("successfully updated");
     updateProfileModal.style.display = "none";
-  } else {
-    console.log("failed to update");
   }
 }
 
@@ -180,7 +177,6 @@ function loadContactPage(contactID) {
   const contacts = JSON.parse(localStorage.getItem('cachedContacts'));
   for (const contact of contacts) {
     if (contact.ID === contactID) {
-      // console.log("contact: " + JSON.stringify(contact));
       // TODO: see if this gets weird when you have multiple contact pages open.
       localStorage.setItem("individualContact", JSON.stringify(contact));
       window.location.href = "contact.html";
@@ -234,6 +230,10 @@ createContactSpan.onclick = function() {
 
 function openCreateContactModal() {
   createContactModal.style.display = "block";
+  document.getElementById("firstName").value = "";
+  document.getElementById("lastName").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("email").value = "";
 }
 
 async function doCreateContact() {
@@ -241,6 +241,10 @@ async function doCreateContact() {
   let lastName = document.getElementById("lastName").value;
   let phone = document.getElementById("phone").value;
   let email = document.getElementById("email").value;
+  let imgAsBase64String = localStorage.getItem('imgAsBase64String');
+  if (imgAsBase64String == null) {
+    imgAsBase64String = "";
+  }
 
   if (!validateContactForm(firstName, lastName, phone, email)) {
     return;
@@ -253,12 +257,11 @@ async function doCreateContact() {
       lastName:lastName,
       email:email,
       phone:phone,
+      contactImage:imgAsBase64String,
       userID:window.userID,
     });
-  console.log(status);
 
   if (status == 201) {
-    console.log("Successfully created contact");
     createContactModal.style.display = "none";
   } else {
     document.getElementById("authContactResult").innerHTML = responseJson.status_message;

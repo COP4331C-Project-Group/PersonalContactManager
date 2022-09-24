@@ -12,6 +12,7 @@
   <script type="text/javascript" src="js/logout.js"></script>
   <script type="text/javascript" src="js/common.js"></script>
   <script type="text/javascript" src="js/main.js" defer></script>
+  <script type="text/javascript" src="js/image.js" defer></script>
   <link rel="stylesheet" href="css/main.css">
   <title>PCM - My Contacts</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.ico">
@@ -54,7 +55,8 @@
     <div class="modal-content">
       <div id="modal-title">Add Contact</div>
       <span class="closeCreateContact">&times;</span>
-      <img src="images/default-profile-pic.jpg" alt="Default">
+      <img src="images/default-profile-pic.jpg" id="profilePicture" style="cursor:pointer" />
+      <input type="file" id="fileUpload" name="fileUpload" style="display:none" />
       <input type="text" id="firstName" class="addContactFirstNameInput" placeholder="First Name" /><br />
       <input type="text" id="lastName" class="addContactLastNameInput" placeholder="Last Name" /><br />
       <input type="text" id="phone" class="phoneNumberInput" placeholder="Phone Number" /><br />
