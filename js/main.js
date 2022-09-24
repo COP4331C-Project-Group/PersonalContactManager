@@ -133,9 +133,6 @@ async function doUpdateUser() {
   return true;
 }
 
-var searchContactsButton = document.getElementById("searchContactsButton");
-searchContactsButton.addEventListener("click", doSearch);
-
 var contactString = document.getElementById("contactString");
 contactString.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {  //checks whether the pressed key is "Enter"
@@ -164,10 +161,16 @@ function loadContactPage(contactID) {
   document.getElementById("searchError").innerHTML = "Failed to load contact page. :(";
 }
 
-async function doSearch() {
+function clearSearchResults() {
+  searchResultDiv = document.getElementById("searchResult");
+  searchResultDiv.innerHTML = "";
+  document.getElementById("contactString").value = "";
+}
+
+async function doSearch(displayAll = false) {
   let searchQuery = document.getElementById("contactString").value;
-  if (searchQuery.length === 0) {
-    document.getElementById("searchError").innerHTML = "Received empty search string. :(";
+  if (!displayAll && searchQuery.length === 0) {
+    clearSearchResults();
     return;
   }
 
@@ -182,16 +185,22 @@ async function doSearch() {
       itemsPerPage:100,
     });
 
-  localStorage.setItem("cachedContacts", JSON.stringify(responseJson.data));
+  if (responseJson) {
+    localStorage.setItem("cachedContacts", JSON.stringify(responseJson.data));
+  }
 
   if (status == 200) {
     searchResultDiv = document.getElementById("searchResult");
+    if (responseJson.data === false) {
+      searchResultDiv.innerHTML = "Found no contacts matching " + searchQuery;
+      return;
+    }
     searchResultDiv.innerHTML = "Found " + responseJson.data.length + " contacts matching " + searchQuery;
     for ( var contact of responseJson.data ) {
       searchResultDiv.innerHTML += "<a href=javascript:loadContactPage(" + contact.ID + ")>" + createContactDiv(contact) + "</a>";
     }
   } else {
-    document.getElementById("searchError").innerHTML = responseJson.status_message;
+    document.getElementById("searchError").innerHTML = status;
   }
 }
 
