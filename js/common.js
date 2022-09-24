@@ -9,7 +9,6 @@ window.username = "";
 // TODO: update this later if needed/add more constraints
 window.minimumPasswordLength = 6;
 
-
 function saveCookie()
 {
   let minutes = 20;
@@ -62,6 +61,15 @@ function readCookie()
       document.getElementById("userName").innerHTML = "Logged in as " + window.firstName + " " + window.lastName;
     }
   }
+}
+
+function saveUserInfo(userJson) {
+  window.userID = userJson.ID;
+  window.firstName = userJson.firstName;
+  window.lastName = userJson.lastName;
+  window.username = userJson.username;
+
+  saveCookie();
 }
 
 async function getData(url, jsonParams) {
