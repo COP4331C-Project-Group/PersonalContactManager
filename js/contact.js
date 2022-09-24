@@ -90,7 +90,8 @@ async function doUpdateContact() {
     localStorage.setItem("individualContact", JSON.stringify(responseJson.data));
     displayContact();
   } else {
-    document.getElementById("editError").innerHTML = responseJson.status_message;
+    document.getElementById("authUpdateResult").innerHTML = responseJson.status_message;
+    document.getElementById("authUpdateAlert").style.display = "block";
     return false;
   }
   return true;

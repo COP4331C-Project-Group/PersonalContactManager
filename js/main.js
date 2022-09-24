@@ -55,21 +55,8 @@ function openUpdateProfileModal() {
 }
 
 async function validateUpdateUserInfo(firstName, lastName, username, oldPassword, newPassword) {
-  // Check that all fields are populated
-  if (firstName.length == 0) {
-    return "Must provide a first name!";
-  }
-
-  if (lastName.length == 0) {
-    return "Must provide a last name!";
-  }
-
-  if (username.length == 0) {
-    return "Must provide a username!";
-  }
-
-  // Try to log in using the old password and old username
-  document.getElementById("updateResult").innerHTML = "";
+  // TODO: update this later if needed/add more constraints
+  const minimumPasswordLength = 6;
 
   // TODO: switch to using hashes after getting everything working
   // var passwordHash = md5( oldPassword );
@@ -79,24 +66,64 @@ async function validateUpdateUserInfo(firstName, lastName, username, oldPassword
       username:window.username,
       password:oldPassword
     });
+    
+  // Check that all fields are populated
+  // TODO extend condition so 
+  if (firstName.length == 0 || lastName.length == 0 || username.length == 0 || status == 403 || newPassword === oldPassword || newPassword.length < minimumPasswordLength){
+    document.getElementById("authUpdateUsernameResult").innerHTML = "Must provide a username!";
+    document.getElementById("authUpdateFirstResult").innerHTML = "Must provide a first name!";
+    document.getElementById("authUpdateLastResult").innerHTML = "Must provide a last name!";
+    document.getElementById("usernameUpdateAlert").style.display = "block";
+    document.getElementById("firstUpdateAlert").style.display = "block";
+    document.getElementById("lastUpdateAlert").style.display = "block";
 
+    if (firstName.length != 0) {
+      document.getElementById("firstUpdateAlert").style.display = "none";
+    }
+  
+    if (lastName.length != 0) {
+      document.getElementById("lastUpdateAlert").style.display = "none";
+    }
+
+    // TODO: figure out how to make sure the username doesnt match other users
+    if (username.length != 0) {
+      document.getElementById("usernameUpdateAlert").style.display = "none";
+    }
+  
   // TODO: update this and other status checks to use a shared dictionary
   // for status codes to make this more readable
-  if (status == 403) {
-    return "Old password invalid for user " + window.username;
-  }
+    if (oldPassword.length != 0) {
+      if (status == 403){
+        document.getElementById("passUpdateAlert").style.display = "block";
+        document.getElementById("authUpdatePasswordResult").innerHTML = "Old password invalid for user " + window.username;
+      }
+      else{
+        document.getElementById("passUpdateAlert").style.display = "none";
+      }
+    }
 
-  if (newPassword.length == 0) {
-    return "Must provide a password!";
+    if (newPassword.length != 0) {
+      if (newPassword.length < minimumPasswordLength) {
+        document.getElementById("retypepassUpdateAlert").style.display = "block";
+        document.getElementById("authUpdateRetypePasswordResult").innerHTML = "Please choose a stronger password (min password length = 6)";
+      }
+      else{
+        if (newPassword === oldPassword) {
+          document.getElementById("retypepassUpdateAlert").style.display = "block";
+          document.getElementById("authUpdateRetypePasswordResult").innerHTML = "You cannot enter old password";
+        }
+        else{
+          document.getElementById("passUpdateAlert").style.display = "none";
+        }
+      }
+    }
+    return false;
   }
-
-  // TODO: add better handling of strong password here
-  if (newPassword.length < window.minimumPasswordLength) {
-    return "Please choose a stronger password (min password length = 6)";
+  else{
+    return true;
   }
-
-  return "";
 }
+
 
 async function doUpdateUser() {
   firstName = document.getElementById("updateUserFirstName").value;
@@ -107,12 +134,9 @@ async function doUpdateUser() {
 
   let updateSpan = document.getElementById("updateResult");
 
-  const error = await validateUpdateUserInfo(firstName, lastName, username, oldPassword, newPassword);
-  if (error !== "") {
-    updateSpan.innerHTML = error;
-    return false;
+  if (!validateUpdateUserInfo(firstName, lastName, username, oldPassword, newPassword)) {
+    return;
   }
-  updateSpan.innerHTML = "";
 
   const [status, responseJson] = await putData(
     window.urlBase + '/users/UpdateUser' + window.extension,
@@ -129,7 +153,8 @@ async function doUpdateUser() {
     // reload page to reset contact name
     window.location.href = "index.html";
   } else {
-    updateSpan.innerHTML = responseJson.status_message;
+    document.getElementById("authUpdateResult").innerHTML = responseJson.status_message;
+    document.getElementById("authUpdateAlert").style.display = "block";
     return false;
   }
 
