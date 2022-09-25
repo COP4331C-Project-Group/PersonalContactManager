@@ -114,7 +114,7 @@
                 "email" => $this->email,
                 "dateCreated" => $this->dateCreated,
                 "userID" => $this->userID,
-                "hasImage" => !is_null($this->contactImage)
+                "hasImage" => !is_null($this->contactImage) ? true : false
             ];
         }
     }

@@ -36,7 +36,7 @@
 
     $result = $userAPI->UpdateUser($user);
 
-    if ($result === false)
+    if (!$result)
         ResponseSender::send(ResponseCodes::NOT_FOUND, "User doesn't exist");
     else
         ResponseSender::send(ResponseCodes::OK, NULL, $result);
