@@ -65,7 +65,7 @@ profileImage.onclick = function() {
 window.addEventListener('load', function() {
   document.querySelector('input[type="file"]').addEventListener('change', async function() {
     if (this.files && this.files[0]) {
-      if (!file.type.match(/image.*/)) {
+      if (!this.files[0].type.match(/image.*/)) {
         no(new Error("Not an image"));
         return;
       }
