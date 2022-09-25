@@ -59,9 +59,10 @@ function readCookie()
   }
   else
   {
-    if (window.location.pathname.split("/").pop() !== "index.html") {
+    page = window.location.pathname.split("/").pop();
+    if (page == "auth.html") {
       window.location.href = "index.html";
-    } else {
+    } else if (page == "index.html") {
       document.getElementById("userName").innerHTML = "Logged in as " + capitalizeFirstLetter(window.firstName) + " " + capitalizeFirstLetter(window.lastName);
     }
   }
@@ -127,6 +128,7 @@ async function postData(url, jsonParams) {
 
   let response = await fetch(url, requestOptions);
   if (!response.ok) {
+    console.log(JSON.stringify(response));
     return [response.status, null];
   }
   let responseJson = await response.json();
@@ -144,6 +146,7 @@ async function putData(url, jsonParams) {
 
   let response = await fetch(url, requestOptions);
   if (!response.ok) {
+    console.log(JSON.stringify(response));
     return [response.status, null];
   }
   let responseJson = await response.json();
