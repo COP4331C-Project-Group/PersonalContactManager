@@ -803,3 +803,7 @@ input:checked + .slider:before {
   height: 400px;
   overflow: scroll;
 }
+
+.hoverable a:hover{
+  color: turquoise;
+}

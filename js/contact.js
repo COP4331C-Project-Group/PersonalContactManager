@@ -27,10 +27,6 @@ var openEditContactBtn = document.getElementById("openEditContactBtn");
 var span = document.getElementsByClassName("close")[0];
 
 async function getImage(contactID) {
-  let cachedImage = JSON.parse(localStorage.getItem('cachedImage'));
-  if (cachedImage && cachedImage.contactID === contactID) {
-    return cachedImage.imgAsBase64String;
-  }
   const [status, responseJson] = await getData(
     window.urlBase + '/contacts/GetContactImage' + window.extension + "?",
     {
@@ -41,9 +37,6 @@ async function getImage(contactID) {
     console.log("Failed to load image: " + status);
     return null;
   }
-
-  localStorage.setItem('cachedImage', JSON.stringify({
-    contactID:contactID, imgAsBase64String:responseJson.data}));
 
   return responseJson.data;
 }
