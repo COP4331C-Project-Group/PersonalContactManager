@@ -39,26 +39,22 @@ function changeRegisterToLogin(){
 }
 
 function validateLoginForm(username, password) {
-  if ((username.length == 0) && (password.length == 0)) {
-    document.getElementById("authLoginUsernameResult").innerHTML = "Must provide a username!";
-    document.getElementById("authLoginPasswordResult").innerHTML = "Must provide a password!";
-    document.getElementById("usernameLoginAlert").style.display = "block";
-    document.getElementById("passLoginAlert").style.display = "block";
-    return false;
-  }
+  let isValid = true;
   if (username.length == 0) {
     document.getElementById("authLoginUsernameResult").innerHTML = "Must provide a username!";
     document.getElementById("usernameLoginAlert").style.display = "block";
-    document.getElementById("passLoginAlert").style.display = "none";
-    return false;
+    isValid = false;
+  } else {
+    document.getElementById("usernameLoginAlert").style.display = "none";
   }
   if (password.length == 0) {
-    document.getElementById("authLoginPasswordResult").innerHTML = "Must provide a username!";
-    document.getElementById("usernameLoginAlert").style.display = "none";
+    document.getElementById("authLoginPasswordResult").innerHTML = "Must provide a password!";
     document.getElementById("passLoginAlert").style.display = "block";
-    return false;
+    isValid = false;
+  } else {
+    document.getElementById("passLoginAlert").style.display = "none";
   }
-  return true;
+  return isValid;
 }
 
 async function doLogin(username, password) {
@@ -84,8 +80,8 @@ async function doLogin(username, password) {
   if (status == 200) {
     saveUserInfo(responseJson.data);
     window.location.href = "index.html";
-  } else if (status == 404) {
-    document.getElementById("authLoginResult").innerHTML = "Wrong username/password combo!";
+  } else if (status == 404 || status == 403) {
+    document.getElementById("authLoginResult").innerHTML = "Bad username/password combo!";
     document.getElementById("authLoginAlert").style.display = "block";
   } else {
     document.getElementById("authLoginResult").innerHTML = status;
@@ -97,61 +93,57 @@ function validateRegistrationForm(firstName, lastName, username, password, confi
   // TODO: update this later if needed/add more constraints
   const minimumPasswordLength = 6;
 
-// Check that all fields are populated
-  if (firstName.length == 0 || lastName.length == 0 || username.length == 0 || password.length == 0 || confirmPassword.length == 0 || password.length < minimumPasswordLength || password !== confirmPassword){
+  let isValid = true;
+
+  if (username.length == 0) {
     document.getElementById("authRegisterUsernameResult").innerHTML = "Must provide a username!";
-    document.getElementById("authRegisterPasswordResult").innerHTML = "Must provide a password!";
-    document.getElementById("authRegisterRetypePasswordResult").innerHTML = "Must retype password!";
-    document.getElementById("authRegisterFirstResult").innerHTML = "Must provide a first name!";
-    document.getElementById("authRegisterLastResult").innerHTML = "Must provide a last name!";
     document.getElementById("usernameRegisterAlert").style.display = "block";
+    isValid = false;
+  } else {
+    document.getElementById("usernameRegisterAlert").style.display = "none";
+  }
+
+  if (firstName.length == 0) {
+    document.getElementById("authRegisterFirstResult").innerHTML = "Must provide a first name!";
     document.getElementById("firstRegisterAlert").style.display = "block";
+    isValid = false;
+  } else {
+    document.getElementById("firstRegisterAlert").style.display = "none";    
+  }
+
+  if (lastName.length == 0) {
+    document.getElementById("authRegisterLastResult").innerHTML = "Must provide a last name!";
     document.getElementById("lastRegisterAlert").style.display = "block";
+    isValid = false;
+  } else {
+    document.getElementById("lastRegisterAlert").style.display = "none";
+  }
+
+  if (password.length == 0) {
+    document.getElementById("authRegisterPasswordResult").innerHTML = "Must provide a password!";
     document.getElementById("passRegisterAlert").style.display = "block";
+    isValid = false;
+  } else if (password.length < minimumPasswordLength) {
+    document.getElementById("authRegisterPasswordResult").innerHTML = "Please choose a stronger password (min password length = 6)";
+    document.getElementById("passRegisterAlert").style.display = "block";
+    isValid = false;
+  } else {
+    document.getElementById("passRegisterAlert").style.display = "none";
+  }
+
+  if (confirmPassword.length == 0) {
+    document.getElementById("authRegisterRetypePasswordResult").innerHTML = "Must retype password!";
     document.getElementById("retypepassRegisterAlert").style.display = "block";
-
-    if (firstName.length != 0) {
-      document.getElementById("firstRegisterAlert").style.display = "none";
-    }
-  
-    if (lastName.length != 0) {
-      document.getElementById("lastRegisterAlert").style.display = "none";
-    }
-  
-    if (username.length != 0) {
-      document.getElementById("usernameRegisterAlert").style.display = "none";
-    }
-  
-    if (password.length != 0) {
-      if (password.length < minimumPasswordLength) {
-        document.getElementById("passRegisterAlert").style.display = "block";
-        document.getElementById("authRegisterPasswordResult").innerHTML = "Please choose a stronger password (min password length = 6)";
-      }
-      else{
-        document.getElementById("passRegisterAlert").style.display = "none";
-      }
-    }
-  
-    if (confirmPassword.length != 0) {
-      if (password !== confirmPassword) {
-        document.getElementById("authRegisterRetypePasswordResult").innerHTML = "Must match password!";
-      }
-      else{
-        document.getElementById("retypepassRegisterAlert").style.display = "none";
-      }
-    }
-
-    else if (confirmPassword.length == 0) {
-      document.getElementById("authRegisterRetypePasswordResult").innerHTML = "Must match password!";
-    }
-    return false;
-  }
-  else{
+    isValid = false;
+  } else if (password !== confirmPassword) {
+    document.getElementById("authRegisterRetypePasswordResult").innerHTML = "Must match password!";
+    document.getElementById("retypepassRegisterAlert").style.display = "block";
+    isValid = false;
+  } else {
     document.getElementById("retypepassRegisterAlert").style.display = "none";
-    return true;
   }
 
-  return true;
+  return isValid;
 }
 
 async function doRegister() {
