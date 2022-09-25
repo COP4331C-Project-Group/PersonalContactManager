@@ -59,6 +59,56 @@ async function validateUpdateUserInfo(firstName, lastName, username, oldPassword
   // TODO: update this later if needed/add more constraints
   const minimumPasswordLength = 6;
 
+  let isValid = true;
+
+  if (username.length == 0) {
+    document.getElementById("authUpdateUsernameResult").innerHTML = "Must provide a username!";
+    document.getElementById("usernameUpdateAlert").style.display = "block";
+    isValid = false;
+  } else {
+    document.getElementById("usernameUpdateAlert").style.display = "none";
+  }
+
+  if (firstName.length == 0) {
+    document.getElementById("authUpdateFirstResult").innerHTML = "Must provide a first name!";
+    document.getElementById("firstUpdateAlert").style.display = "block";
+    isValid = false;
+  } else {
+    document.getElementById("firstUpdateAlert").style.display = "none";    
+  }
+
+  if (lastName.length == 0) {
+    document.getElementById("authUpdateLastResult").innerHTML = "Must provide a last name!";
+    document.getElementById("lastUpdateAlert").style.display = "block";
+    isValid = false;
+  } else {
+    document.getElementById("lastUpdateAlert").style.display = "none";
+  }
+
+  if (oldPassword.length == 0) {
+    document.getElementById("authUpdatePasswordResult").innerHTML = "Must provide a password!";
+    document.getElementById("passUpdateAlert").style.display = "block";
+    isValid = false;
+  } else if (oldPassword.length < minimumPasswordLength) {
+    document.getElementById("authUpdatePasswordResult").innerHTML = "Please choose a stronger password (min password length = 6)";
+    document.getElementById("passUpdateAlert").style.display = "block";
+    isValid = false;
+  } else {
+    document.getElementById("passUpdateAlert").style.display = "none";
+  }
+
+  if (newPassword.length == 0) {
+    document.getElementById("authUpdateRetypePasswordResult").innerHTML = "Must retype password!";
+    document.getElementById("retypepassUpdateAlert").style.display = "block";
+    isValid = false;
+  } else if (newPassword.length < minimumPasswordLength) {
+    document.getElementById("retypepassUpdateAlert").style.display = "block";
+    document.getElementById("authUpdateRetypePasswordResult").innerHTML = "Please choose a stronger password (min password length = 6)";
+    isValid = false;
+  } else {
+    document.getElementById("retypepassUpdateAlert").style.display = "none";
+  }
+
   // TODO: switch to using hashes after getting everything working
   // var passwordHash = md5( oldPassword );
   const [status, responseJson] = await getData(
@@ -67,57 +117,16 @@ async function validateUpdateUserInfo(firstName, lastName, username, oldPassword
       username:window.username,
       password:oldPassword
     });
-    
-  // Check that all fields are populated
-  // TODO extend condition so 
-  if (firstName.length == 0 || lastName.length == 0 || username.length == 0 || status == 403 || newPassword === oldPassword || newPassword.length < minimumPasswordLength) {
-    document.getElementById("authUpdateUsernameResult").innerHTML = "Must provide a username!";
-    document.getElementById("authUpdateFirstResult").innerHTML = "Must provide a first name!";
-    document.getElementById("authUpdateLastResult").innerHTML = "Must provide a last name!";
-    document.getElementById("usernameUpdateAlert").style.display = "block";
-    document.getElementById("firstUpdateAlert").style.display = "block";
-    document.getElementById("lastUpdateAlert").style.display = "block";
 
-    if (firstName.length != 0) {
-      document.getElementById("firstUpdateAlert").style.display = "none";
-    }
-  
-    if (lastName.length != 0) {
-      document.getElementById("lastUpdateAlert").style.display = "none";
-    }
-
-    // TODO: figure out how to make sure the username doesnt match other users
-    if (username.length != 0) {
-      document.getElementById("usernameUpdateAlert").style.display = "none";
-    }
-  
-    // TODO: update this and other status checks to use a shared dictionary
-    // for status codes to make this more readable
-    if (oldPassword.length != 0) {
-      if (status == 403) {
-        document.getElementById("passUpdateAlert").style.display = "block";
-        document.getElementById("authUpdatePasswordResult").innerHTML = "Old password invalid for user " + window.username;
-      } else {
-        document.getElementById("passUpdateAlert").style.display = "none";
-      }
-    }
-
-    if (newPassword.length != 0) {
-      if (newPassword.length < minimumPasswordLength) {
-        document.getElementById("retypepassUpdateAlert").style.display = "block";
-        document.getElementById("authUpdateRetypePasswordResult").innerHTML = "Please choose a stronger password (min password length = 6)";
-      } else {
-        if (newPassword === oldPassword) {
-          document.getElementById("retypepassUpdateAlert").style.display = "block";
-          document.getElementById("authUpdateRetypePasswordResult").innerHTML = "You cannot enter old password";
-        } else {
-          document.getElementById("passUpdateAlert").style.display = "none";
-        }
-      }
-    }
-    return false;
+  if (status == 403 || status == 404) {
+    document.getElementById("passUpdateAlert").style.display = "block";
+    document.getElementById("authUpdatePasswordResult").innerHTML = "Old password invalid for user " + window.username;
+    isValid = false;
+  } else {
+    document.getElementById("passUpdateAlert").style.display = "none";
   }
-  return true;
+
+  return isValid;
 }
 
 async function doUpdateUser() {
@@ -129,8 +138,9 @@ async function doUpdateUser() {
 
   let updateSpan = document.getElementById("updateResult");
 
-  if (!validateUpdateUserInfo(firstName, lastName, username, oldPassword, newPassword)) {
-    return;
+  let success = await validateUpdateUserInfo(firstName, lastName, username, oldPassword, newPassword);
+  if (success === false) {
+    return false;
   }
 
   const [status, responseJson] = await putData(
