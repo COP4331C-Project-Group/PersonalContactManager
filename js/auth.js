@@ -48,7 +48,7 @@ function validateLoginForm(username, password) {
   }
   if (username.length == 0) {
     document.getElementById("authLoginUsernameResult").innerHTML = "Must provide a username!";
-    document.getElementById("usernameLoginLoginAlert").style.display = "block";
+    document.getElementById("usernameLoginAlert").style.display = "block";
     document.getElementById("passLoginAlert").style.display = "none";
     return false;
   }
@@ -84,6 +84,9 @@ async function doLogin(username, password) {
   if (status == 200) {
     saveUserInfo(responseJson.data);
     window.location.href = "index.html";
+  } else if (status == 404) {
+    document.getElementById("authLoginResult").innerHTML = "Wrong username/password combo!";
+    document.getElementById("authLoginAlert").style.display = "block";
   } else {
     document.getElementById("authLoginResult").innerHTML = status;
     document.getElementById("authLoginAlert").style.display = "block";
