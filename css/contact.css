@@ -4,7 +4,8 @@ img {
   right: 0;
   left: 0;
   border-radius: 50%;
-  width: 10%;
+  width: 200px;
+  height: 200px;
   margin: auto;
 }
 
@@ -116,38 +117,46 @@ body {
 
 /*Individual Contact Screen design*/
 
-.phoneNumberDisplay {
+.phoneNumberDisplay, .emailDisplay, .phoneNumberLabel, .emailLabel {
   outline: none;
   position: absolute;
   height: fit-content;
-  border-radius: 5px;
-  border-color: #ffffff;
-  border-style: solid;
   padding: 1%;
   width: fit-content;
   font-size: 40px;
-  top: 35%;
-  left: 0;
-  right: 0;
   margin: auto;
   display: block;
 }
 
-.emailDisplay {
-  outline: none;
-  position: absolute;
-  height: fit-content;
-  border-radius: 5px;
-  border-color: #ffffff;
-  border-style: solid;
-  padding: 1%;
-  width: fit-content;
-  font-size: 40px;
-  top: 55%;
+
+.phoneNumberLabel, .emailLabel {
   left: 0;
+  right: 30%;
+}
+
+.phoneNumberDisplay, .emailDisplay {
+  border-radius: 10px;
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  left: 30%;
   right: 0;
-  margin: auto;
-  display: block;
+}
+
+.phoneNumberDisplay, .phoneNumberLabel {
+  top: 35%;
+}
+
+.emailDisplay, .emailLabel {
+  top: 55%;
+}
+
+.phoneNumberDisplay {
+  top: 35%;
+}
+
+.emailDisplay {
+  top: 55%;
 }
 
 .editButton {
