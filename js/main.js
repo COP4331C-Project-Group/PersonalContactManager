@@ -296,6 +296,7 @@ async function doCreateContact() {
     });
 
   if (status == 201) {
+    localStorage.removeItem('imgAsBase64String');
     createContactModal.style.display = "none";
     doSearch();
   } else {
