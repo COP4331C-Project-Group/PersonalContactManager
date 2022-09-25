@@ -1,4 +1,8 @@
 var isSidebarOpen = false;
+let currentPage = 0;
+
+// Initialize number of contacts to 10
+setNumberOfContactsToShow(10);
 
 function toggleNav() {
   if (isSidebarOpen) {
@@ -133,9 +137,6 @@ async function doUpdateUser() {
   return true;
 }
 
-var searchContactsButton = document.getElementById("searchContactsButton");
-searchContactsButton.addEventListener("click", doSearch);
-
 var contactString = document.getElementById("contactString");
 contactString.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {  //checks whether the pressed key is "Enter"
@@ -144,8 +145,7 @@ contactString.addEventListener("keydown", function (e) {
 });
 
 function createContactDiv(contact) {
-  // TODO: update this to have nice styling
-  return JSON.stringify(contact);
+  return "<center><h3 style='border:1px solid black; width: 50%;'>" + capitalizeFirstLetter(contact.firstName) + " " + capitalizeFirstLetter(contact.lastName) + "</h6></center>";
 }
 
 function loadContactPage(contactID) {
@@ -161,11 +161,34 @@ function loadContactPage(contactID) {
   document.getElementById("searchError").innerHTML = "Failed to load contact page. :(";
 }
 
-async function doSearch() {
+function clearSearchResults() {
+  document.getElementById("searchResult").innerHTML = "";
+  document.getElementById("searchError").innerHTML = "";
+  document.getElementById("contactString").value = "";
+  currentPage = 0;
+  localStorage.setItem("cachedContacts", null);
+}
+
+async function doSearch(page = 0) {
+  currentPage = page;
+  let toggle = document.getElementById('toggle');
+  let displayAll = toggle.checked;
   let searchQuery = document.getElementById("contactString").value;
-  if (searchQuery.length === 0) {
-    document.getElementById("searchError").innerHTML = "Received empty search string. :(";
+  if (!displayAll && searchQuery.length === 0) {
+    clearSearchResults();
     return;
+  }
+
+  searchResultDiv = document.getElementById("searchResult");
+  if (page == 0) {
+    searchResultDiv.innerHTML = "";
+    localStorage.setItem('cachedContacts', null);
+  }
+
+  let numberOfContacts = localStorage.getItem('numberOfContacts');
+
+  if (window.userID == -1) {
+    readCookie();
   }
 
   document.getElementById("searchError").innerHTML = "";
@@ -175,20 +198,35 @@ async function doSearch() {
     {
       query:searchQuery,
       userID:window.userID,
-      page:0,
-      itemsPerPage:100,
+      page:page,
+      itemsPerPage:numberOfContacts,
     });
 
-  localStorage.setItem("cachedContacts", JSON.stringify(responseJson.data));
+  let cached = JSON.parse(localStorage.getItem("cachedContacts"));
+  if (responseJson) {
+    cached = (cached == null) ? responseJson.data : cached.concat(responseJson.data);
+    localStorage.setItem("cachedContacts", JSON.stringify(cached));
+  }
+
+  let caption = document.getElementById("searchError");
 
   if (status == 200) {
     searchResultDiv = document.getElementById("searchResult");
-    searchResultDiv.innerHTML = "Found " + responseJson.data.length + " contacts matching " + searchQuery;
+    if (displayAll) {
+      caption.innerHTML = "Showing all of your contacts";
+    } else {
+      if (responseJson.data === false) {
+        caption.innerHTML = "Found no contacts matching " + searchQuery;
+        return;
+      }
+      caption.innerHTML = "Showing all " + cached.length + " contacts matching \"" + searchQuery + "\"";
+    }
+    caption.innerHTML += " (loading " + numberOfContacts + " at a time)"
     for ( var contact of responseJson.data ) {
-      searchResultDiv.innerHTML += "<br/><a href=javascript:loadContactPage(" + contact.ID + ")>" + createContactDiv(contact) + "</a>";
+      searchResultDiv.innerHTML += "<a href=javascript:loadContactPage(" + contact.ID + ")>" + createContactDiv(contact) + "</a>";
     }
   } else {
-    document.getElementById("searchError").innerHTML = responseJson.status_message;
+    document.getElementById("searchError").innerHTML = status;
   }
 }
 
@@ -257,3 +295,58 @@ window.onclick = function(event) {
     createContactModal.style.display = "none";
   }
 }
+
+let btn = document.getElementById('toggle');
+btn.onclick = function() {
+  let searchBox = document.getElementById("contactString");
+  let toggleLabel = document.getElementById("toggleLabel");
+  if (searchBox.disabled) {
+    searchBox.placeholder = "Search Contacts...";
+    searchBox.disabled = false;
+    searchBox.display='block';
+    toggleLabel.innerHTML = "Show all";
+  } else {
+    clearSearchResults();
+    searchBox.placeholder = "Displaying all contacts...";
+    searchBox.disabled = true;
+    searchBox.display = 'none';
+    toggleLabel.innerHTML = "Hide all";
+  }
+  doSearch();
+}
+
+function setNumberOfContactsToShow(n) {
+  localStorage.setItem('numberOfContacts', n);
+  var element = document.getElementById('limit' + n);
+  if (element !== null && element.style.fontWeight == 'bold') {
+    return;
+  }  
+  let limitVals = [10, 25, 50];
+  function resetStyle(val) {
+    var element = document.getElementById('limit' + val);
+    element.style.fontWeight = "normal";
+  }
+  limitVals.forEach(resetStyle);
+  var element = document.getElementById('limit' + n);
+  element.style.fontWeight = "bold";
+  doSearch();
+}
+
+window.onload = (event) => {
+  let searchBox = document.getElementById("contactString");
+  if (document.getElementById('toggle').checked) {
+    searchBox.placeholder = "Displaying all contacts...";
+    searchBox.disabled = true;
+    searchBox.display = 'none';
+    toggleLabel.innerHTML = "Hide all";
+  }
+}
+
+let cont = document.querySelector(".container");
+
+cont.addEventListener("scroll", () => {
+  if (cont.scrollTop >= (cont.scrollHeight - cont.clientHeight) * 0.9) {
+    currentPage += 1;
+    doSearch(currentPage);
+  }
+});

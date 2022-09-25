@@ -53,7 +53,7 @@ function validateLoginForm(username, password) {
 }
 
 async function doLogin(username, password) {
-  window.userID = 0;
+  window.userID = -1;
   window.firstName = "";
   window.lastName = "";
   window.username = "";

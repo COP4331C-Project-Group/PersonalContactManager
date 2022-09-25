@@ -10,6 +10,10 @@ window.username = "";
 window.minimumPasswordLength = 6;
 window.imageSizeLimit = 2000000;
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function saveCookie()
 {
   let minutes = 20;
@@ -20,7 +24,6 @@ function saveCookie()
 
 function readCookie()
 {
-  window.userID = -1;
   let data = document.cookie;
   let parts = data.split(",");
   // parts has multiple elements if cookie is set, so we retrieve log in info
@@ -56,10 +59,11 @@ function readCookie()
   }
   else
   {
-    if (window.location.pathname.split("/").pop() !== "index.html") {
+    page = window.location.pathname.split("/").pop();
+    if (page == "auth.html") {
       window.location.href = "index.html";
-    } else {
-      document.getElementById("userName").innerHTML = "Logged in as " + window.firstName + " " + window.lastName;
+    } else if (page == "index.html") {
+      document.getElementById("userName").innerHTML = "Logged in as " + capitalizeFirstLetter(window.firstName) + " " + capitalizeFirstLetter(window.lastName);
     }
   }
 }
@@ -124,6 +128,7 @@ async function postData(url, jsonParams) {
 
   let response = await fetch(url, requestOptions);
   if (!response.ok) {
+    console.log(JSON.stringify(response));
     return [response.status, null];
   }
   let responseJson = await response.json();
@@ -141,6 +146,7 @@ async function putData(url, jsonParams) {
 
   let response = await fetch(url, requestOptions);
   if (!response.ok) {
+    console.log(JSON.stringify(response));
     return [response.status, null];
   }
   let responseJson = await response.json();

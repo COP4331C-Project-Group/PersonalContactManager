@@ -88,9 +88,10 @@ var confirmBtn = document.getElementById("confirmBtn");
 
 // When the user clicks the button, open the updateProfileModal 
 confirmBtn.onclick = async function() {
-  const error = await doUpdateContact();
-  if (error) {
+  const success = await doUpdateContact();
+  if (success) {
     editContactModal.style.display = "none";
+    displayContact();
   }
 }
 
@@ -127,7 +128,6 @@ async function doUpdateContact() {
 
   if (status == 200) {
     localStorage.setItem("individualContact", JSON.stringify(responseJson.data));
-    displayContact();
   } else {
     document.getElementById("editError").innerHTML = responseJson.status_message;
     return false;
