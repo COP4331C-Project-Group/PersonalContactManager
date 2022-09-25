@@ -320,16 +320,19 @@ let btn = document.getElementById('toggle');
 btn.onclick = function() {
   let searchBox = document.getElementById("contactString");
   let toggleLabel = document.getElementById("toggleLabel");
+  let clearButton = document.getElementById("clearSearchButton");
   if (searchBox.disabled) {
     searchBox.placeholder = "Search Contacts...";
     searchBox.disabled = false;
     searchBox.display='block';
+    clearButton.disabled = false;
     toggleLabel.innerHTML = "Show all";
   } else {
     clearSearchResults();
     searchBox.placeholder = "Displaying all contacts...";
     searchBox.disabled = true;
     searchBox.display = 'none';
+    clearButton.disabled = true;
     toggleLabel.innerHTML = "Hide all";
   }
   doSearch();
@@ -354,9 +357,11 @@ function setNumberOfContactsToShow(n) {
 
 window.onload = (event) => {
   let searchBox = document.getElementById("contactString");
+  let clearButton = document.getElementById("clearSearchButton");
   if (document.getElementById('toggle').checked) {
     searchBox.placeholder = "Displaying all contacts...";
     searchBox.disabled = true;
+    clearButton.disabled = true;
     searchBox.display = 'none';
     toggleLabel.innerHTML = "Hide all";
   }

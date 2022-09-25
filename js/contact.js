@@ -133,9 +133,18 @@ async function displayContact() {
   contactTitle = document.getElementById("title")
   contactTitle.innerHTML = contact.firstName + " " + contact.lastName;
   contactPhone = document.getElementById("displayContactPhoneNumber");
-  contactPhone.innerHTML = contact.phone;
+  if (contact.phone !== "") {
+    contactPhone.innerHTML = contact.phone;
+  } else {
+    contactPhone.innerHTML = "N/A"
+  }
   contactEmail = document.getElementById("displayContactEmail");
   contactEmail.innerHTML = contact.email;
+  if (contact.email !== "") {
+    contactEmail.innerHTML = contact.email;
+  } else {
+    contactEmail.innerHTML = "N/A"
+  }
   profileImage = document.getElementById("displayPicture");
 
   if (contact.hasImage) {
