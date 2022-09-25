@@ -1,6 +1,5 @@
 function doLogout()
 {
-  console.log("in do logout");
   window.userID = -1;
   window.firstName = "";
   window.lastName = "";
