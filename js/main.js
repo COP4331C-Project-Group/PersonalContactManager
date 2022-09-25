@@ -222,9 +222,12 @@ async function doSearch(page = 0) {
     });
 
   let cached = JSON.parse(localStorage.getItem("cachedContacts"));
-  if (responseJson) {
+  if (responseJson.data) {
     cached = (cached == null) ? responseJson.data : cached.concat(responseJson.data);
     localStorage.setItem("cachedContacts", JSON.stringify(cached));
+  } else {
+    document.getElementById("searchError").innerHTML = "No contacts found";
+    return;
   }
 
   let caption = document.getElementById("searchError");
