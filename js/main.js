@@ -70,7 +70,7 @@ async function validateUpdateUserInfo(firstName, lastName, username, oldPassword
     
   // Check that all fields are populated
   // TODO extend condition so 
-  if (firstName.length == 0 || lastName.length == 0 || username.length == 0 || status == 403 || newPassword === oldPassword || newPassword.length < minimumPasswordLength){
+  if (firstName.length == 0 || lastName.length == 0 || username.length == 0 || status == 403 || newPassword === oldPassword || newPassword.length < minimumPasswordLength) {
     document.getElementById("authUpdateUsernameResult").innerHTML = "Must provide a username!";
     document.getElementById("authUpdateFirstResult").innerHTML = "Must provide a first name!";
     document.getElementById("authUpdateLastResult").innerHTML = "Must provide a last name!";
@@ -91,14 +91,13 @@ async function validateUpdateUserInfo(firstName, lastName, username, oldPassword
       document.getElementById("usernameUpdateAlert").style.display = "none";
     }
   
-  // TODO: update this and other status checks to use a shared dictionary
-  // for status codes to make this more readable
+    // TODO: update this and other status checks to use a shared dictionary
+    // for status codes to make this more readable
     if (oldPassword.length != 0) {
-      if (status == 403){
+      if (status == 403) {
         document.getElementById("passUpdateAlert").style.display = "block";
         document.getElementById("authUpdatePasswordResult").innerHTML = "Old password invalid for user " + window.username;
-      }
-      else{
+      } else {
         document.getElementById("passUpdateAlert").style.display = "none";
       }
     }
@@ -107,24 +106,19 @@ async function validateUpdateUserInfo(firstName, lastName, username, oldPassword
       if (newPassword.length < minimumPasswordLength) {
         document.getElementById("retypepassUpdateAlert").style.display = "block";
         document.getElementById("authUpdateRetypePasswordResult").innerHTML = "Please choose a stronger password (min password length = 6)";
-      }
-      else{
+      } else {
         if (newPassword === oldPassword) {
           document.getElementById("retypepassUpdateAlert").style.display = "block";
           document.getElementById("authUpdateRetypePasswordResult").innerHTML = "You cannot enter old password";
-        }
-        else{
+        } else {
           document.getElementById("passUpdateAlert").style.display = "none";
         }
       }
     }
     return false;
   }
-  else{
-    return true;
-  }
+  return true;
 }
-
 
 async function doUpdateUser() {
   firstName = document.getElementById("updateUserFirstName").value;
