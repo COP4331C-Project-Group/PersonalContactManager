@@ -171,7 +171,6 @@ function loadContactPage(contactID) {
   const contacts = JSON.parse(localStorage.getItem('cachedContacts'));
   for (const contact of contacts) {
     if (contact.ID === contactID) {
-      // TODO: see if this gets weird when you have multiple contact pages open.
       localStorage.setItem("individualContact", JSON.stringify(contact));
       window.location.href = "contact.html";
       return;
@@ -201,7 +200,7 @@ async function doSearch(page = 0) {
   searchResultDiv = document.getElementById("searchResult");
   if (page == 0) {
     searchResultDiv.innerHTML = "";
-    localStorage.setItem('cachedContacts', null);
+    localStorage.removeItem('cachedContacts');
   }
 
   let numberOfContacts = localStorage.getItem('numberOfContacts');
@@ -221,9 +220,9 @@ async function doSearch(page = 0) {
       itemsPerPage:numberOfContacts,
     });
 
-  let cached = JSON.parse(localStorage.getItem("cachedContacts"));
+  let cached = localStorage.getItem("cachedContacts");
   if (responseJson.data) {
-    cached = (cached == null) ? responseJson.data : cached.concat(responseJson.data);
+    cached = (cached === null) ? responseJson.data : JSON.parse(cached).concat(responseJson.data);
     localStorage.setItem("cachedContacts", JSON.stringify(cached));
   } else {
     document.getElementById("searchError").innerHTML = "No contacts found";
@@ -245,7 +244,7 @@ async function doSearch(page = 0) {
     }
     caption.innerHTML += " (loading " + numberOfContacts + " at a time)"
     for ( var contact of responseJson.data ) {
-      searchResultDiv.innerHTML += "<a href=javascript:loadContactPage(" + contact.ID + ")>" + createContactDiv(contact) + "</a>";
+      searchResultDiv.innerHTML += "<div class=\"hoverable\"><a href=javascript:loadContactPage(" + contact.ID + ")>" + createContactDiv(contact) + "</a></div>";
     }
   } else {
     document.getElementById("searchError").innerHTML = status;
