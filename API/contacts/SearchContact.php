@@ -45,10 +45,7 @@
         ResponseSender::send(ResponseCodes::INTERNAL_SERVER_ERROR, $e->getMessage());
     }
 
-    if ($result === false)
-        ResponseSender::send(ResponseCodes::NOT_FOUND, "Couldn't find contact");
-    else
-        ResponseSender::send(ResponseCodes::OK, NULL, $result);
+    ResponseSender::send(ResponseCodes::OK, NULL, $result);
     
     function isPayloadValid($payload) : bool
     {

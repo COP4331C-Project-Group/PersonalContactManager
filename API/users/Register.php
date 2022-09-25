@@ -34,7 +34,7 @@
         
     $result = $userAPI->CreateUser($user);
 
-    if ($result === false)
+    if (!$result)
         ResponseSender::send(ResponseCodes::CONFLICT, "Couldn't create user");
     else
         ResponseSender::send(ResponseCodes::CREATED, NULL, $result);

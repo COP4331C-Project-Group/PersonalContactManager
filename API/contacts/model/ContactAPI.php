@@ -25,7 +25,7 @@
          */
         public function CreateContact(object $contact) : object|false 
         {
-            if ($this->mysql->connect_error !== null)
+            if (!is_null($this->mysql->connect_error))
                 return false;
 
             $stmt = $this->mysql->prepare("INSERT INTO Contacts (ID, firstName, lastName, email, phone, userID, contactImageID, dateCreated) VALUES(DEFAULT, ?, ?, ?, ?, ?, NULL, DEFAULT)");
@@ -40,14 +40,14 @@
 
             $records = $stmt->execute();
 
-            if ($records === false)
+            if (!$records)
                 return false;
             
             $contactRecord = $this->GetContactByID($this->mysql->insert_id);
 
             // Checks whether an image was assigned to the new contact
             // If so, tries to create an image and updates Contact table with the ID of that image
-            if ($contact->contactImage !== NULL && strlen($contact->contactImage->imageAsBase64) > 0) {
+            if (!is_null($contact->contactImage) && strlen($contact->contactImage->imageAsBase64) > 0) {
                 $contactRecord->contactImage = $contact->contactImage->setName(strval($contactRecord->ID));
                 $contactRecord = $this->UpdateContact($contactRecord);
             }
@@ -64,28 +64,28 @@
          */
         private function GetContactByID($contactID) : object|false
         {
-            if ($this->mysql->connect_error !== null)
+            if (!is_null($this->mysql->connect_error))
                 return false;
 
             $records = $this->mysql->query("SELECT * FROM Contacts WHERE ID=$contactID");
 
-            if ($records === false)
+            if (!$records)
                 return false;
         
             $record = $records->fetch_object();
 
-            if ($record === null)
+            if (is_null($record) || !$record)
                 return false;
 
             $contact = Contact::Deserialize($record);
 
             // Checks whether image is assigned to the contact record
             // If so, tries to get that image and assign it to the contact object
-            if ($record->contactImageID !== NULL)
+            if (!is_null($record->contactImageID))
             {
                 $image = $this->imageAPI->GetImageByID($record->contactImageID);
                 
-                if ($image === false)
+                if (!$image)
                     return false;
 
                 $contact->contactImage = $image;
@@ -103,7 +103,7 @@
          */
         public function GetContactImage(int $contactID) : object|false
         {
-            if ($this->mysql->connect_error !== null)
+            if (!is_null($this->mysql->connect_error))
                 return false;
 
             $contact = $this->GetContactByID($contactID);
@@ -116,7 +116,7 @@
 
         private function GetContactColumns() : array|false
         {
-            if ($this->mysql->connect_error !== null)
+            if (!is_null($this->mysql->connect_error))
                 return false;
             
             $databaseName = $this->mysql->query("SELECT database() AS dbName")->fetch_object();
@@ -138,7 +138,7 @@
          */
         public function GetContact(string $query, int $userID, int $page, int $itemsPerPage) : array|false
         {
-            if ($this->mysql->connect_error !== null)
+            if (!is_null($this->mysql->connect_error))
                 return false;
 
             $columnNames = $this->columnNames;
@@ -210,12 +210,12 @@
          */
         public function UpdateContact(object $contact) : object|false
         {
-            if ($this->mysql->connect_error !== null)
+            if (!is_null($this->mysql->connect_error))
                 return false;
 
             $existingContact = $this->GetContactByID($contact->ID);
 
-            if ($existingContact === false)
+            if (!$existingContact)
                 return false;
             
             /**
@@ -244,7 +244,7 @@
              */
             else
             {
-                if ($existingContact->contactImage !== NULL)
+                if (!is_null($existingContact->contactImage))
                     $this->imageAPI->DeleteImage($existingContact->contactImage);
             }
 
@@ -255,17 +255,17 @@
              *  1st Case -> there is not contact image attached -> NULL
              *  2nd Case -> there is an image attached -> contactImageID
              */
-            if ($contact->contactImage === NULL || strlen($contact->contactImage->imageAsBase64) === 0)
+            if (is_null($contact->contactImage) || strlen($contact->contactImage->imageAsBase64) === 0)
                 $query = $query . "contactImageID=NULL WHERE ID=$contact->ID";
             else
                 $query = $query . "contactImageID={$contact->contactImage->ID} WHERE ID=$contact->ID";
             
             $records = $this->mysql->query($query);
 
-            if ($records !== false)
-                return $this->GetContactByID($contact->ID);
+            if (!$records)
+                return false;
 
-            return false;
+            return $this->GetContactByID($contact->ID);
         }
 
         /**
@@ -277,15 +277,15 @@
          */
         public function DeleteContact(object $contact) : bool
         {
-            if ($this->mysql->connect_error !== null)
+            if (!is_null($this->mysql->connect_error))
                 return false;
 
             $contact = $this->GetContactByID($contact->ID);
     
-            if ($contact === false)
+            if (!$contact)
                 return false;
 
-            if ($contact->contactImage !== NULL)
+            if (!is_null($contact->contactImage))
                 $this->imageAPI->DeleteImage($contact->contactImage);
 
             $records = $this->mysql->query("DELETE FROM Contacts WHERE ID=$contact->ID");
