@@ -77,6 +77,26 @@
       <input type="text" id="phone" class="phoneNumberInput" placeholder="Phone Number" /><br />
       <input type="text" id="email" class="emailInput" placeholder="Email Address" /><br />
       <button type="button" id="createContactButton" class="createButton" onclick="doCreateContact();">Create</button>
+      <img id= "firstContactAlert" class="firstContactAlert" src="images/alerticon.png" alt="Default">
+      <img id= "lastContactAlert" class="lastContactAlert" src="images/alerticon.png" alt="Default">
+      <img id= "phoneContactAlert" class="phoneContactAlert" src="images/alerticon.png" alt="Default">
+      <img id= "emailContactAlert" class="emailContactAlert" src="images/alerticon.png" alt="Default">
+      <img id= "authContactAlert" class="authContactAlert" src="images/alerticon.png" alt="Default">
+      <div id= firstContactAlertMessage>
+        <span id="authContactFirstResult"></span>
+      </div>
+      <div id= lastContactAlertMessage>
+        <span id="authContactLastResult"></span>
+      </div>
+      <div id= phoneContactAlertMessage>
+        <span id="authContactPhoneResult"></span>
+      </div>
+      <div id= emailContactAlertMessage>
+        <span id="authContactEmailResult"></span>
+      </div>
+      <div id= authContactAlertMessage>
+        <span id="authContactResult"></span>
+      </div>
       <span id="createResult"></span>
     </div>
   </div>
@@ -93,6 +113,30 @@
       <input type="password" id="oldPassword" class="updateUserOldPasswordInput" placeholder="Old Password" /><br />
       <input type="password" id="newPassword" class="updateUserNewPasswordInput" placeholder="New Password" /><br />
       <button type="button" id="confirmBtn" class="createButton">Update</button>
+      <img id= "firstUpdateAlert" class="firstUpdateAlert" src="images/alerticon.png" alt="Default">
+      <img id= "lastUpdateAlert" class="lastUpdateAlert" src="images/alerticon.png" alt="Default">
+      <img id= "usernameUpdateAlert" class="usernameUpdateAlert" src="images/alerticon.png" alt="Default">
+      <img id= "passUpdateAlert" class="passUpdateAlert" src="images/alerticon.png" alt="Default">
+      <img id= "retypepassUpdateAlert" class="retypepassUpdateAlert" src="images/alerticon.png" alt="Default">
+      <img id= "authUpdateAlert" class="authUpdateAlert" src="images/alerticon.png" alt="Default">
+      <div id= firstUpdateAlertMessage>
+        <span id="authUpdateFirstResult"></span>
+      </div>
+      <div id= lastUpdateAlertMessage>
+        <span id="authUpdateLastResult"></span>
+      </div>
+      <div id= usernameUpdateAlertMessage>
+        <span id="authUpdateUsernameResult"></span>
+      </div>
+      <div id= passUpdateAlertMessage>
+        <span id="authUpdatePasswordResult"></span>
+      </div>
+      <div id= retypepassUpdateAlertMessage>
+        <span id="authUpdateRetypePasswordResult"></span>
+      </div>
+      <div id= authUpdateAlertMessage>
+        <span id="authUpdateResult"></span>
+      </div>
       <span id="updateResult"></span>
     </div>
   </div>

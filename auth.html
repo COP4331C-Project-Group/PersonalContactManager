@@ -17,7 +17,7 @@
 
 </head>
 <body id="newBody">
-  <span id="title">Log in</span>
+  <span id="title">Log In</span>
   <div id="registerDiv">
     <input type="text" id="registerFirstName" class="firstnameInput" placeholder="First" /><br />
     <input type="text" id="registerLastName" class="lastnameInput" placeholder="Last" /><br />
@@ -25,6 +25,30 @@
     <input type="password" id="registerPassword" class="registerPasswordInput" placeholder="Password" /><br />
     <input type="password" id="registerConfirmPassword" class="registerRetypePasswordInput" placeholder="Retype Password" /><br />
     <button type="button" id="registerButton" class="registerPageButton" onclick="doRegister();">Sign Up</button>
+    <img id= "firstRegisterAlert" class="firstRegisterAlert" src="images/alerticon.png" alt="Default">
+    <img id= "lastRegisterAlert" class="lastRegisterAlert" src="images/alerticon.png" alt="Default">
+    <img id= "usernameRegisterAlert" class="usernameRegisterAlert" src="images/alerticon.png" alt="Default">
+    <img id= "passRegisterAlert" class="passRegisterAlert" src="images/alerticon.png" alt="Default">
+    <img id= "retypepassRegisterAlert" class="retypepassRegisterAlert" src="images/alerticon.png" alt="Default">
+    <img id= "authRegisterAlert" class="authRegisterAlert" src="images/alerticon.png" alt="Default">
+    <div id= firstRegisterAlertMessage>
+      <span id="authRegisterFirstResult"></span>
+    </div>
+    <div id= lastRegisterAlertMessage>
+      <span id="authRegisterLastResult"></span>
+    </div>
+    <div id= usernameRegisterAlertMessage>
+      <span id="authRegisterUsernameResult"></span>
+    </div>
+    <div id= passRegisterAlertMessage>
+      <span id="authRegisterPasswordResult"></span>
+    </div>
+    <div id= retypepassRegisterAlertMessage>
+      <span id="authRegisterRetypePasswordResult"></span>
+    </div>
+    <div id= authRegisterAlertMessage>
+      <span id="authRegisterResult"></span>
+    </div>
     <div id="loginLink">
       <a href="javascript:changeRegisterToLogin()">Log In</a>
     </div>
@@ -34,13 +58,21 @@
     <input type="text" id="loginUsername" class="loginInputs" placeholder="Username" /><br />
     <input type="password" id="loginPassword" class="loginInputs" placeholder="Password" /><br />
     <button type="button" id="loginButton" class="loginPageButton">Log In</button>
+    <img id= "usernameLoginAlert" class="usernameLoginAlert" src="images/alerticon.png" alt="Default">
+    <img id= "passLoginAlert" class="passLoginAlert" src="images/alerticon.png" alt="Default">
+    <img id= "authLoginAlert" class="authLoginAlert" src="images/alerticon.png" alt="Default">
+    <div id= usernameLoginAlertMessage>
+      <span id="authLoginUsernameResult"></span>
+    </div>
+    <div id= passLoginAlertMessage>
+      <span id="authLoginPasswordResult"></span>
+    </div>
+    <div id= authLoginAlertMessage>
+      <span id="authLoginResult"></span>
+    </div>
     <div id="registerLink">
       <a href="javascript:changeLoginToRegister()">Register</a>
     </div>
-  </div>
-
-  <div id="message">
-    <span id="authResult"></span>
   </div>
 </body>
 </html>

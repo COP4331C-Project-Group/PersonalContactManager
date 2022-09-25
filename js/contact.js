@@ -106,10 +106,8 @@ async function doUpdateContact() {
     imgAsBase64String = contact.contactImage;
   }
 
-  const msg = validateContactForm(firstName, lastName, phone, email);
-  if (msg !== "") {
-    document.getElementById("editError").innerHTML = msg;
-    return false;
+  if (!validateContactForm(firstName, lastName, phone, email)) {
+    return;
   }
 
   document.getElementById("editError").innerHTML = "";
@@ -129,7 +127,8 @@ async function doUpdateContact() {
   if (status == 200) {
     localStorage.setItem("individualContact", JSON.stringify(responseJson.data));
   } else {
-    document.getElementById("editError").innerHTML = responseJson.status_message;
+    document.getElementById("authUpdateResult").innerHTML = responseJson.status_message;
+    document.getElementById("authUpdateAlert").style.display = "block";
     return false;
   }
   return true;

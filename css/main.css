@@ -482,6 +482,227 @@ img {
   border-bottom-color: #000000;
 }
 
+/* Create Contacts Alerts */
+.firstContactAlert, .lastContactAlert, .phoneContactAlert, .emailContactAlert, .authContactAlert{
+  z-index: 5;
+  display: none;
+  position: absolute;
+  max-width: 5%;
+  height: auto;
+}
+
+.firstContactAlert{
+  top: 49%;
+  right: 2%;
+}
+
+.lastContactAlert{
+  top: 49%;
+  left: 55%;
+}
+
+.phoneContactAlert{
+  top: 60%;
+  left: 55%;
+}
+
+.emailContactAlert{
+  top: 73%;
+  left: 55%;
+}
+
+.authContactAlert{
+  top: 89%;
+  left: 43%;
+}
+
+.firstContactAlert:hover ~ #firstContactAlertMessage,
+.lastContactAlert:hover ~ #lastContactAlertMessage,
+.phoneContactAlert:hover ~ #phoneContactAlertMessage,
+.emailContactAlert:hover ~ #emailContactAlertMessage,
+.authContactAlert:hover ~ #authContactAlertMessage{
+  visibility: visible;
+}
+
+#firstContactAlertMessage,
+#lastContactAlertMessage,
+#phoneContactAlertMessage,
+#emailContactAlertMessage,
+#authContactAlertMessage  {
+  visibility: hidden;
+  text-align: center;
+  position: absolute;
+  z-index: 5;
+  height: auto;
+  width: 15%;
+  border-style: solid;
+  background-color: white;
+  border-color: black;
+  box-shadow: 10px 5px 5px red;
+  border-radius: 2px;
+}
+
+#firstContactAlertMessage {
+  top: 49%;
+  right: 30%;
+}
+
+#lastContactAlertMessage {
+  top: 49%;
+  right: 2%;
+}
+
+#phoneContactAlertMessage {
+  top: 60%;
+  right: 2%;
+}
+
+#emailContactAlertMessage {
+  top: 73%;
+  right: 2%;
+}
+
+#authContactAlertMessage {
+  top: 90%;
+  right: 8%;
+}
+
+#authContactFirstResult, 
+#authContactLastResult,
+#authContactPhoneResult,
+#authContactEmailResult,
+#authContactResult{
+  position: absolute;
+  z-index: 5;
+  display: contents;
+  font-size: 20px;
+  width: 90%;
+  text-align: center;
+  margin-left: 5%;
+  margin-bottom: 2%;
+  font-family: 'Ubuntu', sans-serif;
+  color: #95060a;
+}
+
+.firstUpdateAlert,
+.lastUpdateAlert,
+.usernameUpdateAlert,
+.passUpdateAlert,
+.retypepassUpdateAlert,
+.authUpdateAlert {
+  z-index: 5;
+  display: none;
+  position: absolute;
+  max-width: 5%;
+  height: auto;
+}
+
+.firstUpdateAlert {
+  top: 27%;
+  left: 0%;
+}
+
+.lastUpdateAlert {
+  top: 27%;
+  left: 60%;
+}
+
+.usernameUpdateAlert {
+  top: 40%;
+  left: 60%;
+}
+
+.passUpdateAlert {
+  top: 55%;
+  left: 60%;
+}
+
+.retypepassUpdateAlert {
+  top: 72%;
+  left: 60%;
+}
+
+.authUpdateAlert {
+  top: 88%;
+  left: 40%;
+}
+
+.firstUpdateAlert:hover ~ #firstUpdateAlertMessage,
+.lastUpdateAlert:hover ~ #lastUpdateAlertMessage,
+.usernameUpdateAlert:hover ~ #usernameUpdateAlertMessage,
+.passUpdateAlert:hover ~ #passUpdateAlertMessage,
+.retypepassUpdateAlert:hover ~ #retypepassUpdateAlertMessage,
+.authUpdateAlert:hover ~ #authUpdateAlertMessage {
+  visibility: visible;
+}
+
+#firstUpdateAlertMessage,
+#lastUpdateAlertMessage,
+#usernameUpdateAlertMessage,
+#passUpdateAlertMessage,
+#retypepassUpdateAlertMessage,
+#authUpdateAlertMessage {
+  visibility: hidden;
+  text-align: center;
+  position: absolute;
+  z-index: 5;
+  height: auto;
+  width: 15%;
+  border-style: solid;
+  background-color: white;
+  border-color: black;
+  box-shadow: 10px 5px 5px red;
+  border-radius: 2px;
+}
+
+#firstUpdateAlertMessage {
+  top: 27%;
+  right: 30%;
+}
+
+#lastUpdateAlertMessage {
+  top: 27%;
+  right: 1%;
+}
+
+#usernameUpdateAlertMessage {
+  top: 40%;
+  right: 1%;
+}
+
+#passUpdateAlertMessage {
+  top: 55%;
+  right: 1%;
+}
+
+#retypepassUpdateAlertMessage {
+  top: 72%;
+  right: 1%;
+}
+
+#authUpdateAlertMessage {
+  top: 88%;
+  right: 11%;
+}
+
+#authUpdateFirstResult, 
+#authUpdateLastResult,
+#authUpdateUsernameResult,
+#authUpdatePasswordResult,
+#authUpdateRetypePasswordResult,
+#authUpdateResult{
+  position: absolute;
+  z-index: 5;
+  display: contents;
+  font-size: 20px;
+  width: 90%;
+  text-align: center;
+  margin-left: 5%;
+  margin-bottom: 2%;
+  font-family: 'Ubuntu', sans-serif;
+  color: #95060a;
+}
+
 /*Toggle button*/
 .switch {
   position: relative;
