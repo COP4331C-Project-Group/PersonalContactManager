@@ -297,6 +297,7 @@ async function doCreateContact() {
 
   if (status == 201) {
     createContactModal.style.display = "none";
+    doSearch();
   } else {
     document.getElementById("authContactResult").innerHTML = responseJson.status_message;
     document.getElementById("authContactAlert").style.display = "block";
