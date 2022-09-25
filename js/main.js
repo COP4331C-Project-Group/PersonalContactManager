@@ -162,21 +162,27 @@ function loadContactPage(contactID) {
 }
 
 function clearSearchResults() {
-  console.log("in clear search results");
-  searchResultDiv = document.getElementById("searchResult");
-  searchResultDiv.innerHTML = "";
+  document.getElementById("searchResult").innerHTML = "";
+  document.getElementById("searchError").innerHTML = "";
   document.getElementById("contactString").value = "";
   currentPage = 0;
   localStorage.setItem("cachedContacts", null);
 }
 
-async function doSearch() {
+async function doSearch(page = 0) {
+  currentPage = page;
   let toggle = document.getElementById('toggle');
   let displayAll = toggle.checked;
   let searchQuery = document.getElementById("contactString").value;
   if (!displayAll && searchQuery.length === 0) {
     clearSearchResults();
     return;
+  }
+
+  searchResultDiv = document.getElementById("searchResult");
+  if (page == 0) {
+    searchResultDiv.innerHTML = "";
+    localStorage.setItem('cachedContacts', null);
   }
 
   let numberOfContacts = localStorage.getItem('numberOfContacts');
@@ -192,28 +198,30 @@ async function doSearch() {
     {
       query:searchQuery,
       userID:window.userID,
-      page:currentPage,
+      page:page,
       itemsPerPage:numberOfContacts,
     });
 
+  let cached = JSON.parse(localStorage.getItem("cachedContacts"));
   if (responseJson) {
-    let cached = JSON.parse(localStorage.getItem("cachedContacts"));
     cached = (cached == null) ? responseJson.data : cached.concat(responseJson.data);
     localStorage.setItem("cachedContacts", JSON.stringify(cached));
   }
 
+  let caption = document.getElementById("searchError");
+
   if (status == 200) {
     searchResultDiv = document.getElementById("searchResult");
     if (displayAll) {
-      // searchResultDiv.innerHTML = "Showing all of your contacts";
+      caption.innerHTML = "Showing all of your contacts";
     } else {
       if (responseJson.data === false) {
-        searchResultDiv.innerHTML = "Found no contacts matching " + searchQuery;
+        caption.innerHTML = "Found no contacts matching " + searchQuery;
         return;
       }
-      // searchResultDiv.innerHTML = "Showing all contacts matching \"" + searchQuery + "\"";
+      caption.innerHTML = "Showing all " + cached.length + " contacts matching \"" + searchQuery + "\"";
     }
-    // searchResultDiv.innerHTML += " (displaying " + numberOfContacts + " at a time)"
+    caption.innerHTML += " (loading " + numberOfContacts + " at a time)"
     for ( var contact of responseJson.data ) {
       searchResultDiv.innerHTML += "<a href=javascript:loadContactPage(" + contact.ID + ")>" + createContactDiv(contact) + "</a>";
     }
@@ -304,11 +312,15 @@ btn.onclick = function() {
     searchBox.display = 'none';
     toggleLabel.innerHTML = "Hide all";
   }
-  doSearch(searchBox.disabled);
+  doSearch();
 }
 
 function setNumberOfContactsToShow(n) {
   localStorage.setItem('numberOfContacts', n);
+  var element = document.getElementById('limit' + n);
+  if (element !== null && element.style.fontWeight == 'bold') {
+    return;
+  }  
   let limitVals = [10, 25, 50];
   function resetStyle(val) {
     var element = document.getElementById('limit' + val);
@@ -335,6 +347,6 @@ let cont = document.querySelector(".container");
 cont.addEventListener("scroll", () => {
   if (cont.scrollTop >= (cont.scrollHeight - cont.clientHeight) * 0.9) {
     currentPage += 1;
-    doSearch();
+    doSearch(currentPage);
   }
 });
