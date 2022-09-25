@@ -172,6 +172,11 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
+.clearButton:disabled {
+  background-color: grey;
+  color: rgb(200, 200, 200);
+}
+
 #numberOfContacts {
   font-size: 30px;
   width: 15%;
