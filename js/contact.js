@@ -96,7 +96,7 @@ async function doUpdateContact() {
   const contact = JSON.parse(localStorage.getItem('individualContact'));
   let imgAsBase64String = localStorage.getItem('imgAsBase64String');
   if (imgAsBase64String == null) {
-    imgAsBase64String = contact.contactImage;
+    imgAsBase64String = "";
   }
 
   if (!validateContactForm(firstName, lastName, phone, email)) {
@@ -120,7 +120,7 @@ async function doUpdateContact() {
   if (status == 200) {
     localStorage.setItem("individualContact", JSON.stringify(responseJson.data));
   } else {
-    document.getElementById("authUpdateResult").innerHTML = responseJson.status_message;
+    document.getElementById("authUpdateResult").innerHTML = responseJson.status;
     document.getElementById("authUpdateAlert").style.display = "block";
     return false;
   }
