@@ -54,14 +54,17 @@ openEditContactBtn.onclick = async function() {
   updateEmail = document.getElementById("email");
   updateEmail.value = contact.email;
   profileImage = document.getElementById("profilePicture");
+  setContactImage(contact);
+}
+
+async function setContactImage(contact) {
   if (contact.hasImage) {
     imgAsBase64String = await getImage(contact.ID);
-    if (imgAsBase64String !== null) {
-      profileImage.setAttribute('src', "data:image/jpg;base64," + imgAsBase64String);
-      return;
-    }
+    if (imgAsBase64String !== null)
+      profileImage.setAttribute( 'src', "data:image/jpg;base64," + imgAsBase64String);
   }
-  profileImage.setAttribute('src', "images/default-profile-pic.jpg");
+  else
+    profileImage.setAttribute('src', "images/default-profile-pic.jpg");
 }
 
 // When the user clicks on <span> (x), close the editContactModal
@@ -94,10 +97,9 @@ async function doUpdateContact() {
   let phone = document.getElementById("phone").value;
   let email = document.getElementById("email").value;
   const contact = JSON.parse(localStorage.getItem('individualContact'));
-  let imgAsBase64String = localStorage.getItem('imgAsBase64String');
-  if (imgAsBase64String == null) {
-    imgAsBase64String = "";
-  }
+  
+  if (localStorage.getItem('uploadedImgAsBase64String') == null)
+    setContactImage(contact);
 
   if (!validateContactForm(firstName, lastName, phone, email)) {
     return;
@@ -150,16 +152,5 @@ async function displayContact() {
     contactEmail.innerHTML = "N/A"
   }
   profileImage = document.getElementById("displayPicture");
-
-  if (contact.hasImage) {
-    imgAsBase64String = await getImage(contact.ID);
-    if (imgAsBase64String !== null) {
-      profileImage.setAttribute('src', "data:image/jpg;base64," + imgAsBase64String);
-      return;
-    }
-    console.log("Failed to load image: " + status);
-  }
-
-  // If we didn't successfully load the image, use the default
-  profileImage.setAttribute('src', "images/default-profile-pic.jpg");
+  setContactImage(contact);
 }
