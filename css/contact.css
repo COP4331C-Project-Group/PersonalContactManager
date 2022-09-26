@@ -4,8 +4,8 @@ img {
   right: 0;
   left: 0;
   border-radius: 50%;
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   margin: auto;
 }
 
@@ -130,17 +130,12 @@ body {
 
 
 .phoneNumberLabel, .emailLabel {
-  left: 0;
-  right: 30%;
+  right: 55%;
 }
 
 .phoneNumberDisplay, .emailDisplay {
-  border-radius: 10px;
-  border-color: black;
-  border-style: solid;
-  border-width: 2px;
-  left: 30%;
-  right: 0;
+  border-style: none;
+  left: 55%;
 }
 
 .phoneNumberDisplay, .phoneNumberLabel {
@@ -213,11 +208,12 @@ body {
 /* Style of Modal */
 .imgmodal {
   position: absolute;
-  top: 30%;
+  top: 26%;
   right: 0;
   left: 0;
   border-radius: 50%;
-  width: 10%;
+  width: 135px;
+  height: 135px;
   margin: auto;
 }
 
