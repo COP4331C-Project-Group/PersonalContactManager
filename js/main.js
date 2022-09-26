@@ -174,7 +174,7 @@ contactString.addEventListener("keydown", function (e) {
 });
 
 function createContactDiv(contact) {
-  return "<center><h3 style='border:1px solid black; width: 50%;'>" + capitalizeFirstLetter(contact.firstName) + " " + capitalizeFirstLetter(contact.lastName) + "</h6></center>";
+  return "<center><h3 class='individualDivs'>" + capitalizeFirstLetter(contact.firstName) + " " + capitalizeFirstLetter(contact.lastName) + "</h6></center>";
 }
 
 function loadContactPage(contactID) {
