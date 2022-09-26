@@ -173,7 +173,8 @@ body {
   width: 50%;
   font-size: 40px;
   top: 27%;
-  left: 15%;
+  left: 0;
+  right: 0;
   margin: auto;
   display: flex;
   flex-direction: row;
@@ -191,7 +192,7 @@ body {
   margin: auto;
   margin-top: 0%;
   top: 5%;
-  left: 30%;
+  left: 40%;
   font-family: 'Ubuntu', sans-serif;
 }
 
@@ -792,7 +793,7 @@ input:checked + .slider:before {
   margin: auto;
   margin-top: 0%;
   top: 30%;
-  left: 6%;
+  left: 15%;
   font-family: 'Ubuntu', sans-serif;
 }
 
@@ -803,8 +804,8 @@ input:checked + .slider:before {
   position: fixed;
   margin: auto;
   margin-top: 0%;
-  top: 25%;
-  left: 6%;
+  top: 41%;
+  left: 10%;
   font-family: 'Ubuntu', sans-serif;
 }
 
