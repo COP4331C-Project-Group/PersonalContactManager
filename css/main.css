@@ -253,7 +253,7 @@ body {
 }
 
 #searchError{
-  top: 12%;
+  top: 0;
 }
 
 #searchResult {
@@ -829,4 +829,15 @@ input:checked + .slider:before {
 
 .hoverable a:hover{
   color: turquoise;
+}
+
+.individualDivs{
+  padding: 1%;
+  width: 50%;
+  margin: auto;
+  font-size: 40px;
+}
+
+.individualDivs:hover{
+  background-color: #a9a9a91f;
 }
