@@ -26,6 +26,8 @@
 </head>
 <body id="newBody">
   <div id="mySidenav" class="sidenav">
+    <label class="loggedInAs">Logged In As</label>
+    <label class="loggedInAs" id="usernameSideNav"></label>
     <a href="javascript:void(0)" onclick="openUpdateProfileModal()" id="myBtn">Update profile</a>
     <a href="javascript:void(0)" onclick="doLogout()" id="myBtn2">Log out</a>
   </div>
@@ -33,8 +35,7 @@
   <div id="main">
     <span style="font-size:100px;cursor:pointer" onclick="toggleNav()">&#9881;</span>
     <span style="font-size:100px;cursor:pointer;float:right" onclick="openCreateContactModal()">&plus;</span>
-    <span id="userName"></span>
-    <span id="title">My Contacts</span>
+    <span id="title"></span>
     <div id="contactDiv">
       <div class="myDIV" id="myDiv">
         <label class="switch">
