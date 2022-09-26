@@ -133,18 +133,14 @@ body {
 /*Register Screen design*/
 .searchInput {
   outline: none;
-  position: fixed;
   height: fit-content;
-  border-radius: 5px;
-  border-color: #ffffff;
-  border-style: solid;
-  border-bottom-style: solid;
-  border-bottom-color: rgb(202, 201, 201);
   padding: 1%;
   width: 40%;
   font-size: 40px;
-  top: 25%;
-  left: 15%;
+  border-style: none;
+  top: 0;
+  left: 0;
+  flex-grow: 2;
   margin: auto;
   display: block;
 }
@@ -157,24 +153,35 @@ body {
 }
 
 .clearButton {
+  background-color: #00000000;
   font-size: 40px;
-  border-radius: 5px;
-  width: 15%;
-  position: fixed;
-  margin: auto;
-  margin-top: 0%;
-  top: 27%;
-  right: 15%;
-  border-width: thick;
-  border-color: black;
-  background-color: black;
-  color: rgb(255, 255, 255);
+  border-style: none;
+  color: black;
   font-family: 'Ubuntu', sans-serif;
 }
 
 .clearButton:disabled {
   background-color: grey;
   color: rgb(200, 200, 200);
+}
+
+.searchBox {
+  outline: none;
+  position: fixed;
+  background-color: #00000000;
+  height: auto;
+  width: 50%;
+  font-size: 40px;
+  top: 27%;
+  left: 15%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-color: #ffffff;
+  border-style: solid;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(202, 201, 201);
 }
 
 #numberOfContacts {
@@ -184,7 +191,7 @@ body {
   margin: auto;
   margin-top: 0%;
   top: 30%;
-  right: 25%;
+  right: 15%;
   font-family: 'Ubuntu', sans-serif;
 }
 
@@ -235,16 +242,19 @@ body {
 }
 
 #searchError, #createResult, #updateResult {
-    position: relative;
+    position: absolute;
     z-index: 2;
     display: inline-block;
     font-size: 0.8em;
-    width: 90%;
+    width: 100%;
     text-align: center;
-    margin-left: 5%;
     margin-bottom: 2%;
     font-family: 'Ubuntu', sans-serif;
     color: #95060a;
+}
+
+#searchError{
+  top: 12%;
 }
 
 #searchResult {
@@ -807,6 +817,16 @@ input:checked + .slider:before {
   position: relative;
   height: 400px;
   overflow: scroll;
+  overflow-x: hidden;
+}
+
+.container::-webkit-scrollbar{
+  display: none;
+}
+
+.container {
+  -ms-overflow-style: none;  /* Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .hoverable a:hover{
