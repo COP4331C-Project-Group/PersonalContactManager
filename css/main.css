@@ -187,11 +187,11 @@ body {
 #numberOfContacts {
   font-size: 30px;
   width: 15%;
-  position: fixed;
+  position: relative;
   margin: auto;
   margin-top: 0%;
-  top: 30%;
-  right: 15%;
+  top: 5%;
+  left: 30%;
   font-family: 'Ubuntu', sans-serif;
 }
 
@@ -242,19 +242,18 @@ body {
 }
 
 #searchError, #createResult, #updateResult {
-    position: absolute;
+    position: relative;
     z-index: 2;
     display: inline-block;
     font-size: 0.8em;
     width: 100%;
     text-align: center;
-    margin-bottom: 2%;
     font-family: 'Ubuntu', sans-serif;
     color: #95060a;
 }
 
 #searchError{
-  top: 12%;
+  top: 0;
 }
 
 #searchResult {
@@ -262,10 +261,8 @@ body {
     z-index: 2;
     display: inline-block;
     font-size: 0.5em;
-    width: 90%;
+    width: 100%;
     text-align: center;
-    margin-left: 5%;
-    margin-bottom: 2%;
     font-family: 'Ubuntu', sans-serif;
     color: blue;
 }
@@ -816,6 +813,7 @@ input:checked + .slider:before {
   flex-direction: column;
   position: relative;
   height: 400px;
+  width: 100%;
   overflow: scroll;
   overflow-x: hidden;
 }
@@ -831,4 +829,15 @@ input:checked + .slider:before {
 
 .hoverable a:hover{
   color: turquoise;
+}
+
+.individualDivs{
+  padding: 1%;
+  width: 50%;
+  margin: auto;
+  font-size: 40px;
+}
+
+.individualDivs:hover{
+  background-color: #a9a9a91f;
 }

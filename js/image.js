@@ -86,7 +86,7 @@ window.addEventListener('load', function() {
         // set src to blob url
         profileImage.src = URL.createObjectURL(resizedImage);
       }
-      localStorage.setItem('imgAsBase64String', imgAsBase64String);
+      localStorage.setItem('uploadedImgAsBase64String', imgAsBase64String);
     }
   });
 });
