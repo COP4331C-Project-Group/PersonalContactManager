@@ -130,17 +130,12 @@ body {
 
 
 .phoneNumberLabel, .emailLabel {
-  left: 0;
-  right: 30%;
+  right: 55%;
 }
 
 .phoneNumberDisplay, .emailDisplay {
-  border-radius: 10px;
-  border-color: black;
-  border-style: solid;
-  border-width: 2px;
-  left: 30%;
-  right: 0;
+  border-style: none;
+  left: 55%;
 }
 
 .phoneNumberDisplay, .phoneNumberLabel {
