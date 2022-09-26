@@ -187,11 +187,11 @@ body {
 #numberOfContacts {
   font-size: 30px;
   width: 15%;
-  position: fixed;
+  position: relative;
   margin: auto;
   margin-top: 0%;
-  top: 30%;
-  right: 15%;
+  top: 5%;
+  left: 30%;
   font-family: 'Ubuntu', sans-serif;
 }
 
