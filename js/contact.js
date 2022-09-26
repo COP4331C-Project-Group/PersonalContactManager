@@ -128,7 +128,7 @@ async function doUpdateContact() {
 }
 
 function formatContactPhoneAsString(phone) {
-  return "(" + phone.substring(0, 3) + ") " + phone.substring(3, 6) + "-" + phone.substring(6, 10);
+  return "(" + phone.substring(0, 3) + ") " + phone.substring(4, 7) + "-" + phone.substring(8, 12);
 }
 
 async function displayContact() {

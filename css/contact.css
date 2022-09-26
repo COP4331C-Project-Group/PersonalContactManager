@@ -4,8 +4,8 @@ img {
   right: 0;
   left: 0;
   border-radius: 50%;
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   margin: auto;
 }
 
@@ -213,11 +213,12 @@ body {
 /* Style of Modal */
 .imgmodal {
   position: absolute;
-  top: 30%;
+  top: 26%;
   right: 0;
   left: 0;
   border-radius: 50%;
-  width: 10%;
+  width: 135px;
+  height: 135px;
   margin: auto;
 }
 
