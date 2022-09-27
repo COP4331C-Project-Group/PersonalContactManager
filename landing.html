@@ -1,0 +1,68 @@
+<!--Hey! This is the original version
+of Simple CSS Waves-->
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="css/landing.css" rel="stylesheet" />
+  <title>PCM - Welcome</title>
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+</head>
+
+<div class="header" id="header">
+
+<!--Content before waves-->
+<div class="inner-header flex">
+<h1>Welcome to Personal Contact Manager
+<br/>
+<br/>
+<button id="fade" onclick="fade()" class="btn" type="button">Get started</button>
+</h1>
+</div>
+
+<!--Waves Container-->
+<div>
+<svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+<defs>
+<path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+</defs>
+<g class="parallax">
+<use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+<use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+<use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+<use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+</g>
+</svg>
+</div>
+<!--Waves end-->
+
+</div>
+<!--Header ends-->
+
+<div class="content flex">
+  <p>Created by Group 14 for UCF COP 4331C, Fall 2022</p>
+</div>
+
+<body onunload="">
+<script type="text/javascript">
+//on btn click
+function fade() {
+  //get the button and div
+  let div = document.getElementById("header");
+  let btn = document.getElementById("fade");
+  div.style.animation = "fade-out 1.5s forwards";
+  btn.innerHTML = "Redirecting...";
+  setTimeout(() => {
+    window.location.href = "auth.html";
+  }, 1500);
+}
+
+window.onload = (event) => {
+  let div = document.getElementById("header");
+  let btn = document.getElementById("fade");
+  div.style.animation = "fade-in 1.5s forwards";
+  btn.innerHTML = "Get started";
+};
+</script>
+
+</html>

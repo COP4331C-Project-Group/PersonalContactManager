@@ -54,15 +54,12 @@ function readCookie()
     }
   }
 
-  if( window.userID < 0 )
-  {
-    if (window.location.pathname.split("/").pop() !== "auth.html") {
-      window.location.href = "auth.html";
+  page = window.location.pathname.split("/").pop();
+  if( window.userID < 0 ) {
+    if (page !== "auth.html" && page !== "landing.html") {
+      window.location.href = "landing.html";
     }
-  }
-  else
-  {
-    page = window.location.pathname.split("/").pop();
+  } else {
     if (page == "auth.html") {
       window.location.href = "index.html";
     } else if (page == "index.html") {
