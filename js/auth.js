@@ -76,7 +76,6 @@ function changeLoginToRegister() {
   document.getElementById("registerForm").style.opacity="1";
   document.getElementById("loginForm").style.left = "1800px";
   document.getElementById("loginForm").style.opacity = "0";
-
   document.getElementById("title").innerHTML = "Register";
 }
 
@@ -86,10 +85,6 @@ function changeRegisterToLogin(){
   document.getElementById("registerForm").style.opacity="0";
   document.getElementById("loginForm").style.left = "0px";
   document.getElementById("loginForm").style.opacity = "1";
-
-  document.getElementById("")
-
-
   document.getElementById("title").innerHTML = "Log In";
 }
 
@@ -134,6 +129,7 @@ async function doLogin(username, password) {
 
   if (status == 200) {
     saveUserInfo(responseJson.data);
+    saveCookie();
     window.location.href = "index.html";
   } else if (status == 404 || status == 403) {
     document.getElementById("authLoginResult").innerHTML = "Bad username/password combo!";
@@ -264,6 +260,21 @@ function validateRegistrationForm(firstName, lastName, username, password, confi
   return isValid;
 }
 
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+var modal = document.getElementById("myModal");
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
 async function doRegister() {
   window.userID = -1;
   window.firstName = "";
@@ -294,9 +305,12 @@ async function doRegister() {
 
   if (status == 201) {
     saveUserInfo(responseJson.data);
-    window.location.href = "index.html";
+    modal.style.display = "block";
+  } else if (status == 409) {
+    document.getElementById("authRegisterResult").innerHTML = responseJson.status_message;
+    document.getElementById("authRegisterAlert").style.display = "block";
   } else {
-    document.getElementById("authRegisterResult").innerHTML = status;
+    document.getElementById("authRegisterResult").innerHTML = "Received unexpected status: " + status + ". Please try again";
     document.getElementById("authRegisterAlert").style.display = "block";
   }
 }

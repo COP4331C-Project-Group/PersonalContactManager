@@ -250,7 +250,7 @@ async function doSearch(page = 0) {
         caption.innerHTML = "Found no contacts matching " + searchQuery;
         return;
       }
-      caption.innerHTML = "Showing all " + cached.length + " contacts matching \"" + searchQuery + "\"";
+      caption.innerHTML = "Showing " + cached.length + " contacts matching \"" + searchQuery + "\"";
     }
     caption.innerHTML += " (loading " + numberOfContacts + " at a time)"
     for ( var contact of responseJson.data ) {
