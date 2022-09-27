@@ -63,7 +63,8 @@ function readCookie()
     if (page == "auth.html") {
       window.location.href = "index.html";
     } else if (page == "index.html") {
-      document.getElementById("userName").innerHTML = "Logged in as " + capitalizeFirstLetter(window.firstName) + " " + capitalizeFirstLetter(window.lastName);
+      document.getElementById("title").innerHTML = capitalizeFirstLetter(window.firstName) + "'s Contacts";
+      document.getElementById("usernameSideNav").innerHTML = window.username;
     }
   }
 }
