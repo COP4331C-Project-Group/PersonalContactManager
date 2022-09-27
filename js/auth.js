@@ -26,15 +26,28 @@ loginBtn.onclick = function() {
 
 function changeLoginToRegister() {
   document.title = "PCM - Register";
-  document.getElementById("registerDiv").style.zIndex = "1";
-  document.getElementById("loginDiv").style.zIndex = "-1";
+  // document.getElementById("registerDiv").style.zIndex = "1";
+  // document.getElementById("loginDiv").style.zIndex = "-1";
+  document.getElementById("registerForm").style.left="0px"
+  document.getElementById("registerForm").style.opacity="1";
+  document.getElementById("loginForm").style.left = "1800px";
+  document.getElementById("loginForm").style.opacity = "0";
+
   document.getElementById("title").innerHTML = "Register";
 }
 
 function changeRegisterToLogin(){
   document.title = "PCM - Log In";
-  document.getElementById("registerDiv").style.zIndex = "-1";
-  document.getElementById("loginDiv").style.zIndex = "1";
+  // document.getElementById("registerDiv").style.zIndex = "-1";
+  // document.getElementById("loginDiv").style.zIndex = "1";
+  document.getElementById("registerForm").style.left="-1800px"
+  document.getElementById("registerForm").style.opacity="0";
+  document.getElementById("loginForm").style.left = "0px";
+  document.getElementById("loginForm").style.opacity = "1";
+
+  document.getElementById("")
+
+
   document.getElementById("title").innerHTML = "Log In";
 }
 
