@@ -130,7 +130,8 @@ async function doUpdateContact() {
 }
 
 function formatContactPhoneAsString(phone) {
-  return "(" + phone.substring(0, 3) + ") " + phone.substring(4, 7) + "-" + phone.substring(8, 12);
+  console.log(phone);
+  return "(" + phone.substring(0, 3) + ") " + phone.substring(3, 6) + "-" + phone.substring(7, 10);
 }
 
 async function displayContact() {
