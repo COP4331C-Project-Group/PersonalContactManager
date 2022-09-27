@@ -1,5 +1,6 @@
 body {
   margin:0;
+  overflow: hidden;
 }
 
 h1 {
@@ -121,12 +122,7 @@ p {
   line-height: 1;  transition: transform 250ms, opacity 400ms;
 }
 
-.btn:active {
-  box-shadow: 0 0.3em 1em -0.5em #14a73e98;
-}
-
 .btn:hover {
-  box-shadow: 0 0.5em 1.5em -0.5em #14a73e98;
   transform: scale(1.2);
 }
 
