@@ -781,13 +781,9 @@ input:checked + .slider:before {
 }
 
 .hide {
-  display: none;
-}
-
-.myDIV:hover + .hide {
-  display: block;
   color: blue;
 }
+
 
 #myDiv {
   font-size: 30px;
@@ -807,8 +803,8 @@ input:checked + .slider:before {
   position: fixed;
   margin: auto;
   margin-top: 0%;
-  top: 41%;
-  left: 10%;
+  top:38%;
+  left: 15%;
   font-family: 'Ubuntu', sans-serif;
 }
 
