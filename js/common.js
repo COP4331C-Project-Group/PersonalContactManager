@@ -74,8 +74,6 @@ function saveUserInfo(userJson) {
   window.firstName = userJson.firstName;
   window.lastName = userJson.lastName;
   window.username = userJson.username;
-
-  saveCookie();
 }
 
 async function getData(url, jsonParams) {
