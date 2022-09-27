@@ -826,15 +826,6 @@ input:checked + .slider:before {
   overflow-x: hidden;
 }
 
-.container::-webkit-scrollbar{
-  display: none;
-}
-
-.container {
-  -ms-overflow-style: none;  /* Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
 .hoverable a:hover{
   color: turquoise;
 }

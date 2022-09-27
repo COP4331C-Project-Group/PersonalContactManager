@@ -198,7 +198,6 @@ function clearSearchResults() {
 }
 
 async function doSearch(page = 0) {
-  currentPage = page;
   let toggle = document.getElementById('toggle');
   let displayAll = toggle.checked;
   let searchQuery = document.getElementById("contactString").value;
