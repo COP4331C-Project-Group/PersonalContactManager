@@ -5,6 +5,21 @@ confirmPasswordString.addEventListener("keydown", function (e) {
   }
 });
 
+function addHideAlertOnInputListener(formLabelID, alertID) {
+  if (formLabelID.value != "" && document.getElementById(alertID).style.display != "none")
+    document.getElementById(alertID).style.display = "none";
+}
+
+document.getElementById("loginUsername").addEventListener("input", function() { 
+  addHideAlertOnInputListener("loginUsername", "usernameLoginAlert");
+  addHideAlertOnInputListener("loginUsername", "authLoginAlert"); 
+});
+
+document.getElementById("loginPassword").addEventListener("input", function() { 
+  addHideAlertOnInputListener("loginPassword", "passLoginAlert");
+  addHideAlertOnInputListener("loginUsername", "authLoginAlert"); 
+});
+
 var loginPasswordString = document.getElementById("loginPassword");
 loginPasswordString.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {
@@ -101,6 +116,15 @@ async function doLogin(username, password) {
     document.getElementById("authLoginAlert").style.display = "block";
   }
 }
+
+document.getElementById("registerUsername").addEventListener("input", function() { 
+  addHideAlertOnInputListener("registerUsername", "usernameRegisterAlert");
+  addHideAlertOnInputListener("registerUsername", "authRegisterAlert");
+});
+document.getElementById("registerFirstName").addEventListener("input", function() { addHideAlertOnInputListener("registerFirstName", "firstRegisterAlert"); });
+document.getElementById("registerLastName").addEventListener("input", function() { addHideAlertOnInputListener("registerLastName", "lastRegisterAlert"); });
+document.getElementById("registerPassword").addEventListener("input", function() { addHideAlertOnInputListener("registerPassword ", "passRegisterAlert"); });
+document.getElementById("registerConfirmPassword").addEventListener("input", function() { addHideAlertOnInputListener("registerConfirmPassword", "retypepassRegisterAlert"); });
 
 function validateRegistrationForm(firstName, lastName, username, password, confirmPassword) {  
   // TODO: update this later if needed/add more constraints
