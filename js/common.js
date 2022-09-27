@@ -25,6 +25,9 @@ function saveCookie()
 function readCookie()
 {
   let data = document.cookie;
+  // Sometimes prefix is added to cookie, can get rid of it by splitting on ;
+  let data_no_prefix = data.split(";");
+  data = data_no_prefix[(data_no_prefix.length === 2) ? 1 : 0];
   let parts = data.split(",");
   // parts has multiple elements if cookie is set, so we retrieve log in info
   if (parts.length > 1) {
@@ -64,7 +67,7 @@ function readCookie()
       window.location.href = "index.html";
     } else if (page == "index.html") {
       document.getElementById("title").innerHTML = capitalizeFirstLetter(window.firstName) + "'s Contacts";
-      document.getElementById("usernameSideNav").innerHTML = window.username;
+      document.getElementById("usernameSideNav").innerHTML = "&emsp;" + window.username;
     }
   }
 }
