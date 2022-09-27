@@ -154,6 +154,7 @@ body {
 }
 
 .clearButton {
+  cursor: pointer;
   background-color: #00000000;
   font-size: 40px;
   border-style: none;
@@ -162,6 +163,8 @@ body {
 }
 
 .clearButton:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
   background-color: grey;
   color: rgb(200, 200, 200);
 }
@@ -186,6 +189,11 @@ body {
   border-bottom-color: rgb(202, 201, 201);
 }
 
+.searchBox:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
+
 #numberOfContacts {
   font-size: 30px;
   width: 15%;
@@ -200,12 +208,6 @@ body {
 .numberOfContactsNumbers {
   text-decoration:  underline;
   color: blue;
-}
-
-.searchButton:hover {
-  background-color: #ffffff;
-  color: #000000;
-  opacity: 100%;
 }
 
 #closeButton {

@@ -62,6 +62,7 @@ form#registerForm {
 .loginPageButton {
     font-size: 40px;
     border-radius: 5px;
+    cursor: pointer;
     width: 30%;
     position: absolute;
     margin: auto;
@@ -376,6 +377,7 @@ a {
     background-color: black;
     color: rgb(255, 255, 255);
     font-family: 'Ubuntu', sans-serif;
+    cursor: pointer;
 }
 
 /* What occurs when you hover over the sign up button */

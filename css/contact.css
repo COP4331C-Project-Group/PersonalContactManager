@@ -54,6 +54,7 @@ img {
 
 /* The Close Button */
 .close {
+  cursor: pointer;
   color: #aaa;
   float: right;
   font-size: 100px;
@@ -155,6 +156,7 @@ body {
 }
 
 .editButton {
+  cursor: pointer;
   font-size: 40px;
   border-radius: 5px;
   width: 20%;
@@ -171,6 +173,7 @@ body {
 }
 
 .deleteButton {
+  cursor: pointer;
   font-size: 40px;
   border-radius: 5px;
   width: 20%;
@@ -304,6 +307,7 @@ body {
 }
 
 .updateButton {
+  cursor: pointer;
   font-size: 40px;
   border-radius: 5px;
   width: 30%;
