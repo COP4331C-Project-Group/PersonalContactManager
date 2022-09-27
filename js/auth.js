@@ -10,14 +10,45 @@ function addHideAlertOnInputListener(formLabelID, alertID) {
     document.getElementById(alertID).style.display = "none";
 }
 
-document.getElementById("loginUsername").addEventListener("input", function() { 
-  addHideAlertOnInputListener("loginUsername", "usernameLoginAlert");
-  addHideAlertOnInputListener("loginUsername", "authLoginAlert"); 
+function addAlertOnLengthLimitOnKeydownListener(event, formLabelID, alertID, alertResultID, limit, hideAfterTime = 3000, alertMessage = "Keep it short!") {
+  if (event.code != "Backspace" && !event.ctrlKey && !event.altKey && !event.metaKey && formLabelID.value.length == limit) {
+    alertResultID.innerHTML = alertMessage;
+    alertID.style.display = "block";
+    
+    setTimeout(() => {
+      alertID.style.display = "none";
+    }, hideAfterTime)
+  }
+}
+
+document.getElementById("loginUsername").addEventListener("input", () => { 
+  addHideAlertOnInputListener(this, "usernameLoginAlert");
+  addHideAlertOnInputListener(this, "authLoginAlert");
 });
 
-document.getElementById("loginPassword").addEventListener("input", function() { 
-  addHideAlertOnInputListener("loginPassword", "passLoginAlert");
-  addHideAlertOnInputListener("loginUsername", "authLoginAlert"); 
+document.getElementById("loginUsername").addEventListener("keydown", (event) => {
+  addAlertOnLengthLimitOnKeydownListener(
+    event, 
+    document.getElementById("loginUsername"), 
+    document.getElementById("usernameLoginAlert"),
+    document.getElementById("authLoginUsernameResult"),
+    25
+    ); 
+});
+
+document.getElementById("loginPassword").addEventListener("input", () => { 
+  addHideAlertOnInputListener(this, "passLoginAlert");
+  addHideAlertOnInputListener(this, "authLoginAlert"); 
+});
+
+document.getElementById("loginPassword").addEventListener("keydown", (event) => {
+  addAlertOnLengthLimitOnKeydownListener(
+    event, 
+    document.getElementById("loginPassword"), 
+    document.getElementById("passLoginAlert"),
+    document.getElementById("authLoginPasswordResult"),
+    25
+    ); 
 });
 
 var loginPasswordString = document.getElementById("loginPassword");
@@ -104,14 +135,68 @@ async function doLogin(username, password) {
   }
 }
 
-document.getElementById("registerUsername").addEventListener("input", function() { 
-  addHideAlertOnInputListener("registerUsername", "usernameRegisterAlert");
-  addHideAlertOnInputListener("registerUsername", "authRegisterAlert");
+document.getElementById("registerUsername").addEventListener("input", () => { 
+  addHideAlertOnInputListener(this, "usernameRegisterAlert");
+  addHideAlertOnInputListener(this, "authRegisterAlert");
 });
-document.getElementById("registerFirstName").addEventListener("input", function() { addHideAlertOnInputListener("registerFirstName", "firstRegisterAlert"); });
-document.getElementById("registerLastName").addEventListener("input", function() { addHideAlertOnInputListener("registerLastName", "lastRegisterAlert"); });
-document.getElementById("registerPassword").addEventListener("input", function() { addHideAlertOnInputListener("registerPassword ", "passRegisterAlert"); });
-document.getElementById("registerConfirmPassword").addEventListener("input", function() { addHideAlertOnInputListener("registerConfirmPassword", "retypepassRegisterAlert"); });
+
+document.getElementById("registerUsername").addEventListener("keydown", (event) => {
+  addAlertOnLengthLimitOnKeydownListener(
+    event, 
+    document.getElementById("registerUsername"), 
+    document.getElementById("usernameRegisterAlert"),
+    document.getElementById("authRegisterUsernameResult"),
+    25
+    ); 
+});
+
+document.getElementById("registerFirstName").addEventListener("input", () => { addHideAlertOnInputListener(this, "firstRegisterAlert"); });
+
+document.getElementById("registerFirstName").addEventListener("keydown", (event) => {
+  addAlertOnLengthLimitOnKeydownListener(
+    event, 
+    document.getElementById("registerFirstName"), 
+    document.getElementById("firstRegisterAlert"),
+    document.getElementById("authRegisterFirstResult"),
+    25
+    ); 
+});
+
+document.getElementById("registerLastName").addEventListener("input", () => { addHideAlertOnInputListener(this, "lastRegisterAlert"); });
+
+document.getElementById("registerLastName").addEventListener("keydown", (event) => {
+  addAlertOnLengthLimitOnKeydownListener(
+    event, 
+    document.getElementById("registerLastName"), 
+    document.getElementById("lastRegisterAlert"),
+    document.getElementById("authRegisterLastResult"),
+    25
+    ); 
+});
+
+document.getElementById("registerPassword").addEventListener("input", () => { addHideAlertOnInputListener(this, "passRegisterAlert"); });
+
+document.getElementById("registerPassword").addEventListener("keydown", (event) => {
+  addAlertOnLengthLimitOnKeydownListener(
+    event, 
+    document.getElementById("registerPassword"), 
+    document.getElementById("passRegisterAlert"),
+    document.getElementById("authRegisterPasswordResult"),
+    25
+    ); 
+});
+
+document.getElementById("registerConfirmPassword").addEventListener("input", () => { addHideAlertOnInputListener(this, "retypepassRegisterAlert"); });
+
+document.getElementById("registerConfirmPassword").addEventListener("keydown", (event) => {
+  addAlertOnLengthLimitOnKeydownListener(
+    event, 
+    document.getElementById("registerConfirmPassword"), 
+    document.getElementById("authRegisterRetypePasswordResult"),
+    document.getElementById("authRegisterPasswordResult"),
+    25
+    ); 
+});
 
 function validateRegistrationForm(firstName, lastName, username, password, confirmPassword) {  
   // TODO: update this later if needed/add more constraints
