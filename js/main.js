@@ -155,6 +155,7 @@ async function doUpdateUser() {
 
   if (status == 200) {
     saveUserInfo(responseJson.data);
+    saveCookie();
     // reload page to reset contact name
     window.location.href = "index.html";
   } else {
