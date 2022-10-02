@@ -155,6 +155,7 @@ async function doUpdateUser() {
 
   if (status == 200) {
     saveUserInfo(responseJson.data);
+    saveCookie();
     // reload page to reset contact name
     window.location.href = "index.html";
   } else {
@@ -198,7 +199,6 @@ function clearSearchResults() {
 }
 
 async function doSearch(page = 0) {
-  currentPage = page;
   let toggle = document.getElementById('toggle');
   let displayAll = toggle.checked;
   let searchQuery = document.getElementById("contactString").value;
@@ -250,7 +250,7 @@ async function doSearch(page = 0) {
         caption.innerHTML = "Found no contacts matching " + searchQuery;
         return;
       }
-      caption.innerHTML = "Showing " + cached.length + " contacts matching \"" + searchQuery + "\"";
+      caption.innerHTML = "Showing contacts matching \"" + searchQuery + "\"";
     }
     caption.innerHTML += " (loading " + numberOfContacts + " at a time)"
     for ( var contact of responseJson.data ) {
